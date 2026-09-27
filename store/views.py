@@ -32,7 +32,7 @@ def store(
             category=category,
             slug=subcategory_slug,
         )
-        products = products.filter(subcategory=subcategory)
+        products = products.filter(subcategories=subcategory)
 
     context = {
         'products': products,

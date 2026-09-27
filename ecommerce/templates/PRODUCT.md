@@ -166,7 +166,7 @@ These decisions were made during project planning and should be treated as the c
 - Show products directly on category pages rather than requiring a separate subcategory landing page first.
 - Use a two-column mobile product grid.
 - Allow adding products to the cart directly from product cards.
-- Allow a product to belong to multiple subcategories, but only within the same category. This product-model change is intentionally deferred.
+- Allow a product to belong to multiple subcategories, but only within the same category.
 - Clothing products use sizes `S`, `XL`, and `XXL`.
 - Sarees may use `Free Size`.
 - Jewellery has no size selection.
@@ -191,12 +191,12 @@ Implemented:
 - Subcategory descriptions remain available.
 - Department descriptions are intentionally not used.
 - Existing product image field, category image field, and session cart remain available.
+- Product many-to-many subcategory assignments with same-category validation.
 
 Deferred:
 
 - Manual creation of departments and assignment of existing categories in Admin.
 - Department/category/subcategory image fields beyond the existing category image field.
-- Product many-to-many subcategory relationship.
 - Size and size-specific inventory models.
 - Multiple product image gallery.
 - Fabric, occasion, sale-price, and quantity-inventory fields.

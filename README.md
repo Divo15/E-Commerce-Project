@@ -27,7 +27,6 @@ Partially implemented:
 
 Not implemented:
 
-- Product-to-subcategory relationship and filtering
 - Cart quantity update and item removal
 - Search and pagination
 - Order and checkout models
@@ -126,7 +125,8 @@ Sarees
 - Availability flag
 - Created and modified timestamps
 
-Products do not yet have a `subcategory` foreign key.
+Products can be assigned to multiple subcategories. Assignments are validated so
+that every selected subcategory belongs to the product's category.
 
 The `stock` field is currently boolean. If inventory quantities are required, replace it with a non-negative integer through a migration.
 
@@ -294,8 +294,8 @@ Complete work in this order to avoid building UI on unstable routes:
 1. Decide between integrated Django templates and a separate API frontend.
 2. Replace the project-level `/store/` view with `include('store.urls')`.
 3. Add explicit, non-conflicting catalog URL patterns and a `store` namespace.
-4. Add an optional `subcategory` foreign key to `Product` and create its migration.
-5. Update the store view to filter by category and subcategory.
+4. Add product sizes and size-specific inventory.
+5. Expand product details with sale price, material, occasion, and image galleries.
 6. Correct product-detail lookup using both category and product slugs.
 7. Add route, filtering, product-detail, authentication, and cart tests.
 8. Consolidate templates around a shared base layout.
@@ -329,4 +329,3 @@ Target WCAG AA contrast, keyboard-friendly navigation, descriptive image alterna
 - Prefer Django ORM queries over raw SQL unless profiling demonstrates a specific need.
 - Preserve the existing custom user model; changing `AUTH_USER_MODEL` after migrations is expensive.
 - Explain architectural changes before implementing them when collaborating with the project owner.
-
