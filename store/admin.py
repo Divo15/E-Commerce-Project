@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib import admin
-from . models import Product
+from . models import Product, ProductInventory
 
 
 class ProductAdminForm(forms.ModelForm):
@@ -26,12 +26,17 @@ class ProductAdminForm(forms.ModelForm):
         return cleaned_data
 
 
+class ProductInventoryInline(admin.TabularInline):
+    model = ProductInventory
+    extra = 1
+
+
 class ProductAdmin(admin.ModelAdmin):
     form = ProductAdminForm
     list_display = (
         'product_name',
         'price',
-        'stock',
+        'total_stock',
         'category',
         'subcategory_list',
         'modified_date',
@@ -40,6 +45,11 @@ class ProductAdmin(admin.ModelAdmin):
     )
     prepopulated_fields = {'slug':('product_name',)}
     filter_horizontal = ('subcategories',)
+    inlines = (ProductInventoryInline,)
+
+    @admin.display(description='Stock')
+    def total_stock(self, product):
+        return product.total_stock
 
     @admin.display(description='Subcategories')
     def subcategory_list(self, product):

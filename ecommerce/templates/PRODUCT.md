@@ -192,12 +192,12 @@ Implemented:
 - Department descriptions are intentionally not used.
 - Existing product image field, category image field, and session cart remain available.
 - Product many-to-many subcategory assignments with same-category validation.
+- Product size types and quantity-based inventory per size.
 
 Deferred:
 
 - Manual creation of departments and assignment of existing categories in Admin.
 - Department/category/subcategory image fields beyond the existing category image field.
-- Size and size-specific inventory models.
 - Multiple product image gallery.
 - Fabric, occasion, sale-price, and quantity-inventory fields.
 - Mobile bottom-navigation UI and product-card UI integration.

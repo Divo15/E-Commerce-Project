@@ -121,14 +121,16 @@ Sarees
 - Description and color
 - Integer price
 - Product image
-- Boolean `stock` field
+- Size behavior (`Clothing sizes`, `Free size`, or `No size`)
 - Availability flag
 - Created and modified timestamps
 
 Products can be assigned to multiple subcategories. Assignments are validated so
 that every selected subcategory belongs to the product's category.
 
-The `stock` field is currently boolean. If inventory quantities are required, replace it with a non-negative integer through a migration.
+`ProductInventory` tracks a separate non-negative quantity for each sellable size.
+Clothing products support `S`, `XL`, and `XXL`; sarees can use `Free Size`;
+unsized products such as jewellery use a single `No size` inventory row.
 
 ### Cart and CartItem
 
