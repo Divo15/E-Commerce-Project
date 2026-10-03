@@ -13,6 +13,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('category_name', 'department', 'slug')
     list_filter = ('department',)
     prepopulated_fields = {'slug': ('category_name',)}
+    exclude = ('description',)
 
 @admin.register(SubCategory)
 class SubCategoryAdmin(admin.ModelAdmin):
@@ -25,3 +26,4 @@ class SubCategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {
         'slug': ('subcategory_name',),
     }
+    exclude = ('description',)

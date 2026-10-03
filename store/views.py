@@ -17,6 +17,7 @@ def store(
 
     if department_slug is not None:
         department = get_object_or_404(Department, slug=department_slug)
+        products = products.filter(category__department=department)
 
     if category_slug is not None:
         category = get_object_or_404(

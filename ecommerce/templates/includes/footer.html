@@ -1,0 +1,10 @@
+{% load static %}
+<footer class="site-footer">
+    <div class="footer-main page-width">
+        <div class="footer-brand"><a href="{% url 'home' %}" aria-label="Shali Collections home"><img src="{% static 'shali/brand.jpg' %}" width="180" height="180" alt="Shali Collections — Timeless tradition, modern grace" loading="lazy"></a><p>For the moments you dress up.<br>And the ones you make your own.</p></div>
+        <div><h2>Explore</h2><a href="{% url 'store:store' %}">All collections</a>{% for department in departments %}<a href="{{ department.get_url }}">{{ department.department_name }}</a>{% endfor %}</div>
+        <div><h2>Your Shali</h2><a href="{% url 'accounts:login' %}">Your account</a><a href="{% url 'accounts:register' %}">Create an account</a><a href="{% url 'cart' %}">Shopping bag</a><a href="{% url 'categories' %}">Browse categories</a></div>
+        <div class="footer-note"><h2>A world of tradition.</h2><p>From everyday favourites to celebration dressing, find a little of yourself in every collection.</p><a class="text-link" href="{% url 'home' %}#our-story">The Shali spirit <span aria-hidden="true">↗</span></a></div>
+    </div>
+    <div class="footer-bottom page-width"><span>© {% now 'Y' %} Shali Collections</span><span>Timeless tradition. Modern grace.</span><a href="#main-content">Back to top ↑</a></div>
+</footer>

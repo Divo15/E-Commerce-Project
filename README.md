@@ -17,22 +17,25 @@ Implemented:
 - Add-to-cart and cart-total calculation logic
 - SQLite development database configuration
 - Static and media file configuration
+- Department-aware catalog routes and filtering
+- Shared Django storefront layout with responsive homepage and category directory
+- Desktop department menus and mobile bottom navigation
+- Initial order and order-item models, including Stripe reference fields
+- Homepage, catalog, inventory, and cart smoke tests
 
 Partially implemented:
 
-- Store and category product filtering
 - Product-detail view
-- Cart display
-- Django template integration
+- Cart display and add-to-cart flow
+- Product listing template integration
 
 Not implemented:
 
 - Cart quantity update and item removal
 - Search and pagination
-- Order and checkout models
-- Payment processing
+- Checkout routes and order creation flow
+- Payment processing and Stripe webhooks
 - Transactional email
-- Automated tests
 - Production deployment configuration
 
 ## Technology Stack
@@ -146,18 +149,21 @@ Routes currently connected by `ecommerce/urls.py`:
 
 | URL | Name | Purpose |
 | --- | --- | --- |
-| `/` | `home` | Placeholder home page with available products in context |
+| `/` | `home` | Responsive Shali storefront homepage |
 | `/admin/` | Django Admin | Content and account administration |
 | `/accounts/register/` | `accounts:register` | Account registration |
 | `/accounts/login/` | `accounts:login` | Account login |
 | `/accounts/logout/` | `accounts:logout` | POST-only logout |
-| `/store/` | `store` | Project-level placeholder store view |
+| `/categories/` | `categories` | Expandable department/category/subcategory directory |
+| `/store/` | `store:store` | Catalog listing |
+| `/store/category/<department_slug>/` | `store:products_by_department` | Department catalog listing |
+| `/store/category/<department_slug>/<category_slug>/` | `store:products_by_category` | Category catalog listing |
+| `/store/category/<department_slug>/<category_slug>/<subcategory_slug>/` | `store:products_by_subcategory` | Subcategory catalog listing |
+| `/store/product/<department_slug>/<category_slug>/<product_slug>/` | `store:product_detail` | Product-detail route (template still pending) |
 | `/carts/` | `cart` | Cart summary view |
 | `/carts/add_cart/<product_id>` | `add_cart` | Add or increment a product |
 
-`store/urls.py` defines catalog routes, but it is not currently included by the root URL configuration. Therefore its category and product-detail routes are not reachable.
-
-Recommended final route design:
+The current catalog route design is:
 
 ```text
 /store/
@@ -236,9 +242,11 @@ The committed SQLite database, uploaded media, collected static files, virtual e
 
 ## Frontend State
 
-The frontend is currently mixed and should be consolidated before significant UI work continues.
+The frontend is currently mixed while the customer-facing layout is being consolidated.
 
-- `home.html` and `store/store.html` are placeholders.
+- `home.html`, `base.html`, the shared includes, and `categories.html` are live Django templates.
+- The homepage reads the Department → Category → SubCategory hierarchy dynamically from Django Admin data.
+- The homepage uses category imagery, a generated promotional hero image, keyboard-accessible department menus, and reduced-motion support.
 - `register.html` uses a real Django form and static-file tag.
 - Several root templates are static React CDN prototypes.
 - Prototype navigation uses relative `.html` links instead of Django named URLs.
@@ -274,37 +282,27 @@ If the project later adopts Next.js or standalone React, keep Django as the back
 
 These issues are present in the current code and should not surprise the next developer:
 
-1. `/store/` is routed to `ecommerce.views.store`, so `store.views.store` is bypassed.
-2. `store/urls.py` is not included in the root URL configuration.
-3. `Category.get_urls()` reverses a route that is not currently connected and should be renamed to `get_url()`.
-4. `SubCategory.get_url()` expects a `store` namespace and subcategory route that do not exist.
-5. `Product.get_url()` expects a product-detail route that is not currently connected.
-6. `store.views.product_detail()` ignores `product_slug` when querying and can return the wrong product or raise `MultipleObjectsReturned`.
-7. `store.views.product_detail()` references `store/product_detail.html`, which does not exist.
-8. `carts.views.cart()` builds a context dictionary but does not pass it to `render()`.
-9. `carts.views.cart()` references `store/cart.html`, while the existing prototype is `ecommerce/templates/cart.html`.
-10. `carts.views.add_cart()` raises a server error for an invalid product ID instead of returning 404.
-11. The login template is still a static React prototype and is not wired to the Django login form fields.
-12. The configured email setting is named `MAILERS`; Django normally expects `EMAIL_BACKEND` or an `EMAIL_BACKENDS` configuration appropriate to the installed version.
-13. All test modules are placeholders and contain no assertions.
-14. `SECRET_KEY`, `DEBUG`, and `ALLOWED_HOSTS` are development values and are not production-safe.
+1. `store.views.product_detail()` has the correct slug lookup, but `store/product_detail.html` has not been created.
+2. Homepage product cards link to their collection until the product-detail template is implemented.
+3. `carts.views.add_cart()` raises a server error for an invalid product ID instead of returning 404.
+4. Cart quantity updates, removals, and size-specific cart items are not implemented.
+5. The login template is still a static React prototype and is not wired to the Django login form fields.
+6. The configured email setting is named `MAILERS`; Django normally expects `EMAIL_BACKEND` or an appropriate installed-package configuration.
+7. Orders have models and a migration, but there are no checkout views, payment calls, webhook handlers, or order tests.
+8. `SECRET_KEY`, `DEBUG`, and `ALLOWED_HOSTS` are development values and are not production-safe.
 
 ## Recommended Next Steps
 
 Complete work in this order to avoid building UI on unstable routes:
 
-1. Decide between integrated Django templates and a separate API frontend.
-2. Replace the project-level `/store/` view with `include('store.urls')`.
-3. Add explicit, non-conflicting catalog URL patterns and a `store` namespace.
-4. Add product sizes and size-specific inventory.
-5. Expand product details with sale price, material, occasion, and image galleries.
-6. Correct product-detail lookup using both category and product slugs.
-7. Add route, filtering, product-detail, authentication, and cart tests.
-8. Consolidate templates around a shared base layout.
-9. Finish cart display, update, and remove operations.
-10. Design order, order-item, address, checkout, and payment models.
-11. Move secrets and environment-specific settings into environment variables.
-12. Switch to PostgreSQL and production storage when preparing deployment.
+1. Build `store/product_detail.html` using the shared storefront layout.
+2. Finish product cards and catalog pages with live images, prices, and add-to-cart actions.
+3. Add cart quantity update, removal, and selected-size support.
+4. Build the checkout, order creation, Stripe session, and webhook workflow around the existing order models.
+5. Wire the account templates into the shared layout and Django forms.
+6. Add tests for product detail, cart mutations, account flows, and orders.
+7. Move secrets and environment-specific settings into environment variables.
+8. Switch to PostgreSQL and production storage when preparing deployment.
 
 ## Validation
 
@@ -314,11 +312,11 @@ At the time of this README update, the following command passes:
 .\env\Scripts\python.exe manage.py check
 ```
 
-There are currently no automated tests, so a passing system check does not confirm end-to-end behavior.
+The focused suite currently covers the homepage, department filtering, category/subcategory routing, product inventory, and an empty cart. Run the full suite before production changes.
 
 ## Product Direction
 
-The design brief is stored in `ecommerce/templates/PRODUCT.md`. The intended experience is elegant, celebratory, premium, and culturally rooted, with accessible navigation and strong product imagery for sarees and other occasion wear.
+The design brief is stored in `ecommerce/templates/PRODUCT.md`. The storefront implementation notes are in `HOMEPAGE.md`. The intended experience is elegant, celebratory, premium, and culturally rooted, with accessible navigation and strong product imagery for sarees and other occasion wear.
 
 Target WCAG AA contrast, keyboard-friendly navigation, descriptive image alternatives, readable forms, and reduced-motion support.
 

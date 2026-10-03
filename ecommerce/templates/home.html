@@ -1,1 +1,68 @@
-<h1>Hi Hello Django</h1>
+{% extends 'base.html' %}
+{% load static %}
+{% block body_class %}home-page{% endblock %}
+{% block content %}
+<section class="hero" aria-labelledby="hero-title">
+    <div class="hero-visual">
+        <img class="hero-image" src="{% static 'shali/hero-campaign.webp' %}" alt="A model wearing a burgundy and gold saree in a sandstone courtyard" width="1774" height="887" fetchpriority="high">
+    </div>
+    <div class="hero-copy">
+        <h1 id="hero-title">Elegance<br><span>Redefined.</span></h1>
+        <p class="hero-description">Rich colours. Beautiful details. Discover pieces for life's celebrations, big and small.</p>
+        <a class="button button-gold" href="{% url 'categories' %}">Shop collection <span aria-hidden="true">↗</span></a>
+    </div>
+</section>
+<div class="brand-ribbon" aria-label="Brand motto"><span>For every day</span><span aria-hidden="true">✦</span><span>For every celebration</span><span aria-hidden="true">✦</span><span>For every you</span></div>
+
+<section class="section page-width category-section" id="collections" aria-labelledby="category-heading">
+    <div class="section-heading"><div><p class="eyebrow">A world of Shali</p><h2 id="category-heading">What speaks to you?</h2></div><a class="text-link" href="{% url 'categories' %}">All categories <span aria-hidden="true">↗</span></a></div>
+    <nav class="category-rail" aria-label="Shop by category">
+        {% for category in home_categories %}
+        <a class="category-circle" href="{{ category.get_url }}">
+            <span class="category-image">{% if category.category_image %}<img src="{{ category.category_image.url }}" alt="" width="200" height="200" loading="lazy">{% else %}<span class="image-placeholder">{{ category.category_name|first }}</span>{% endif %}</span>
+            <span>{{ category.category_name }}</span>
+        </a>
+        {% empty %}<p class="empty-note">Our collections are taking shape. Visit again soon to discover what's new.</p>{% endfor %}
+    </nav>
+</section>
+
+{% if featured_categories %}
+<section class="section page-width edits-section" aria-labelledby="edits-heading">
+    <div class="section-heading"><h2 id="edits-heading">A little more <em>you.</em></h2><p>Find your favourites.<br>Make them your own.</p></div>
+    <div class="collection-grid">
+        {% for category in featured_categories %}
+        <a class="collection-tile" href="{{ category.get_url }}">
+            <div class="collection-image"><img src="{{ category.category_image.url }}" alt="{{ category.category_name }} collection" loading="lazy" width="650" height="750"></div>
+            <div class="collection-caption"><div><p>{{ category.department.department_name }}</p><h3>{{ category.category_name }}</h3></div><span class="round-arrow" aria-hidden="true">↗</span></div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<section class="section arrivals-section" aria-labelledby="arrivals-heading">
+    <div class="page-width">
+        <div class="section-heading"><div><p class="eyebrow">Fresh discoveries</p><h2 id="arrivals-heading">Your next favourite.</h2></div><a class="text-link" href="{% url 'store:store' %}">Explore the store <span aria-hidden="true">↗</span></a></div>
+        {% if products %}
+        <div class="product-grid">
+            {% for product in products %}
+            <article class="product-card">
+                <a class="product-image" href="{{ product.category.get_url }}" aria-label="Browse {{ product.category.category_name }}: {{ product.product_name }}">{% if product.images %}<img src="{{ product.images.url }}" alt="{{ product.product_name }}" width="400" height="520" loading="lazy">{% else %}<span class="image-placeholder">Image coming soon</span>{% endif %}</a>
+                <p class="product-category">{{ product.category.category_name }}</p>
+                <h3>{{ product.product_name }}</h3>
+                <p class="product-price">₹{{ product.price }}</p>
+                <a class="text-link" href="{{ product.category.get_url }}">View collection <span aria-hidden="true">↗</span></a>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="arrivals-empty"><span class="empty-flower" aria-hidden="true">✦</span><div><h3>Something lovely is on its way.</h3><p>We're getting our latest pieces ready. Until then, discover the collections and find your style.</p></div><a class="text-link" href="{% url 'categories' %}">Discover collections <span aria-hidden="true">↗</span></a></div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="story-section page-width" id="our-story" aria-labelledby="story-heading">
+    <div class="story-mark"><img src="{% static 'shali/brand.jpg' %}" alt="Shali Collections brand emblem" width="1254" height="1254" loading="lazy"></div>
+    <div class="story-copy"><p class="eyebrow">The Shali spirit</p><h2 id="story-heading">Tradition you love.<br>A style that's yours.</h2><p>Some things never lose their charm. The richness of a saree. The finishing touch of jewellery. The joy of dressing for a moment that matters.</p><p>Shali brings that spirit to the way you dress today. Familiar, personal, and always a little special.</p><a class="text-link" href="{% url 'categories' %}">Find your Shali <span aria-hidden="true">↗</span></a></div>
+</section>
+{% endblock %}

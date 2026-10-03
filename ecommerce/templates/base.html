@@ -1,0 +1,39 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#590522">
+    <meta name="description" content="Discover ethnic wear and jewellery at Shali Collections. Timeless tradition, modern grace.">
+    <title>{% block title %}Shali Collections — Timeless tradition, modern grace{% endblock %}</title>
+    <link rel="icon" href="{% static 'shali/brand.jpg' %}" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Prata&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'shali/storefront.css' %}">
+    <script src="{% static 'shali/storefront.js' %}" defer></script>
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    {% include 'includes/icons.html' %}
+    <div class="announcement">Timeless tradition, modern grace <span aria-hidden="true">✦</span> Shali Collections</div>
+    {% include 'includes/header.html' %}
+    <main id="main-content" tabindex="-1">{% block content %}{% endblock %}</main>
+    {% include 'includes/footer.html' %}
+    <nav class="mobile-navigation" aria-label="Mobile navigation">
+        <a href="{% url 'home' %}" {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %}><svg aria-hidden="true"><use href="#icon-home"/></svg>Home</a>
+        <a href="{% url 'categories' %}" {% if request.resolver_match.url_name == 'categories' %}aria-current="page"{% endif %}><svg aria-hidden="true"><use href="#icon-grid"/></svg>Categories</a>
+        <button type="button" data-search-open><svg aria-hidden="true"><use href="#icon-search"/></svg>Search</button>
+        <a href="{% url 'cart' %}"><svg aria-hidden="true"><use href="#icon-bag"/></svg>Bag</a>
+        <a href="{% url 'accounts:login' %}"><svg aria-hidden="true"><use href="#icon-user"/></svg>Account</a>
+    </nav>
+    <dialog id="search-dialog" aria-labelledby="search-title" aria-describedby="search-description">
+        <button type="button" class="icon-button dialog-close" data-dialog-close aria-label="Close search"><svg aria-hidden="true"><use href="#icon-close"/></svg></button>
+        <p class="eyebrow">Find your next favourite</p>
+        <h2 id="search-title">A little discovery.</h2>
+        <p id="search-description">Product search is coming soon. In the meantime, explore our collections by department and category.</p>
+        <a class="button button-burgundy" href="{% url 'categories' %}">Browse collections <span aria-hidden="true">↗</span></a>
+    </dialog>
+</body>
+</html>

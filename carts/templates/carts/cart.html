@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart | GG Fashion</title>
+  <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+  <main>
+    <h1>Your Cart</h1>
+
+    {% if cart_items %}
+      <p>{{ quantity }} item{{ quantity|pluralize }}</p>
+
+      {% for cart_item in cart_items %}
+        <article>
+          <h2>{{ cart_item.product.product_name }}</h2>
+          <p>Quantity: {{ cart_item.quantity }}</p>
+          <p>Price: ₹{{ cart_item.product.price }}</p>
+          <p>Subtotal: ₹{{ cart_item.subtotal }}</p>
+        </article>
+      {% endfor %}
+
+      <h2>Total: ₹{{ total }}</h2>
+    {% else %}
+      <p>Your cart is empty.</p>
+      <a href="{% url 'store:store' %}">Continue shopping</a>
+    {% endif %}
+  </main>
+</body>
+</html>
