@@ -1,5 +1,10 @@
 from django.contrib import admin
-from .models import Category, Department, SubCategory
+from .models import Category, Department, HeroPoster, SubCategory
+
+
+@admin.register(HeroPoster)
+class HeroPosterAdmin(admin.ModelAdmin):
+    list_display = ('alt_text', 'image')
 
 
 @admin.register(Department)

@@ -18,7 +18,12 @@ Web fonts load from Google Fonts with local serif/sans-serif fallbacks.
 - Navigation reads Department → Category → SubCategory from Django Admin data.
 - `/categories/` provides an expandable, mobile-friendly catalog directory.
 - Homepage categories must have a department assigned. No catalog data is seeded.
-- The hero uses `ecommerce/static/shali/hero-campaign.webp`, an original generated
+- Upload a hero image and descriptive alt text in Django Admin under
+  **Category > Hero posters**. The newest poster with an image is displayed;
+  editing that record updates the current campaign. Wide images around 2:1 work
+  best with the existing layout. Keep the left side clear for the headline.
+- When no poster is uploaded, the hero uses
+  `ecommerce/static/shali/hero-campaign.webp`, an original generated
   campaign photograph with a model on the right and headline overlaid on the left.
   Desktop navigation overlays the photograph; mobile keeps a solid readable header
   and places the copy over the lower portion of the photograph.

@@ -74,3 +74,16 @@ class SubCategory(models.Model):
 
     def __str__(self):
         return f'{self.category} - {self.subcategory_name}'
+
+
+class HeroPoster(models.Model):
+    image = models.ImageField(upload_to='photos/hero')
+    alt_text = models.CharField(max_length=200)
+
+    class Meta:
+        verbose_name = 'hero poster'
+        verbose_name_plural = 'hero posters'
+        ordering = ('-pk',)
+
+    def __str__(self):
+        return 'Homepage hero poster'

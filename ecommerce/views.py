@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from category.models import Category
+from category.models import Category, HeroPoster
 from store.models import Product
 
 def home(request):
@@ -26,6 +26,7 @@ def home(request):
         'products': products,
         'home_categories': categories,
         'hero_category': hero_category,
+        'hero_poster': HeroPoster.objects.exclude(image='').first(),
         'featured_categories': featured_categories[:3],
     }
     return render(request,'home.html',context)

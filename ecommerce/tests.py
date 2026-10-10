@@ -1,11 +1,36 @@
 from django.test import TestCase
 from django.urls import reverse
 
-from category.models import Category, Department, SubCategory
+from category.models import Category, Department, HeroPoster, SubCategory
 from store.models import Product
 
 
 class HomepageTests(TestCase):
+    def test_hero_falls_back_to_campaign_without_uploaded_poster(self):
+        response = self.client.get(reverse('home'))
+
+        self.assertIsNone(response.context['hero_poster'])
+        self.assertContains(response, '/static/shali/hero-campaign.webp')
+
+    def test_hero_uses_newest_uploaded_poster_and_its_alt_text(self):
+        older_poster = HeroPoster.objects.create(
+            image='photos/hero/older.jpg',
+            alt_text='Previous collection',
+        )
+        newest_poster = HeroPoster.objects.create(
+            image='photos/hero/newest.jpg',
+            alt_text='Our festive collection',
+        )
+        HeroPoster.objects.create(image='', alt_text='Missing image')
+
+        response = self.client.get(reverse('home'))
+
+        self.assertEqual(response.context['hero_poster'], newest_poster)
+        self.assertContains(response, newest_poster.image.url)
+        self.assertContains(response, 'alt="Our festive collection"')
+        self.assertNotContains(response, older_poster.image.url)
+        self.assertNotContains(response, '/static/shali/hero-campaign.webp')
+
     def test_department_navigation_does_not_leak_other_department_products(self):
         for department_name in ['Women', 'Men']:
             department = Department.objects.create(department_name=department_name, slug=department_name.lower())
@@ -60,7 +85,7 @@ class HomepageTests(TestCase):
         category = Category.objects.create(category_name='Sarees', slug='sarees', department=department)
         unassigned = Category.objects.create(category_name='Unassigned', slug='unassigned')
         for number in range(6):
-            Product.objects.create(product_name=f'Available {number}', slug=f'available-{number}', price=1500, color='Red', category=category, images='')
+            Product.objects.create(product_name=f'Available {number}', slug=f'available-{number}', price=1500, color='Red', category=category, image_1='')
         Product.objects.create(product_name='Hidden', slug='hidden', price=1500, color='Red', category=category, is_available=False)
         Product.objects.create(product_name='Unassigned product', slug='unassigned-product', price=1500, color='Red', category=unassigned)
 

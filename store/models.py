@@ -8,20 +8,24 @@ from django.urls import reverse
 # Create your models here.
 class Product(models.Model):
     class SizeType(models.TextChoices):
+        FREE_SIZE = 'free_size', 'Free size'
         NO_SIZE = 'no_size', 'No size'
         CLOTHING = 'clothing', 'Clothing sizes'
-        FREE_SIZE = 'free_size', 'Free size'
+    
+
 
     product_name = models.CharField(max_length=200, unique = True)
     slug = models.SlugField(max_length=200, unique= True)
     description = models.TextField(max_length=500, blank = True)
     color = models.CharField(max_length=50)
     price  = models.IntegerField()
-    images = models.ImageField(upload_to='photos/products')
+    image_1 = models.ImageField(upload_to='photos/products')
+    image_2 = models.ImageField(upload_to='photos/products',blank = True)
+    image_3 = models.ImageField(upload_to='photos/products',blank = True)
     size_type = models.CharField(
         max_length=20,
         choices=SizeType.choices,
-        default=SizeType.NO_SIZE,
+        default=SizeType.FREE_SIZE,
     )
     is_available = models.BooleanField(default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)

@@ -43,7 +43,7 @@ class ProductSubcategoryTests(TestCase):
             slug='silk-saree',
             color='Red',
             price=5000,
-            images='photos/products/silk-saree.jpg',
+            image_1='photos/products/silk-saree.jpg',
             size_type=Product.SizeType.CLOTHING,
             category=self.sarees,
         )
@@ -88,7 +88,7 @@ class ProductInventoryTests(TestCase):
             slug='festive-set',
             color='Blue',
             price=4000,
-            images='photos/products/festive-set.jpg',
+            image_1='photos/products/festive-set.jpg',
             size_type=Product.SizeType.CLOTHING,
             category=category,
         )

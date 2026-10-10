@@ -4,7 +4,11 @@
 {% block content %}
 <section class="hero" aria-labelledby="hero-title">
     <div class="hero-visual">
+        {% if hero_poster %}
+        <img class="hero-image" src="{{ hero_poster.image.url }}" alt="{{ hero_poster.alt_text }}" width="1774" height="887" fetchpriority="high">
+        {% else %}
         <img class="hero-image" src="{% static 'shali/hero-campaign.webp' %}" alt="A model wearing a burgundy and gold saree in a sandstone courtyard" width="1774" height="887" fetchpriority="high">
+        {% endif %}
     </div>
     <div class="hero-copy">
         <h1 id="hero-title">Elegance<br><span>Redefined.</span></h1>
@@ -47,7 +51,7 @@
         <div class="product-grid">
             {% for product in products %}
             <article class="product-card">
-                <a class="product-image" href="{{ product.category.get_url }}" aria-label="Browse {{ product.category.category_name }}: {{ product.product_name }}">{% if product.images %}<img src="{{ product.images.url }}" alt="{{ product.product_name }}" width="400" height="520" loading="lazy">{% else %}<span class="image-placeholder">Image coming soon</span>{% endif %}</a>
+                <a class="product-image" href="{{ product.category.get_url }}" aria-label="Browse {{ product.category.category_name }}: {{ product.product_name }}">{% if product.image_1 %}<img src="{{ product.image_1.url }}" alt="{{ product.product_name }}" width="400" height="520" loading="lazy">{% else %}<span class="image-placeholder">Image coming soon</span>{% endif %}</a>
                 <p class="product-category">{{ product.category.category_name }}</p>
                 <h3>{{ product.product_name }}</h3>
                 <p class="product-price">₹{{ product.price }}</p>
