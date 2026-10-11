@@ -1,0 +1,5 @@
+<form class="search-form" role="search" action="{% url 'store:search' %}" method="get">
+    <label for="product-search">Search products</label>
+    <input id="product-search" type="search" name="keyword" value="{{ keyword }}" placeholder="Try silk or saree">
+    <button class="button button-burgundy" type="submit">Search</button>
+</form>

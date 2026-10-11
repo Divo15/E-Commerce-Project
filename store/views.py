@@ -1,6 +1,9 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render,get_object_or_404
 from category.models import Category, Department, SubCategory
 from . models import Product
+from django.http import HttpResponse
+from django.db.models import Q
 
 
 def store(
@@ -35,9 +38,13 @@ def store(
         )
         products = products.filter(subcategories=subcategory)
 
+    products = products.select_related('category__department').order_by('pk')
+    paginator = Paginator(products, 12)
+    page_obj = paginator.get_page(request.GET.get('page'))
+
     context = {
-        'products': products,
-        'product_count': products.count(),
+        'products': page_obj,
+        'product_count': paginator.count,
         'selected_department': department,
         'selected_category': category,
         'selected_subcategory': subcategory,
@@ -56,6 +63,25 @@ def product_detail(request, department_slug, category_slug, product_slug):
         'single_product': single_product,
     }
     return render(request, 'store/product_detail.html',context)
+
+
+def search(request):
+    keyword = request.GET.get('keyword', '').strip()
+    products = Product.objects.none()
+    if keyword:
+        products = Product.objects.filter(
+            Q(description__icontains=keyword) | Q(product_name__icontains=keyword),
+            is_available=True,
+        ).select_related('category__department').order_by('-create_date', '-pk')
+    paginator = Paginator(products, 12)
+    page_obj = paginator.get_page(request.GET.get('page'))
+    context = {
+        'products': page_obj,
+        'product_count': paginator.count,
+        'keyword': keyword,
+        'is_search': True,
+    }
+    return render(request, 'store/store.html', context)
 
 
 

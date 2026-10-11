@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.urls import reverse
@@ -119,4 +121,213 @@ class ProductInventoryTests(TestCase):
         with self.assertRaises(ValidationError):
             inventory.full_clean()
 
-# Create your tests here.
+class SearchTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        department = Department.objects.create(department_name='Women', slug='women')
+        category = Category.objects.create(category_name='Sarees', slug='sarees', department=department)
+        cls.products = []
+        for number in range(14):
+            cls.products.append(Product.objects.create(
+                product_name=f'Silk saree {number:02d}', slug=f'silk-saree-{number}',
+                description='Handwoven silk & cotton', category=category, price=1500, color='Red',
+            ))
+        Product.objects.filter(pk__in=[product.pk for product in cls.products]).update(
+            create_date=cls.products[0].create_date,
+        )
+        cls.nonmatching = Product.objects.create(
+            product_name='Wool shawl', slug='wool-shawl', category=category, price=1000, color='Blue',
+        )
+        for number, (name, description) in enumerate([
+            ('Hidden silk saree', ''), ('Hidden shawl', 'Handwoven silk & cotton'),
+        ]):
+            Product.objects.create(
+                product_name=name, slug=f'hidden-{number}', description=description,
+                category=category, price=1000, color='Red', is_available=False,
+            )
+
+    def test_matches_names_or_descriptions_case_insensitively(self):
+        for keyword in ['SAREE', 'HANDWOVEN', 'silk', '  silk  ']:
+            with self.subTest(keyword=keyword):
+                response = self.client.get(reverse('store:search'), {'keyword': keyword})
+
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.context['keyword'], keyword.strip())
+                self.assertEqual(response.context['product_count'], 14)
+                self.assertEqual(list(response.context['products']), list(reversed(self.products))[:12])
+                self.assertContains(response, self.products[-1].product_name)
+                self.assertNotContains(response, self.nonmatching.product_name)
+                self.assertNotContains(response, 'Hidden silk saree')
+                self.assertNotContains(response, 'Hidden shawl')
+
+    def test_empty_missing_and_unmatched_keywords(self):
+        for keyword in [None, '', '   ', 'nonexistent']:
+            with self.subTest(keyword=keyword):
+                parameters = {} if keyword is None else {'keyword': keyword}
+                response = self.client.get(reverse('store:search'), parameters)
+
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.context['product_count'], 0)
+                self.assertEqual(list(response.context['products']), [])
+                self.assertNotContains(response, 'aria-label="Product pagination"')
+                message = 'No products match your search.' if keyword == 'nonexistent' else 'Enter a keyword to search products.'
+                self.assertContains(response, message)
+
+    def test_pages_have_twelve_results_without_duplicates_or_omissions(self):
+        result_ids = []
+        for page_number, expected_count in [(1, 12), (2, 2)]:
+            response = self.client.get(reverse('store:search'), {'keyword': 'silk', 'page': page_number})
+
+            self.assertEqual(response.context['product_count'], 14)
+            self.assertEqual(len(response.context['products']), expected_count)
+            self.assertContains(response, f'Page {page_number} of 2')
+            result_ids.extend(product.pk for product in response.context['products'])
+        self.assertEqual(result_ids, [product.pk for product in reversed(self.products)])
+
+    def test_newest_products_appear_first(self):
+        Product.objects.filter(pk=self.products[0].pk).update(
+            create_date=self.products[0].create_date + timedelta(days=1),
+        )
+
+        response = self.client.get(reverse('store:search'), {'keyword': 'silk'})
+
+        self.assertEqual(response.context['products'][0], self.products[0])
+
+    def test_missing_or_invalid_page_numbers(self):
+        for page_value, expected_page in [(None, 1), ('', 1), ('abc', 1), ('1.5', 1), ('0', 2), ('-1', 2), ('999', 2)]:
+            with self.subTest(page=page_value):
+                parameters = {'keyword': 'silk'}
+                if page_value is not None:
+                    parameters['page'] = page_value
+                response = self.client.get(reverse('store:search'), parameters)
+
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.context['products'].number, expected_page)
+
+    def test_pagination_preserves_encoded_keyword(self):
+        first_page = self.client.get(reverse('store:search'), {'keyword': 'silk & cotton', 'page': 1})
+        second_page = self.client.get(reverse('store:search'), {'keyword': 'silk & cotton', 'page': 2})
+
+        self.assertContains(first_page, 'href="?keyword=silk+%26+cotton&amp;page=2" rel="next"')
+        self.assertContains(second_page, 'href="?keyword=silk+%26+cotton&amp;page=1" rel="prev"')
+        self.assertContains(second_page, 'value="silk &amp; cotton"')
+        self.assertEqual(second_page.context['product_count'], 14)
+
+    def test_twelve_results_fit_on_one_page(self):
+        Product.objects.filter(pk__in=[product.pk for product in self.products[12:]]).delete()
+
+        response = self.client.get(reverse('store:search'), {'keyword': 'silk'})
+
+        self.assertEqual(response.context['product_count'], 12)
+        self.assertEqual(len(response.context['products']), 12)
+        self.assertNotContains(response, 'aria-label="Product pagination"')
+
+    def test_keyword_is_escaped_in_results_and_form(self):
+        keyword = '"><script>alert(1)</script>'
+
+        response = self.client.get(reverse('store:search'), {'keyword': keyword})
+
+        self.assertNotContains(response, '<script>alert(1)</script>')
+        self.assertContains(response, '&lt;script&gt;alert(1)&lt;/script&gt;')
+
+    def test_search_forms_submit_keyword_to_search_route(self):
+        for route in ['home', 'categories', 'store:store', 'store:search']:
+            with self.subTest(route=route):
+                response = self.client.get(reverse(route))
+
+                self.assertContains(response, 'role="search" action="/store/search/" method="get"')
+                self.assertContains(response, 'type="search" name="keyword"')
+                self.assertNotContains(response, 'Product search is coming soon.')
+
+
+class StorePaginationTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        department = Department.objects.create(department_name='Women', slug='women')
+        other_department = Department.objects.create(department_name='Men', slug='men')
+        category = Category.objects.create(category_name='Sarees', slug='sarees', department=department)
+        other_category = Category.objects.create(category_name='Sets', slug='sets', department=department)
+        mens_category = Category.objects.create(category_name='Shirts', slug='shirts', department=other_department)
+        subcategory = SubCategory.objects.create(category=category, subcategory_name='Silk', slug='silk')
+        cls.products = []
+        for number in range(14):
+            product = Product.objects.create(
+                product_name=f'Silk saree {number:02d}', slug=f'silk-saree-{number}',
+                category=category, price=1500, color='Red',
+            )
+            product.subcategories.add(subcategory)
+            cls.products.append(product)
+        cls.other_products = []
+        for number, product_category in enumerate([category, other_category, mens_category]):
+            cls.other_products.append(Product.objects.create(
+                product_name=f'Other product {number}', slug=f'other-product-{number}',
+                category=product_category, price=1000, color='Blue',
+            ))
+        hidden = Product.objects.create(
+            product_name='Hidden product', slug='hidden-product', category=category,
+            price=1000, color='Red', is_available=False,
+        )
+        hidden.subcategories.add(subcategory)
+        cls.routes = [
+            (reverse('store:store'), cls.products + cls.other_products),
+            (department.get_url(), cls.products + cls.other_products[:2]),
+            (category.get_url(), cls.products + cls.other_products[:1]),
+            (subcategory.get_url(), cls.products),
+        ]
+
+    def test_all_catalog_routes_filter_before_paginating(self):
+        for route, expected_products in self.routes:
+            for page_number in [1, 2]:
+                with self.subTest(route=route, page=page_number):
+                    response = self.client.get(route, {'page': page_number})
+                    start = (page_number - 1) * 12
+
+                    self.assertEqual(response.status_code, 200)
+                    self.assertEqual(response.context['product_count'], len(expected_products))
+                    self.assertEqual(list(response.context['products']), expected_products[start:start + 12])
+                    self.assertContains(response, f'Page {page_number} of 2')
+                    self.assertNotContains(response, 'Hidden product')
+                    for product in expected_products[start:start + 12]:
+                        self.assertContains(response, product.product_name)
+                    for product in expected_products[:start] + expected_products[start + 12:]:
+                        self.assertNotContains(response, product.product_name)
+
+    def test_missing_or_invalid_page_numbers_are_handled(self):
+        for page_value, expected_page in [(None, 1), ('', 1), ('abc', 1), ('1.5', 1), ('0', 2), ('-1', 2), ('999', 2)]:
+            with self.subTest(page=page_value):
+                parameters = {} if page_value is None else {'page': page_value}
+                response = self.client.get(reverse('store:store'), parameters)
+
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.context['products'].number, expected_page)
+
+    def test_navigation_keeps_query_parameters_and_catalog_path(self):
+        route = self.routes[-1][0]
+        first_page = self.client.get(route, {'size': ['s', 'xl'], 'page': 1})
+        second_page = self.client.get(route, {'size': ['s', 'xl'], 'page': 2})
+
+        self.assertContains(first_page, 'href="?size=s&amp;size=xl&amp;page=2" rel="next"')
+        self.assertNotContains(first_page, 'rel="prev"')
+        self.assertContains(second_page, 'href="?size=s&amp;size=xl&amp;page=1" rel="prev"')
+        self.assertNotContains(second_page, 'rel="next"')
+        self.assertEqual(second_page.context['selected_subcategory'].slug, 'silk')
+
+    def test_empty_catalog_has_no_pagination_controls(self):
+        Product.objects.all().delete()
+
+        response = self.client.get(reverse('store:store'), {'page': 99})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['product_count'], 0)
+        self.assertEqual(list(response.context['products']), [])
+        self.assertContains(response, 'No products are available.')
+        self.assertNotContains(response, 'aria-label="Product pagination"')
+
+    def test_single_page_has_no_pagination_controls(self):
+        Product.objects.exclude(pk__in=[product.pk for product in self.products[:12]]).delete()
+
+        response = self.client.get(reverse('store:store'))
+
+        self.assertEqual(response.context['product_count'], 12)
+        self.assertEqual(len(response.context['products']), 12)
+        self.assertNotContains(response, 'aria-label="Product pagination"')

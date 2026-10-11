@@ -32,7 +32,8 @@
         <button type="button" class="icon-button dialog-close" data-dialog-close aria-label="Close search"><svg aria-hidden="true"><use href="#icon-close"/></svg></button>
         <p class="eyebrow">Find your next favourite</p>
         <h2 id="search-title">A little discovery.</h2>
-        <p id="search-description">Product search is coming soon. In the meantime, explore our collections by department and category.</p>
+        <p id="search-description">Search our collections by product name or description.</p>
+        {% include 'includes/search_form.html' %}
         <a class="button button-burgundy" href="{% url 'categories' %}">Browse collections <span aria-hidden="true">↗</span></a>
     </dialog>
 </body>

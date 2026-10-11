@@ -1,4 +1,10 @@
-<h1>Store</h1>
+<h1>{% if is_search %}Search results{% else %}Store{% endif %}</h1>
+
+{% include 'includes/search_form.html' %}
+
+{% if is_search and keyword %}
+    <p>Results for &ldquo;{{ keyword }}&rdquo;</p>
+{% endif %}
 
 <nav>
     <a href="{% url 'store:store' %}">All products</a>
@@ -29,5 +35,27 @@
         <p>{{ product.price }}</p>
     </article>
 {% empty %}
-    <p>No products are available.</p>
+    {% if is_search %}
+        {% if keyword %}
+            <p>No products match your search. Try another keyword.</p>
+        {% else %}
+            <p>Enter a keyword to search products.</p>
+        {% endif %}
+    {% else %}
+        <p>No products are available.</p>
+    {% endif %}
 {% endfor %}
+
+{% if products.has_other_pages %}
+<nav aria-label="Product pagination">
+    {% if products.has_previous %}
+        <a href="{% querystring page=1 %}">First</a>
+        <a href="{% querystring page=products.previous_page_number %}" rel="prev">Previous</a>
+    {% endif %}
+    <span>Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
+    {% if products.has_next %}
+        <a href="{% querystring page=products.next_page_number %}" rel="next">Next</a>
+        <a href="{% querystring page=products.paginator.num_pages %}">Last</a>
+    {% endif %}
+</nav>
+{% endif %}

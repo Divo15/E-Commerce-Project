@@ -18,6 +18,8 @@ Implemented:
 - SQLite development database configuration
 - Static and media file configuration
 - Department-aware catalog routes and filtering
+- Catalog and search pagination with 12 products per page, stable ordering, and First/Previous/Next/Last navigation
+- Keyword search across available product names and descriptions, with search forms in the storefront dialog and catalog
 - Shared Django storefront layout with responsive homepage and category directory
 - Desktop department menus and mobile bottom navigation
 - Initial order and order-item models, including Stripe reference fields
@@ -32,7 +34,6 @@ Partially implemented:
 Not implemented:
 
 - Cart quantity update and item removal
-- Search and pagination
 - Checkout routes and order creation flow
 - Payment processing and Stripe webhooks
 - Transactional email
@@ -156,6 +157,7 @@ Routes currently connected by `ecommerce/urls.py`:
 | `/accounts/logout/` | `accounts:logout` | POST-only logout |
 | `/categories/` | `categories` | Expandable department/category/subcategory directory |
 | `/store/` | `store:store` | Catalog listing |
+| `/store/search/?keyword=silk` | `store:search` | Case-insensitive name/description search; blank keywords return no results |
 | `/store/category/<department_slug>/` | `store:products_by_department` | Department catalog listing |
 | `/store/category/<department_slug>/<category_slug>/` | `store:products_by_category` | Category catalog listing |
 | `/store/category/<department_slug>/<category_slug>/<subcategory_slug>/` | `store:products_by_subcategory` | Subcategory catalog listing |
