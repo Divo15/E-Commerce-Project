@@ -33,6 +33,23 @@
         <h2><a href="{{ product.get_url }}">{{ product.product_name }}</a></h2>
         <p>{{ product.description }}</p>
         <p>{{ product.price }}</p>
+        <form method="post" action="{% url 'add_cart' product.pk %}">
+            {% csrf_token %}
+            {% if product.size_type == 'clothing' %}
+                <label for="size-{{ product.pk }}">Size for {{ product.product_name }}</label>
+                <select name="size" id="size-{{ product.pk }}" required>
+                    <option value="">Select size</option>
+                    {% for inventory in product.inventory.all %}
+                        {% if inventory.quantity %}
+                            {% if inventory.size == 's' or inventory.size == 'xl' or inventory.size == 'xxl' %}
+                                <option value="{{ inventory.size }}">{{ inventory.get_size_display }}</option>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            {% endif %}
+            <button type="submit">Add to cart</button>
+        </form>
     </article>
 {% empty %}
     {% if is_search %}

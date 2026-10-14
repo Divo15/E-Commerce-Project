@@ -1,106 +1,74 @@
 # Project Handoff
 
-## Overview
+Last verified: **2026-10-15**. The interrupted-work review is complete; see [RECOVERY_REVIEW.md](RECOVERY_REVIEW.md).
+
+## Environment
 
 - Repository: `https://github.com/Divo15/Shaali-E-commerce.git`
 - Branch: `testing`
-- Project path: `D:\Backend`
+- Workspace: `D:\Backend`
+- Python: 3.12.13 in `env`
 - Framework: Django 6.1
-- Python: 3.12
-- Virtual environment: `env`
-- Database: SQLite (`db.sqlite3`)
+- Database: SQLite, `db.sqlite3`
+- Upload root: `media/`
 
-## Current Validation
+## Verified state
 
-The following command currently passes:
+All 89 tests pass. Django system checks, migration drift checks, pending-migration checks, and `git diff --check` pass.
 
-```powershell
-.\env\Scripts\python.exe manage.py check
-```
+Local migrations include `store.0008_alter_product_size_type`, `category.0009_heroposter`, `carts.0002_cartitem_size`, and `orders.0002_shipping_details`. The shipping migration was applied during recovery after backing up SQLite.
 
-Applied migrations include the latest `category`, `store`, and `orders.0001_initial` migrations.
+The current local catalog contains eight products. All 24 database image references resolve after restoring 28 files from `store/media/` to the configured `media/` root. Originals remain in place. Both upload locations are ignored by Git.
 
-## Completed Work
+## Working flows
 
-- Department-aware catalog URLs are connected from `ecommerce/urls.py`.
-- Department, category, and subcategory menus are supplied by `category.context_processor.menu_links`.
-- Department catalog pages filter products to the selected department.
-- A reusable Django storefront layout, header, footer, home page, and categories directory are live.
-- Desktop navigation exposes the full Department → Category → SubCategory hierarchy; mobile navigation links to `/categories/`.
-- The homepage uses live category data and media, a branded hero image, empty states, and accessible reduced-motion behavior.
-- The cart template and context are wired at `carts/templates/carts/cart.html`.
-- `orders` is installed, migrated, and has initial `Order` and `OrderItem` models ready for checkout work.
-- Focused homepage, catalog/inventory, and cart smoke tests exist.
+- Admin-managed department/category/subcategory navigation, category imagery, and hero posters.
+- Responsive homepage and category directory with desktop menus and mobile bottom navigation.
+- Department-aware catalog and keyword search with 12-product pagination.
+- Product detail with up to three images, price, description, stock-aware size choices, and add-to-bag.
+- Size-specific session cart, POST-only quantity/removal actions, stock checks, and CSRF protection.
+- Live bag count; sign-in preserves the guest cart and access to its saved shipping draft.
+- Registration, email sign-in, safe local return URLs, and POST-only logout.
+- Shipping-address form, current-session review, pending order/item snapshots, and read-only Admin details.
 
-## Current Catalog Models
+Shipping saves do not place orders, take payment, clear the cart, deduct stock, or send notifications.
 
-`Department` contains a name and slug. `Category` belongs to an optional department and contains:
+## Code and templates
 
-- `category_name`
-- `slug`
-- `description`
-- `category_image`
+- `ecommerce/templates/base.html` and `includes/`: shared layout.
+- `home.html`, `categories.html`, `signin.html`, and `register.html`: live Django pages.
+- `store/templates/store/product_detail.html`: live product detail.
+- `ecommerce/templates/store/store.html` and `carts/templates/carts/cart.html`: functional minimal catalog/cart.
+- `orders/templates/orders/`: shipping and review.
+- `ecommerce/static/shali/`: storefront CSS/JS, product/account CSS, checkout CSS, brand and hero assets.
+- `carts/context_processors.py`: session-scoped active-unit counter, registered in settings.
+- Remaining root React/CDN templates and `app.js`: old visual references.
 
-`SubCategory` belongs to a category. `Product` belongs to a category, may belong to multiple subcategories in that category, and uses size-specific inventory.
+Public navigation and listings omit categories/products without a department path. Data remains manageable through Admin; no seed migration was added.
 
-- `category` foreign key
-- `subcategory_name`
-- `slug`
-- `description`
-
-The intended initial hierarchy is:
-
-- Sarees
-  - Banarasi
-  - Kanjipuram
-  - Organza
-  - Maheshwari
-  - Georgette
-  - Modal
-  - Cotton
-  - Kota Doria
-
-Records are managed through Django Admin. The local database currently includes Woman, Man, Kids, and Jewellery departments with category imagery; product records have not yet been added.
-
-## Current Routes
-
-- `/` renders the Shali homepage.
-- `/categories/` renders the expandable catalog directory.
-- `/store/` and `/store/category/<department>/<category>/<subcategory>/` serve the catalog hierarchy.
-- `/carts/` renders the session cart.
-- `/accounts/` serves registration, login, and POST-only logout routes.
-- The product-detail route exists, but its template is still missing.
-
-## Templates
-
-- `ecommerce/templates/base.html` and `ecommerce/templates/includes/` hold the shared storefront chrome.
-- `ecommerce/templates/home.html` and `ecommerce/templates/categories.html` are responsive, live Django templates.
-- `ecommerce/static/shali/` holds the storefront CSS, browser interactions, logo, and hero image.
-- `HOMEPAGE.md` explains asset provenance, dynamic content rules, and verification steps.
-- `ecommerce/templates/store/store.html` remains a minimal catalog template.
-- The larger static React-style templates are not connected to Django routes.
-- Several static templates use relative `styles.css`, `app.js`, and `.html` links that will not resolve correctly through Django without static tags and named URLs.
-
-## Git State
-
-The repository has established commits and a remote `testing` branch. Do not stage the local virtual environment, SQLite database, media uploads, collected static files, or environment secrets; `.gitignore` excludes them.
-
-## Useful Commands
+## Commands
 
 ```powershell
 cd D:\Backend
-.\env\Scripts\Activate.ps1
-python manage.py check
-python manage.py makemigrations --check --dry-run
-python manage.py showmigrations
-python manage.py runserver
-python manage.py test ecommerce store carts
+.\env\Scripts\python.exe manage.py check
+.\env\Scripts\python.exe manage.py makemigrations --check --dry-run
+.\env\Scripts\python.exe manage.py migrate --check
+.\env\Scripts\python.exe manage.py test --verbosity 1
+.\env\Scripts\python.exe manage.py runserver
 ```
 
-## Next Work
+The browser check used a separate temporary SQLite copy. Test accounts and draft orders were not added to the project database.
 
-1. Create `store/templates/store/product_detail.html` and link homepage/catalog product cards to it.
-2. Replace the minimal catalog and cart markup with the shared layout.
-3. Implement cart mutations and required size selection.
-4. Build checkout and Stripe integration on the new order models.
-5. Add order, cart-mutation, product-detail, and authentication tests.
+## Git and remaining work
+
+Existing work was preserved. The cart/shipping implementation and recovery fixes are tracked together on the `testing` branch. Keep databases, media uploads, environments, and secrets out of Git.
+
+Next tasks:
+
+1. Integrate the minimal catalog/cart markup with the shared storefront layout.
+2. Implement Stripe Checkout, webhooks, confirmed-order completion, and inventory deduction.
+3. Add delivery serviceability, rates, and confirmed order notifications.
+4. Add fabric/material, occasion, and sale-price fields.
+5. Prepare environment-based production settings, database, and storage.
+
+See `CART_IMPLEMENTATION.md`, `SHIPPING_IMPLEMENTATION.md`, `HOMEPAGE.md`, and the product briefs for detailed behavior and scope.

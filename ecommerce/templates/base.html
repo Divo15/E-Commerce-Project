@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Prata&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'shali/storefront.css' %}">
+    {% block extra_head %}{% endblock %}
     <script src="{% static 'shali/storefront.js' %}" defer></script>
 </head>
 <body class="{% block body_class %}{% endblock %}">
@@ -25,7 +26,7 @@
         <a href="{% url 'home' %}" {% if request.resolver_match.url_name == 'home' %}aria-current="page"{% endif %}><svg aria-hidden="true"><use href="#icon-home"/></svg>Home</a>
         <a href="{% url 'categories' %}" {% if request.resolver_match.url_name == 'categories' %}aria-current="page"{% endif %}><svg aria-hidden="true"><use href="#icon-grid"/></svg>Categories</a>
         <button type="button" data-search-open><svg aria-hidden="true"><use href="#icon-search"/></svg>Search</button>
-        <a href="{% url 'cart' %}"><svg aria-hidden="true"><use href="#icon-bag"/></svg>Bag</a>
+        <a href="{% url 'cart' %}" aria-label="Shopping bag, {{ cart_count }} item{{ cart_count|pluralize }}"><svg aria-hidden="true"><use href="#icon-bag"/></svg>Bag{% if cart_count %} ({{ cart_count }}){% endif %}</a>
         <a href="{% url 'accounts:login' %}"><svg aria-hidden="true"><use href="#icon-user"/></svg>Account</a>
     </nav>
     <dialog id="search-dialog" aria-labelledby="search-title" aria-describedby="search-description">

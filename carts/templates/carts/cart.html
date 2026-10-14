@@ -11,19 +11,48 @@
   <main>
     <h1>Your Cart</h1>
 
+    {% for message in messages %}
+      <p role="alert">{{ message }}</p>
+    {% endfor %}
+
     {% if cart_items %}
       <p>{{ quantity }} item{{ quantity|pluralize }}</p>
 
       {% for cart_item in cart_items %}
         <article>
           <h2>{{ cart_item.product.product_name }}</h2>
+          {% if cart_item.size != 'no_size' %}
+            <p>Size: {{ cart_item.get_size_display|default:'Selection required' }}</p>
+          {% endif %}
           <p>Quantity: {{ cart_item.quantity }}</p>
           <p>Price: ₹{{ cart_item.product.price }}</p>
           <p>Subtotal: ₹{{ cart_item.subtotal }}</p>
+          {% if cart_item.stock_message %}<p role="alert">{{ cart_item.stock_message }}</p>{% endif %}
+          {% if cart_item.available_quantity %}
+            <form method="post" action="{% url 'update_cart' cart_item.pk %}">
+              {% csrf_token %}
+              <label for="quantity-{{ cart_item.pk }}">Quantity for {{ cart_item.product.product_name }} {{ cart_item.get_size_display }}</label>
+              <input id="quantity-{{ cart_item.pk }}" type="number" name="quantity" value="{{ cart_item.quantity }}" min="1" max="{{ cart_item.available_quantity }}" required>
+              <button type="submit">Update quantity</button>
+            </form>
+            <form method="post" action="{% url 'increase_cart' cart_item.pk %}">
+              {% csrf_token %}
+              <button type="submit" {% if cart_item.quantity >= cart_item.available_quantity %}disabled{% endif %}>Increase quantity</button>
+            </form>
+          {% endif %}
+          <form method="post" action="{% url 'decrease_cart' cart_item.pk %}">
+            {% csrf_token %}
+            <button type="submit">{% if cart_item.quantity == 1 %}Remove last item{% else %}Decrease quantity{% endif %}</button>
+          </form>
+          <form method="post" action="{% url 'remove_cart' cart_item.pk %}">
+            {% csrf_token %}
+            <button type="submit">Remove item</button>
+          </form>
         </article>
       {% endfor %}
 
       <h2>Total: ₹{{ total }}</h2>
+      <a href="{% url 'orders:shipping_details' %}">Continue to shipping details</a>
     {% else %}
       <p>Your cart is empty.</p>
       <a href="{% url 'store:store' %}">Continue shopping</a>

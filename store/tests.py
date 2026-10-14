@@ -9,6 +9,75 @@ from category.models import Category, Department, SubCategory
 from .models import Product, ProductInventory
 
 
+class ProductDetailTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        department = Department.objects.create(department_name='Women', slug='women')
+        category = Category.objects.create(category_name='Clothing', slug='clothing', department=department)
+        cls.product = Product.objects.create(
+            product_name='Festive dress', slug='festive-dress', category=category,
+            color='Red', price=1500, description='Handwoven <script>alert(1)</script>', size_type='clothing',
+            image_1='photos/products/front.jpg', image_2='photos/products/back.jpg', image_3='photos/products/detail.jpg',
+        )
+        ProductInventory.objects.create(product=cls.product, size='s', quantity=3)
+        ProductInventory.objects.create(product=cls.product, size='xl', quantity=0)
+        ProductInventory.objects.create(product=cls.product, size='free_size', quantity=5)
+
+    def test_detail_renders_gallery_and_only_stocked_valid_sizes(self):
+        response = self.client.get(self.product.get_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'store/product_detail.html')
+        self.assertTemplateUsed(response, 'base.html')
+        for image in [self.product.image_1, self.product.image_2, self.product.image_3]:
+            self.assertContains(response, image.url)
+        self.assertContains(response, 'value="s"')
+        self.assertNotContains(response, 'value="xl"')
+        self.assertNotContains(response, 'value="free_size"')
+        self.assertContains(response, '&lt;script&gt;alert(1)&lt;/script&gt;')
+        self.assertNotContains(response, '<script>alert(1)</script>')
+
+    def test_missing_images_and_zero_stock_render_without_add_action(self):
+        Product.objects.filter(pk=self.product.pk).update(image_1='', image_2='', image_3='')
+        ProductInventory.objects.filter(product=self.product, size='s').update(quantity=0)
+        response = self.client.get(self.product.get_url())
+        self.assertContains(response, 'Image coming soon')
+        self.assertContains(response, 'Out of stock')
+        self.assertNotContains(response, reverse('add_cart', args=[self.product.pk]))
+
+    def test_free_size_and_unsized_products_do_not_require_size_selection(self):
+        for size_type in ['free_size', 'no_size']:
+            with self.subTest(size_type=size_type):
+                Product.objects.filter(pk=self.product.pk).update(size_type=size_type)
+                ProductInventory.objects.filter(product=self.product).delete()
+                ProductInventory.objects.create(product=self.product, size=size_type, quantity=2)
+                response = self.client.get(self.product.get_url())
+                self.assertContains(response, 'Add to bag')
+                self.assertNotContains(response, 'name="size"')
+                self.assertRedirects(self.client.post(reverse('add_cart', args=[self.product.pk]), {'quantity': 1}), reverse('cart'))
+
+    def test_hidden_products_and_wrong_catalog_paths_return_404(self):
+        self.assertEqual(self.client.get('/store/product/men/clothing/festive-dress/').status_code, 404)
+        self.assertEqual(self.client.get('/store/product/women/missing/festive-dress/').status_code, 404)
+        self.assertEqual(self.client.get('/store/product/women/clothing/missing/').status_code, 404)
+        Product.objects.filter(pk=self.product.pk).update(is_available=False)
+        self.assertEqual(self.client.get(self.product.get_url()).status_code, 404)
+
+    def test_homepage_and_catalog_link_to_product_details(self):
+        for route in ['home', 'store:store']:
+            with self.subTest(route=route):
+                self.assertContains(self.client.get(reverse(route)), self.product.get_url())
+
+    def test_unassigned_products_do_not_break_catalog_or_search(self):
+        category = Category.objects.create(category_name='Unassigned', slug='unassigned')
+        Product.objects.create(product_name='Unassigned dress', slug='unassigned-dress', category=category, color='Blue', price=1000)
+        for route in ['store:store', 'store:search']:
+            with self.subTest(route=route):
+                response = self.client.get(reverse(route), {'keyword': 'dress'})
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(response, self.product.product_name)
+                self.assertNotContains(response, 'Unassigned dress')
+
+
 class ProductSubcategoryTests(TestCase):
     def setUp(self):
         self.department = Department.objects.create(

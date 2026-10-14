@@ -1,82 +1,24 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register | GG Fashion</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'styles.css' %}">
-</head>
-<body>
-  <main class="page-shell">
-    <section class="section">
-      <div class="auth-grid">
-        <div class="auth-panel">
-          <div class="eyebrow">Join GG Fashion</div>
-          <h1>Create your premium wardrobe account.</h1>
-          <p>Save favorites, track festive orders, and receive early previews of new arrivals and celebration collections.</p>
-          <ul class="split-promo">
-            <li>Personal wishlists for ceremonies and gifting</li>
-            <li>Faster checkout for occasion shopping</li>
-            <li>Access to styling notes and festive drops</li>
-          </ul>
-        </div>
-
-        <div class="auth-panel">
-          <h2>Register</h2>
-          <form method="post">
-            {% csrf_token %}
-            {{ form.non_field_errors }}
-
-            <div class="form-grid">
-              <label class="field">
-                <span>First Name</span>
-                {{ form.first_name }}
-                {{ form.first_name.errors }}
-              </label>
-              <label class="field">
-                <span>Last Name</span>
-                {{ form.last_name }}
-                {{ form.last_name.errors }}
-              </label>
-              <label class="field-full">
-                <span>Username</span>
-                {{ form.username }}
-                {{ form.username.errors }}
-              </label>
-              <label class="field-full">
-                <span>Email</span>
-                {{ form.email }}
-                {{ form.email.errors }}
-              </label>
-              <label class="field-full">
-                <span>Phone</span>
-                {{ form.phone_number }}
-                {{ form.phone_number.errors }}
-              </label>
-              <label class="field-full">
-                <span>Password</span>
-                {{ form.password }}
-                {{ form.password.errors }}
-              </label>
-              <label class="field-full">
-                <span>Confirm Password</span>
-                {{ form.confirm_password }}
-                {{ form.confirm_password.errors }}
-              </label>
+{% block title %}Create an account — Shali Collections{% endblock %}
+{% block extra_head %}<link rel="stylesheet" href="{% static 'shali/commerce.css' %}">{% endblock %}
+{% block content %}
+<section class="section page-width account-page">
+    <h1>Make yourself at home.</h1>
+    <p>Create your Shali account. All fields are required.</p>
+    {% if form.errors %}<div class="commerce-notice" role="alert"><p>Check the details below.</p>{{ form.non_field_errors }}</div>{% endif %}
+    <form class="commerce-form" method="post" action="{% url 'accounts:register' %}" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="commerce-field">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}<p class="commerce-help" id="{{ field.id_for_label }}_helptext">{{ field.help_text }}</p>{% endif %}
+                {{ field.errors }}
             </div>
-
-            <div class="inline-actions">
-              <button class="cta-btn" type="submit">Create Account</button>
-            </div>
-          </form>
-          <p class="inline-note">Already registered? <a class="text-link" href="{% url 'accounts:login' %}">Sign in here</a></p>
-        </div>
-      </div>
-    </section>
-  </main>
-</body>
-</html>
+        {% endfor %}
+        <button class="button button-burgundy" type="submit">Create account</button>
+    </form>
+    <p>Already registered? <a class="text-link" href="{% url 'accounts:login' %}">Sign in</a></p>
+</section>
+{% endblock %}

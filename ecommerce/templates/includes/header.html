@@ -26,7 +26,7 @@
         <div class="header-actions">
             <button type="button" class="icon-button" data-search-open aria-label="Search collections"><svg aria-hidden="true"><use href="#icon-search"/></svg></button>
             <a class="icon-button account-link" href="{% url 'accounts:login' %}" aria-label="Your account"><svg aria-hidden="true"><use href="#icon-user"/></svg></a>
-            <a class="icon-button" href="{% url 'cart' %}" aria-label="Shopping bag"><svg aria-hidden="true"><use href="#icon-bag"/></svg></a>
+            <a class="icon-button bag-link" href="{% url 'cart' %}" aria-label="Shopping bag, {{ cart_count }} item{{ cart_count|pluralize }}"><svg aria-hidden="true"><use href="#icon-bag"/></svg>{% if cart_count %}<span class="bag-count" aria-hidden="true">{% if cart_count > 99 %}99+{% else %}{{ cart_count }}{% endif %}</span>{% endif %}</a>
         </div>
     </div>
 </header>

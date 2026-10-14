@@ -36,21 +36,25 @@ Web fonts load from Google Fonts with local serif/sans-serif fallbacks.
   department/category paths. An empty catalog shows an honest empty state.
 - Upload category images through Django Admin. Existing media remain local;
   the repository ignores `media/`, so another environment needs its own uploads.
-- Search is visibly marked as coming soon, with a working category-browsing link.
+- Search is functional: the dialog and catalog submit keywords to `/store/search/`.
+- New-arrival cards link to live product-detail pages.
+- Header and mobile bag links show the current session's active-unit count.
 
 ## Scope
 
-This change styles the homepage and category directory. Existing store, product
-detail, account, and cart pages retain their current implementation. In particular,
-`store/product_detail.html` is still a follow-up task; homepage product cards link
-to their category until that page is implemented. Cart size selection, checkout,
-search, newsletter subscriptions, reviews, and shipping policies are not invented.
+The homepage and category directory retain the established visual system.
+Product detail, sign-in, registration, and shipping pages now use the shared
+layout; catalog/cart styling remains follow-up work. Search, cart size selection,
+and shipping-draft saving are implemented. Payment completion, newsletter
+subscriptions, reviews, and delivery-rate/serviceability rules remain unfinished.
 
 ## Checks
 
-Run `python manage.py check` and `python manage.py test ecommerce store carts`.
+Run `python manage.py check` and `python manage.py test`.
+The recovery review on 2026-10-15 verified all 89 tests and restored all referenced
+media. See `RECOVERY_REVIEW.md`.
 Review `/` and `/categories/` at desktop, tablet, and phone widths. Verify dropdown
-keyboard access, Escape dismissal, the search notice, category expansion, image
+keyboard access, Escape dismissal, keyword search, category expansion, image
 fallbacks, and the mobile bottom navigation.
 
 The department catalog view now filters products by the selected department;

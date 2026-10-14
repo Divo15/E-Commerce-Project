@@ -1,8 +1,8 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render, get_object_or_404
+from carts.forms import AddCartForm
 from category.models import Category, Department, SubCategory
 from . models import Product
-from django.http import HttpResponse
 from django.db.models import Q
 
 
@@ -16,7 +16,7 @@ def store(
     category = None
     subcategory = None
 
-    products = Product.objects.filter(is_available=True)
+    products = Product.objects.filter(is_available=True, category__department__isnull=False)
 
     if department_slug is not None:
         department = get_object_or_404(Department, slug=department_slug)
@@ -38,7 +38,7 @@ def store(
         )
         products = products.filter(subcategories=subcategory)
 
-    products = products.select_related('category__department').order_by('pk')
+    products = products.select_related('category__department').prefetch_related('inventory').order_by('pk')
     paginator = Paginator(products, 12)
     page_obj = paginator.get_page(request.GET.get('page'))
 
@@ -53,14 +53,25 @@ def store(
 
 def product_detail(request, department_slug, category_slug, product_slug):
     single_product = get_object_or_404(
-        Product,
+        Product.objects.select_related('category__department').prefetch_related('inventory'),
         category__department__slug=department_slug,
         category__slug=category_slug,
         slug=product_slug,
         is_available=True,
     )
+    allowed_sizes = dict(AddCartForm(product=single_product).fields['size'].choices)
+    stocked_inventory = [
+        row for row in single_product.inventory.all()
+        if row.size in allowed_sizes and row.quantity > 0
+    ]
     context = {
         'single_product': single_product,
+        'stocked_inventory': stocked_inventory,
+        'available_stock': sum(row.quantity for row in stocked_inventory),
+        'product_images': [
+            image for image in (single_product.image_1, single_product.image_2, single_product.image_3)
+            if image
+        ],
     }
     return render(request, 'store/product_detail.html',context)
 
@@ -72,7 +83,8 @@ def search(request):
         products = Product.objects.filter(
             Q(description__icontains=keyword) | Q(product_name__icontains=keyword),
             is_available=True,
-        ).select_related('category__department').order_by('-create_date', '-pk')
+            category__department__isnull=False,
+        ).select_related('category__department').prefetch_related('inventory').order_by('-create_date', '-pk')
     paginator = Paginator(products, 12)
     page_obj = paginator.get_page(request.GET.get('page'))
     context = {

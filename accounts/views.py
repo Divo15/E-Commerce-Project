@@ -1,16 +1,18 @@
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.db import transaction
 from django.shortcuts import redirect, render
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 
 from .forms import RegistrationForm
+from carts.models import Cart
 
 
 def register(request):
     if request.user.is_authenticated:
         return redirect('home')
 
-    form = RegistrationForm(request.POST or None)
+    form = RegistrationForm(request.POST if request.method == 'POST' else None)
 
     if request.method == 'POST' and form.is_valid():
         form.save()
@@ -43,7 +45,14 @@ def login(request):
             user = authenticate(request, username=email, password=password)
 
             if user is not None:
-                auth_login(request, user)
+                # Django rotates the session key at login; carry the guest bag along.
+                old_session_key = request.session.session_key
+                with transaction.atomic():
+                    auth_login(request, user)
+                    if old_session_key:
+                        Cart.objects.filter(cart_id=old_session_key).update(
+                            cart_id=request.session.session_key,
+                        )
                 next_url = request.POST.get('next') or request.GET.get('next')
 
                 if next_url and url_has_allowed_host_and_scheme(
@@ -60,5 +69,9 @@ def login(request):
     return render(
         request,
         'signin.html',
-        {'error_message': error_message},
+        {
+            'error_message': error_message,
+            'email': request.POST.get('email', request.POST.get('username', '')).strip(),
+            'next_url': request.POST.get('next', request.GET.get('next', '')),
+        },
     )

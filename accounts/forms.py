@@ -24,6 +24,17 @@ class RegistrationForm(forms.ModelForm):
             raise forms.ValidationError('An account with this email already exists.')
         return email
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        autocomplete = {
+            'first_name': 'given-name', 'last_name': 'family-name',
+            'username': 'username', 'email': 'email', 'phone_number': 'tel',
+            'password': 'new-password', 'confirm_password': 'new-password',
+        }
+        for name, field in self.fields.items():
+            field.widget.attrs.update({'class': 'commerce-input', 'autocomplete': autocomplete[name]})
+        self.fields['phone_number'].widget.attrs['type'] = 'tel'
+
     def clean(self):
         cleaned_data = super().clean()
         password = cleaned_data.get('password')

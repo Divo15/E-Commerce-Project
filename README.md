@@ -1,333 +1,160 @@
 # Shaali E-commerce
 
-Shaali E-commerce is an in-progress Django storefront for premium Indian ethnic fashion. The project currently provides the backend foundation for accounts, categories, subcategories, products, and a session-based shopping cart. The customer-facing frontend, checkout flow, and production configuration are still under development.
+Shaali is a Django storefront for Indian ethnic fashion and jewellery. Customers can browse and search collections, view product images, select stocked sizes, manage a session cart, register or sign in, and save shipping details on an unpaid order draft.
 
-## Project Status
+Payment completion and production deployment remain unfinished. Last verified: **2026-10-15**. See [RECOVERY_REVIEW.md](RECOVERY_REVIEW.md) for the interrupted-work review and recovery results.
 
-This repository is an early-stage application, not a production-ready store.
+## Current status
 
 Implemented:
 
-- Django project and application structure
-- Custom email-based user model
-- Registration, login, and POST-only logout views
-- Category and subcategory models and Django Admin configuration
-- Product model and Django Admin configuration
-- Session-based cart and cart-item models
-- Add-to-cart and cart-total calculation logic
-- SQLite development database configuration
-- Static and media file configuration
-- Department-aware catalog routes and filtering
-- Catalog and search pagination with 12 products per page, stable ordering, and First/Previous/Next/Last navigation
-- Keyword search across available product names and descriptions, with search forms in the storefront dialog and catalog
-- Shared Django storefront layout with responsive homepage and category directory
-- Desktop department menus and mobile bottom navigation
-- Initial order and order-item models, including Stripe reference fields
-- Homepage, catalog, inventory, and cart smoke tests
+- Custom email-based accounts with live registration/sign-in forms and POST-only logout.
+- Admin-managed departments, categories, subcategories, hero posters, products, and size-specific inventory.
+- Department-aware catalog routes and keyword search across product names and descriptions.
+- Catalog/search pagination with 12 products per page and stable ordering.
+- Shared storefront layout, responsive homepage, category directory, product-detail gallery, account pages, and shipping pages.
+- POST-only cart additions, quantity updates, increases, decreases, and removals with CSRF protection and session isolation.
+- Separate cart rows for each product/size, stock validation, and a live navigation bag count.
+- Guest cart and saved shipping-draft access preserved when sign-in rotates the session key.
+- Shipping validation, pending order/item snapshots, and read-only order details in Django Admin.
+- Development SQLite, static/media configuration, and console email backend.
 
-Partially implemented:
-
-- Product-detail view
-- Cart display and add-to-cart flow
-- Product listing template integration
+The catalog and cart work but retain minimal markup; they still need integration with the shared visual layout.
 
 Not implemented:
 
-- Cart quantity update and item removal
-- Checkout routes and order creation flow
-- Payment processing and Stripe webhooks
-- Transactional email
-- Production deployment configuration
+- Stripe Checkout creation, payment webhooks, confirmed order completion, and inventory deduction.
+- Delivery serviceability checks, shipping rates, and taxes.
+- Transactional order notifications.
+- Fabric/material, occasion, and sale-price fields.
+- Production settings, storage, and deployment.
 
-## Technology Stack
+## Stack and architecture
 
-- Python 3.12
-- Django 6.1
-- SQLite for local development
-- Pillow for image fields
-- Django templates, CSS, and JavaScript for the current integrated-frontend direction
+Python 3.12, Django 6.1, SQLite, Pillow, and the Stripe SDK are pinned in `requirements.txt`. Django views render Django templates and use the ORM for database access.
 
-Dependencies are pinned in `requirements.txt`.
+`ecommerce/templates/app.js` and the remaining standalone React/CDN templates are visual references with hardcoded data. Live account pages use Django forms; product detail uses the app-namespaced template at `store/templates/store/product_detail.html`.
 
-## Architecture
-
-The current application is a Django monolith:
-
-```text
-Browser request
-    -> Django URL resolver
-    -> Django view
-    -> Django ORM
-    -> SQLite
-    -> Django template
-    -> HTML response
-```
-
-Django ORM queries are used throughout the project. No handwritten SQL is currently required.
-
-The repository also contains React-style static design prototypes in `ecommerce/templates/app.js`. They use React from a CDN and hardcoded data, and they are not connected to the Django models, authentication, cart, or URL routing. Treat them as visual references until a final frontend architecture is selected.
-
-## Repository Structure
+## Repository structure
 
 ```text
 Backend/
-|-- accounts/                 Custom user model and authentication
-|-- carts/                    Session cart models and views
-|-- category/                 Category and subcategory domain
-|-- ecommerce/                Project settings, root URLs, and shared assets
-|   |-- static/               Project CSS
-|   `-- templates/            Current templates and design prototypes
-|-- store/                    Product model, catalog views, and store URLs
+|-- accounts/                  Email-based accounts and forms
+|-- carts/                     Cart models, forms, services, views, and counter
+|-- category/                  Catalog hierarchy, hero posters, and navigation
+|-- orders/                    Shipping forms, draft orders, snapshots, and admin
+|-- store/                     Products, inventory, catalog/search/detail views
+|-- ecommerce/
+|   |-- static/shali/          Storefront, product/account, and checkout assets
+|   `-- templates/            Shared layout, live pages, and old prototypes
+|-- media/                     Local uploads; ignored by Git
 |-- manage.py
 |-- requirements.txt
-|-- HANDOFF.md                Earlier development handoff notes
-`-- README.md
+|-- README.md
+|-- HANDOFF.md
+|-- RECOVERY_REVIEW.md
+|-- CART_IMPLEMENTATION.md
+|-- SHIPPING_IMPLEMENTATION.md
+|-- HOMEPAGE.md
+`-- PRODUCT.md
 ```
 
-## Domain Model
+## Domain rules
 
-### Account
+`accounts.Account` is the configured user model. Registration stores a hashed password, normalizes email to lowercase, checks duplicate emails, and activates the account immediately.
 
-`accounts.Account` is the configured `AUTH_USER_MODEL`.
+`Department → Category → SubCategory` defines the catalog. Categories may remain unassigned in Admin, but public navigation, listings, and search exclude incomplete department paths. Products may belong to multiple subcategories only within their own category.
 
-Important characteristics:
+Products store a name, description, integer rupee price, color, up to three images, size type, and availability. `ProductInventory` tracks non-negative stock for clothing sizes `s`, `xl`, and `xxl`, saree `free_size`, or unsized `no_size`.
 
-- Email is the login identifier.
-- Username and email are unique.
-- New users are created through `RegistrationForm`.
-- Registered users are currently activated immediately.
+A `Cart` is identified by the browser session key. A database constraint prevents duplicate product/size rows in one cart. Adding the same size increases quantity; different sizes stay separate. Cart changes validate stock but do not reserve or deduct inventory. Navigation counts active units rather than distinct rows, and browsing does not create a cart/session just to calculate the count.
 
-### Category and SubCategory
+Saving shipping details creates or refreshes a pending `Order` and its `OrderItem` snapshots. Snapshots preserve names, sizes, quantities, and prices. Paid orders and drafts with payment references cannot be overwritten by the shipping form. Saving leaves the cart and inventory intact and does not place an order.
 
-`category.Category` contains the category name, slug, description, and optional image.
-
-`category.SubCategory` belongs to a category through `category`. Subcategory slugs are unique within each category, enforced by a database constraint.
-
-The intended initial hierarchy is:
-
-```text
-Sarees
-|-- Banarasi
-|-- Kanjipuram
-|-- Organza
-|-- Maheshwari
-|-- Georgette
-|-- Modal
-|-- Cotton
-`-- Kota Doria
-```
-
-### Product
-
-`store.Product` currently belongs directly to a category and contains:
-
-- Product name and slug
-- Description and color
-- Integer price
-- Product image
-- Size behavior (`Clothing sizes`, `Free size`, or `No size`)
-- Availability flag
-- Created and modified timestamps
-
-Products can be assigned to multiple subcategories. Assignments are validated so
-that every selected subcategory belongs to the product's category.
-
-`ProductInventory` tracks a separate non-negative quantity for each sellable size.
-Clothing products support `S`, `XL`, and `XXL`; sarees can use `Free Size`;
-unsized products such as jewellery use a single `No size` inventory row.
-
-### Cart and CartItem
-
-`carts.Cart` is identified by the Django session key. `carts.CartItem` joins a cart to a product and stores quantity and active state.
-
-The database prevents duplicate product rows within the same cart. Adding an existing product increments its quantity. `CartItem.subtotal` calculates `product.price * quantity`.
-
-The current cart view calculates the total value and total quantity, but its template path and template context integration are intentionally unfinished while the frontend direction is being decided.
-
-## Current Routes
-
-Routes currently connected by `ecommerce/urls.py`:
+## Routes
 
 | URL | Name | Purpose |
 | --- | --- | --- |
-| `/` | `home` | Responsive Shali storefront homepage |
-| `/admin/` | Django Admin | Content and account administration |
-| `/accounts/register/` | `accounts:register` | Account registration |
-| `/accounts/login/` | `accounts:login` | Account login |
+| `/` | `home` | Homepage |
+| `/admin/` | Django Admin | Content, accounts, and order drafts |
+| `/accounts/register/` | `accounts:register` | Registration |
+| `/accounts/login/` | `accounts:login` | Sign in; safe local return URLs supported |
 | `/accounts/logout/` | `accounts:logout` | POST-only logout |
-| `/categories/` | `categories` | Expandable department/category/subcategory directory |
-| `/store/` | `store:store` | Catalog listing |
-| `/store/search/?keyword=silk` | `store:search` | Case-insensitive name/description search; blank keywords return no results |
-| `/store/category/<department_slug>/` | `store:products_by_department` | Department catalog listing |
-| `/store/category/<department_slug>/<category_slug>/` | `store:products_by_category` | Category catalog listing |
-| `/store/category/<department_slug>/<category_slug>/<subcategory_slug>/` | `store:products_by_subcategory` | Subcategory catalog listing |
-| `/store/product/<department_slug>/<category_slug>/<product_slug>/` | `store:product_detail` | Product-detail route (template still pending) |
-| `/carts/` | `cart` | Cart summary view |
-| `/carts/add_cart/<product_id>` | `add_cart` | Add or increment a product |
+| `/categories/` | `categories` | Expandable catalog directory |
+| `/store/` | `store:store` | Catalog |
+| `/store/search/?keyword=silk` | `store:search` | Name/description search; blank keywords return no results |
+| `/store/category/<department_slug>/` | `store:products_by_department` | Department catalog |
+| `/store/category/<department_slug>/<category_slug>/` | `store:products_by_category` | Category catalog |
+| `/store/category/<department_slug>/<category_slug>/<subcategory_slug>/` | `store:products_by_subcategory` | Subcategory catalog |
+| `/store/product/<department_slug>/<category_slug>/<product_slug>/` | `store:product_detail` | Product gallery and stock-aware add-to-bag form |
+| `/carts/` | `cart` | Cart |
+| `/carts/add_cart/<product_id>` | `add_cart` | POST product, size, and optional quantity |
+| `/carts/items/<item_id>/update/` | `update_cart` | POST replacement quantity |
+| `/carts/items/<item_id>/increase/` | `increase_cart` | POST one-unit increase |
+| `/carts/items/<item_id>/decrease/` | `decrease_cart` | POST one-unit decrease; remove last unit |
+| `/carts/items/<item_id>/remove/` | `remove_cart` | POST removal |
+| `/checkout/shipping/` | `orders:shipping_details` | Collect and save delivery details |
+| `/checkout/shipping/review/` | `orders:shipping_review` | Review this session's saved draft |
 
-The current catalog route design is:
-
-```text
-/store/
-/store/category/<category_slug>/
-/store/category/<category_slug>/<subcategory_slug>/
-/store/product/<category_slug>/<product_slug>/
-```
-
-Explicit `category/` and `product/` prefixes prevent subcategory and product routes from competing for the same two-slug URL pattern.
-
-## Local Setup
-
-### 1. Clone the repository
+## Local setup
 
 ```powershell
 git clone https://github.com/Divo15/Shaali-E-commerce.git
 cd Shaali-E-commerce
-```
-
-### 2. Create and activate a virtual environment
-
-Windows PowerShell:
-
-```powershell
 py -3.12 -m venv env
 .\env\Scripts\Activate.ps1
-```
-
-macOS or Linux:
-
-```bash
-python3 -m venv env
-source env/bin/activate
-```
-
-### 3. Install dependencies
-
-```powershell
 python -m pip install --upgrade pip
 pip install -r requirements.txt
-```
-
-### 4. Apply migrations
-
-```powershell
 python manage.py migrate
-```
-
-### 5. Create an administrator
-
-```powershell
 python manage.py createsuperuser
-```
-
-The custom user manager asks for first name, last name, email, username, and password.
-
-### 6. Run the development server
-
-```powershell
 python manage.py runserver
 ```
 
-Open `http://127.0.0.1:8000/` for the site and `http://127.0.0.1:8000/admin/` for Django Admin.
+For the existing workspace, use `D:\Backend\env\Scripts\python.exe`. On macOS/Linux, create the environment with `python3 -m venv env` and activate it with `source env/bin/activate`.
 
-## Useful Development Commands
+Open `http://127.0.0.1:8000/` and `http://127.0.0.1:8000/admin/`. Add catalog records and upload images through Admin; no automatic catalog seed migration is provided.
 
-```powershell
-python manage.py check
-python manage.py makemigrations --check --dry-run
-python manage.py showmigrations
-python manage.py test
-python manage.py runserver
-```
+## Media and migrations
 
-The committed SQLite database, uploaded media, collected static files, virtual environments, and environment files are excluded by `.gitignore`. Each developer must run migrations and create their own local data.
+`MEDIA_ROOT` is `BASE_DIR / 'media'`, served under `/media/` during development. Uploaded media, SQLite databases, virtual environments, and collected static files are ignored by Git.
 
-## Frontend State
+During recovery, 28 files were copied from the old `store/media/` directory to `media/`, preserving the originals. All 24 database image references now resolve. Both media locations are ignored. Fresh environments need their own uploads or an explicit copy of existing media.
 
-The frontend is currently mixed while the customer-facing layout is being consolidated.
-
-- `home.html`, `base.html`, the shared includes, and `categories.html` are live Django templates.
-- The homepage reads the Department → Category → SubCategory hierarchy dynamically from Django Admin data.
-- The homepage uses category imagery, a generated promotional hero image, keyboard-accessible department menus, and reduced-motion support.
-- `register.html` uses a real Django form and static-file tag.
-- Several root templates are static React CDN prototypes.
-- Prototype navigation uses relative `.html` links instead of Django named URLs.
-- Prototype product and cart data is hardcoded.
-- Some Django views reference template paths that do not currently exist.
-
-For an integrated Django frontend, the recommended structure is:
-
-```text
-ecommerce/templates/
-|-- base.html
-`-- includes/
-    |-- header.html
-    `-- footer.html
-
-store/templates/store/
-|-- product_list.html
-`-- product_detail.html
-
-accounts/templates/accounts/
-|-- login.html
-`-- register.html
-
-carts/templates/carts/
-`-- cart.html
-```
-
-Use Django template inheritance, `{% static %}`, `{% url %}`, and server-rendered context data. Small JavaScript components can be added for interactions without separating the frontend.
-
-If the project later adopts Next.js or standalone React, keep Django as the backend and expose the existing domain through Django REST Framework. The models, migrations, admin configuration, and most business rules can remain; the Django page views and templates would be replaced or supplemented by API endpoints.
-
-## Known Issues
-
-These issues are present in the current code and should not surprise the next developer:
-
-1. `store.views.product_detail()` has the correct slug lookup, but `store/product_detail.html` has not been created.
-2. Homepage product cards link to their collection until the product-detail template is implemented.
-3. `carts.views.add_cart()` raises a server error for an invalid product ID instead of returning 404.
-4. Cart quantity updates, removals, and size-specific cart items are not implemented.
-5. The login template is still a static React prototype and is not wired to the Django login form fields.
-6. The configured email setting is named `MAILERS`; Django normally expects `EMAIL_BACKEND` or an appropriate installed-package configuration.
-7. Orders have models and a migration, but there are no checkout views, payment calls, webhook handlers, or order tests.
-8. `SECRET_KEY`, `DEBUG`, and `ALLOWED_HOSTS` are development values and are not production-safe.
-
-## Recommended Next Steps
-
-Complete work in this order to avoid building UI on unstable routes:
-
-1. Build `store/product_detail.html` using the shared storefront layout.
-2. Finish product cards and catalog pages with live images, prices, and add-to-cart actions.
-3. Add cart quantity update, removal, and selected-size support.
-4. Build the checkout, order creation, Stripe session, and webhook workflow around the existing order models.
-5. Wire the account templates into the shared layout and Django forms.
-6. Add tests for product detail, cart mutations, account flows, and orders.
-7. Move secrets and environment-specific settings into environment variables.
-8. Switch to PostgreSQL and production storage when preparing deployment.
+The existing migrations `carts.0002_cartitem_size` and `orders.0002_shipping_details` are applied in the local database. Run `migrate` in other environments. Legacy clothing cart rows have no recorded size and must be removed and re-added; free-size and unsized rows receive their known size.
 
 ## Validation
 
-At the time of this README update, the following command passes:
+Verified on 2026-10-15:
 
 ```powershell
 .\env\Scripts\python.exe manage.py check
+.\env\Scripts\python.exe manage.py makemigrations --check --dry-run
+.\env\Scripts\python.exe manage.py migrate --check
+.\env\Scripts\python.exe manage.py test --verbosity 1
+git diff --check
 ```
 
-The focused suite currently covers the homepage, department filtering, category/subcategory routing, product inventory, and an empty cart. Run the full suite before production changes.
+All **89 tests pass**, Django reports no system-check issues, and there is no migration drift or pending migration. Tests cover catalog/search/detail rendering, stock rules, cart mutations and isolation, bag counts, registration/login/logout, CSRF, safe redirects, shipping snapshots, and Admin access.
 
-## Product Direction
+A browser check at 1440px and 390px verified product and account pages, add-to-bag, shipping save/review, registration, sign-in, and guest-cart preservation using a temporary database copy. No local asset failures, page script errors, or horizontal overflow occurred on the checked pages. Screenshots were visually inspected.
 
-The design brief is stored in `ecommerce/templates/PRODUCT.md`. The storefront implementation notes are in `HOMEPAGE.md`. The intended experience is elegant, celebratory, premium, and culturally rooted, with accessible navigation and strong product imagery for sarees and other occasion wear.
+## Remaining work
 
-Target WCAG AA contrast, keyboard-friendly navigation, descriptive image alternatives, readable forms, and reduced-motion support.
+1. Integrate the catalog and cart with the shared storefront layout.
+2. Build payment completion around the existing draft-order models, rechecking price and stock before payment and fulfilment.
+3. Calculate delivery charges/serviceability and send confirmed order notifications.
+4. Add the deferred catalog fields and corresponding Admin/UI support.
+5. Move secrets and environment-specific settings into environment variables and prepare production database/storage/deployment.
 
-## Development Notes
+The current `SECRET_KEY`, `DEBUG`, and `ALLOWED_HOSTS` are development settings. The console email backend is configured, but order-email workflows are not implemented.
 
-- Keep changes focused and create migrations for every model change.
-- Run `manage.py check` before committing.
-- Add tests alongside new backend behavior.
-- Do not commit the virtual environment, local database, uploaded media, collected static files, or secrets.
-- Prefer Django ORM queries over raw SQL unless profiling demonstrates a specific need.
-- Preserve the existing custom user model; changing `AUTH_USER_MODEL` after migrations is expensive.
-- Explain architectural changes before implementing them when collaborating with the project owner.
+## Documentation
+
+- [HANDOFF.md](HANDOFF.md): current development state and next tasks.
+- [RECOVERY_REVIEW.md](RECOVERY_REVIEW.md): defects found, recovery actions, backup, and verification.
+- [CART_IMPLEMENTATION.md](CART_IMPLEMENTATION.md): cart routes and migration behavior.
+- [SHIPPING_IMPLEMENTATION.md](SHIPPING_IMPLEMENTATION.md): shipping validation and draft-order behavior.
+- [HOMEPAGE.md](HOMEPAGE.md): storefront assets and homepage behavior.
+- [PRODUCT.md](PRODUCT.md) and [detailed product requirements](ecommerce/templates/PRODUCT.md): brand direction and catalog requirements.
+
+Keep migrations with model changes, test backend behavior, preserve the custom user model, and keep local data and secrets out of Git.

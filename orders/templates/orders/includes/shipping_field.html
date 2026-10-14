@@ -1,0 +1,6 @@
+<div class="shipping-field {% if field.name == 'shipping_address_line1' or field.name == 'shipping_address_line2' or field.name == 'shipping_landmark' or field.name == 'shipping_instructions' %}shipping-field-wide{% endif %}">
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {{ field }}
+    {% if field.help_text %}<p id="{{ field.id_for_label }}_helptext" class="shipping-help">{{ field.help_text }}</p>{% endif %}
+    {{ field.errors }}
+</div>

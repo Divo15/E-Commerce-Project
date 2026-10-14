@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 
 from carts.models import Cart
-from store.models import Product
+from store.models import Product, ProductInventory
 
 
 class Order(models.Model):
@@ -32,6 +32,17 @@ class Order(models.Model):
         default=PaymentStatus.PENDING,
     )
     total_amount = models.PositiveIntegerField()
+    shipping_name = models.CharField(max_length=150, blank=True)
+    shipping_email = models.EmailField(max_length=254, blank=True)
+    shipping_phone = models.CharField(max_length=25, blank=True)
+    shipping_address_line1 = models.CharField(max_length=200, blank=True)
+    shipping_address_line2 = models.CharField(max_length=200, blank=True)
+    shipping_city = models.CharField(max_length=100, blank=True)
+    shipping_state = models.CharField(max_length=100, blank=True)
+    shipping_postal_code = models.CharField(max_length=20, blank=True)
+    shipping_country = models.CharField(max_length=80, blank=True)
+    shipping_landmark = models.CharField(max_length=200, blank=True)
+    shipping_instructions = models.TextField(max_length=500, blank=True)
     stripe_checkout_session_id = models.CharField(
         max_length=255,
         unique=True,
@@ -62,6 +73,7 @@ class OrderItem(models.Model):
     product_name = models.CharField(max_length=200)
     unit_price = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField()
+    size = models.CharField(max_length=20, choices=ProductInventory.Size.choices, blank=True)
 
     @property
     def subtotal(self):

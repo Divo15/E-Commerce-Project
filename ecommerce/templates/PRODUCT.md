@@ -94,7 +94,7 @@ The desktop navigation should use dropdown menus for the complete hierarchy. The
 Home | Categories | Search | Cart | Account
 ```
 
-The mobile `Categories` item should open a dedicated categories page with expandable departments, categories, and subcategories. Use touch-friendly controls. Search should be visible in the navigation but its functionality can be implemented later.
+The mobile `Categories` item should open a dedicated categories page with expandable departments, categories, and subcategories. Use touch-friendly controls. Search is visible in navigation and now supports product-name/description keywords.
 
 ### Product assignment
 
@@ -162,7 +162,7 @@ These decisions were made during project planning and should be treated as the c
 - Use desktop dropdown navigation and mobile-first navigation.
 - Use mobile bottom navigation with `Home`, `Categories`, `Search`, `Cart`, and `Account`.
 - Open `Categories` as a dedicated page with expandable departments, categories, and subcategories.
-- Keep Search visible but defer search functionality.
+- Keep Search visible; keyword functionality is now implemented.
 - Show products directly on category pages rather than requiring a separate subcategory landing page first.
 - Use a two-column mobile product grid.
 - Allow adding products to the cart directly from product cards.
@@ -181,23 +181,29 @@ These decisions were made during project planning and should be treated as the c
 
 ## Current Implementation Status
 
+Verified on 2026-10-15. See [recovery review](../../RECOVERY_REVIEW.md).
+
 Implemented:
 
-- `Department` model with unique name and slug.
-- Optional department relationship on `Category`.
-- Department, category, and subcategory Admin registration and category filtering in Admin.
-- Department-aware catalog route structure.
-- Category descriptions remain available.
-- Subcategory descriptions remain available.
-- Department descriptions are intentionally not used.
-- Existing product image field, category image field, and session cart remain available.
-- Product many-to-many subcategory assignments with same-category validation.
-- Product size types and quantity-based inventory per size.
+- Department/category/subcategory models, Admin management, descriptions, and department-aware routing.
+- Product subcategory assignments with same-category validation.
+- Clothing/free-size/unsized product types and quantity-based stock per size.
+- Three product images, category images, and Admin-managed hero posters.
+- Responsive homepage, desktop department menus, mobile bottom navigation, and category directory.
+- Keyword search and catalog/search pagination.
+- Live product detail with gallery, stocked size choices, and add-to-bag.
+- Size-specific cart rows, stock validation, POST-only mutations, and navigation counts.
+- Guest-cart preservation on sign-in, live registration/sign-in forms, and POST-only logout.
+- Shipping validation, unpaid order/item snapshots, session-scoped review, and read-only Admin access.
 
-Deferred:
+Remaining:
 
-- Manual creation of departments and assignment of existing categories in Admin.
-- Department/category/subcategory image fields beyond the existing category image field.
-- Multiple product image gallery.
-- Fabric, occasion, sale-price, and quantity-inventory fields.
-- Mobile bottom-navigation UI and product-card UI integration.
+- Integrate catalog/cart markup with the shared storefront visual layout and complete product-card imagery/layout.
+- Add fabric/material, occasion, and sale-price fields.
+- Add department/subcategory imagery if required beyond existing category images.
+- Add explicit Admin reordering controls; current catalog ordering follows record creation.
+- Implement payment completion, inventory deduction, delivery charges/serviceability, and order notifications.
+- Prepare production configuration and storage.
+
+Departments and catalog records remain manually managed in Admin. No automatic
+seed migration is added. Shipping drafts are unpaid and do not place an order.

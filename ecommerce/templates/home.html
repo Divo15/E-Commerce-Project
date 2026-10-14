@@ -51,11 +51,11 @@
         <div class="product-grid">
             {% for product in products %}
             <article class="product-card">
-                <a class="product-image" href="{{ product.category.get_url }}" aria-label="Browse {{ product.category.category_name }}: {{ product.product_name }}">{% if product.image_1 %}<img src="{{ product.image_1.url }}" alt="{{ product.product_name }}" width="400" height="520" loading="lazy">{% else %}<span class="image-placeholder">Image coming soon</span>{% endif %}</a>
+                <a class="product-image" href="{{ product.get_url }}" aria-label="View {{ product.product_name }}">{% if product.image_1 %}<img src="{{ product.image_1.url }}" alt="{{ product.product_name }}" width="400" height="520" loading="lazy">{% else %}<span class="image-placeholder">Image coming soon</span>{% endif %}</a>
                 <p class="product-category">{{ product.category.category_name }}</p>
                 <h3>{{ product.product_name }}</h3>
                 <p class="product-price">₹{{ product.price }}</p>
-                <a class="text-link" href="{{ product.category.get_url }}">View collection <span aria-hidden="true">↗</span></a>
+                <a class="text-link" href="{{ product.get_url }}">View product <span aria-hidden="true">↗</span></a>
             </article>
             {% endfor %}
         </div>

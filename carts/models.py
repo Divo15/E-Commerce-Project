@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 
-from store.models import Product
+from store.models import Product, ProductInventory
 
 
 class Cart(models.Model):
@@ -23,6 +23,12 @@ class CartItem(models.Model):
         on_delete=models.CASCADE,
         related_name='cart_items',
     )
+    size = models.CharField(
+        max_length=20,
+        choices=ProductInventory.Size.choices,
+        blank=True,
+        default='',
+    )
     quantity = models.PositiveIntegerField(
         default=1,
         validators=[MinValueValidator(1)],
@@ -32,8 +38,8 @@ class CartItem(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=('cart', 'product'),
-                name='unique_product_per_cart',
+                fields=('cart', 'product', 'size'),
+                name='unique_product_size_per_cart',
             ),
         ]
 

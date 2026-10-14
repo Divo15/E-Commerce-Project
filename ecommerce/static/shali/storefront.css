@@ -62,6 +62,9 @@ summary::-webkit-details-marker { display: none; }
 .header-actions { display: flex; gap: 4px; }
 .icon-button { border: 0; background: transparent; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; }
 .icon-button:hover { color: var(--burgundy); background: var(--surface); }
+.bag-link { position: relative; }
+.bag-count { position: absolute; top: 0; right: -3px; min-width: 20px; padding: 1px 4px; border-radius: 12px; background: var(--burgundy); color: var(--background); font: 700 10px/18px var(--body); text-align: center; }
+.home-page .bag-count { background: var(--gold); color: var(--burgundy-deep); }
 .mega-menu { position: absolute; left: 0; right: 0; top: 100%; background: var(--background); border-bottom: 1px solid var(--line); padding: 36px max(48px, calc((100vw - 1320px) / 2)); display: grid; grid-template-columns: 230px 1fr; gap: 48px; max-height: calc(100dvh - 150px); overflow-y: auto; box-shadow: 0 6px 8px #26091412; }
 .display-small { font-size: 32px; margin-bottom: 12px; }
 .mega-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 28px; }
