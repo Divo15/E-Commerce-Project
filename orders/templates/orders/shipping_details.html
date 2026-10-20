@@ -9,6 +9,7 @@
         <h1>Where should we deliver?</h1>
         <p>Add your contact details and delivery address. Fields marked optional can be left blank.</p>
     </header>
+    {% for message in messages %}<div class="shipping-feedback" role="alert"><p>{{ message }}</p></div>{% endfor %}
     <div class="shipping-layout">
         <form class="shipping-form" method="post" action="{% url 'orders:shipping_details' %}" novalidate>
             {% csrf_token %}

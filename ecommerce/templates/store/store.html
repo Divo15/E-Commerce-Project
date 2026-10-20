@@ -1,78 +1,54 @@
-<h1>{% if is_search %}Search results{% else %}Store{% endif %}</h1>
-
-{% include 'includes/search_form.html' %}
-
-{% if is_search and keyword %}
-    <p>Results for &ldquo;{{ keyword }}&rdquo;</p>
-{% endif %}
-
-<nav>
-    <a href="{% url 'store:store' %}">All products</a>
-    {% for category in links %}
-        <a href="{{ category.get_url }}">{{ category.category_name }}</a>
-    {% endfor %}
-</nav>
-
-{% if selected_category %}
-    <h2>{{ selected_category.category_name }}</h2>
-    <nav>
+{% extends 'base.html' %}
+{% load static %}
+{% block body_class %}catalog-store{% endblock %}
+{% block title %}{% if is_search %}Search results{% elif selected_subcategory %}{{ selected_subcategory.subcategory_name }}{% elif selected_category %}{{ selected_category.category_name }}{% elif selected_department %}{{ selected_department.department_name }}{% else %}All collections{% endif %} — Shali Collections{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'shali/commerce.css' %}">
+<link rel="stylesheet" href="{% static 'shali/catalog-cart.css' %}?v=catalog-larger-logo-20261021">
+{% endblock %}
+{% block content %}
+<section class="section page-width catalog-page">
+    <header class="catalog-heading">
+        <div class="catalog-heading-copy">
+            <h1>{% if is_search %}Search results{% elif selected_subcategory %}{{ selected_subcategory.subcategory_name }}{% elif selected_category %}{{ selected_category.category_name }}{% elif selected_department %}{{ selected_department.department_name }}{% else %}All collections{% endif %}</h1>
+            {% if is_search and keyword %}<p>Results for &ldquo;{{ keyword }}&rdquo;</p>
+            {% elif selected_subcategory.description %}<p>{{ selected_subcategory.description }}</p>
+            {% elif selected_category.description %}<p>{{ selected_category.description }}</p>{% endif %}
+        </div>
+    </header>
+    {% if selected_category %}
+    <nav class="catalog-navigation catalog-subcategories" aria-label="Shop {{ selected_category.category_name }} subcategories">
+        <a href="{{ selected_category.get_url }}" {% if not selected_subcategory %}aria-current="page"{% endif %}>All {{ selected_category.category_name }}</a>
         {% for subcategory in selected_category.subcategories.all %}
-            <a href="{{ subcategory.get_url }}">{{ subcategory.subcategory_name }}</a>
+        <a href="{{ subcategory.get_url }}" {% if subcategory.pk == selected_subcategory.pk %}aria-current="page"{% endif %}>{{ subcategory.subcategory_name }}</a>
         {% endfor %}
     </nav>
-{% endif %}
-
-{% if selected_subcategory %}
-    <h3>{{ selected_subcategory.subcategory_name }}</h3>
-{% endif %}
-
-<p>{{ product_count }} product{{ product_count|pluralize }}</p>
-
-{% for product in products %}
-    <article>
-        <h2><a href="{{ product.get_url }}">{{ product.product_name }}</a></h2>
-        <p>{{ product.description }}</p>
-        <p>{{ product.price }}</p>
-        <form method="post" action="{% url 'add_cart' product.pk %}">
-            {% csrf_token %}
-            {% if product.size_type == 'clothing' %}
-                <label for="size-{{ product.pk }}">Size for {{ product.product_name }}</label>
-                <select name="size" id="size-{{ product.pk }}" required>
-                    <option value="">Select size</option>
-                    {% for inventory in product.inventory.all %}
-                        {% if inventory.quantity %}
-                            {% if inventory.size == 's' or inventory.size == 'xl' or inventory.size == 'xxl' %}
-                                <option value="{{ inventory.size }}">{{ inventory.get_size_display }}</option>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                </select>
-            {% endif %}
-            <button type="submit">Add to cart</button>
-        </form>
-    </article>
-{% empty %}
-    {% if is_search %}
-        {% if keyword %}
-            <p>No products match your search. Try another keyword.</p>
-        {% else %}
-            <p>Enter a keyword to search products.</p>
-        {% endif %}
-    {% else %}
-        <p>No products are available.</p>
     {% endif %}
-{% endfor %}
-
-{% if products.has_other_pages %}
-<nav aria-label="Product pagination">
-    {% if products.has_previous %}
+    <p class="catalog-results-count">{{ product_count }} product{{ product_count|pluralize }}{% if products.paginator.num_pages > 1 %} · Showing {{ products.start_index }}–{{ products.end_index }}{% endif %}</p>
+    {% if products %}
+    <div class="product-grid catalog-grid" aria-label="Products">
+        {% for product in products %}{% include 'store/includes/product_card.html' %}{% endfor %}
+    </div>
+    {% else %}
+    <div class="shop-empty">
+        {% if is_search %}<h2>A little more discovery.</h2>
+            {% if keyword %}<p>No products match your search. Try another keyword.</p>{% else %}<p>Enter a keyword to search products.</p>{% endif %}
+        {% else %}<h2>Something lovely is on its way.</h2><p>No products are available.</p>{% endif %}
+        <a class="button button-burgundy" href="{% url 'categories' %}">Explore collections <span aria-hidden="true">↗</span></a>
+    </div>
+    {% endif %}
+    {% if products.has_other_pages %}
+    <nav class="catalog-pagination" aria-label="Product pagination">
+        {% if products.has_previous %}
         <a href="{% querystring page=1 %}">First</a>
         <a href="{% querystring page=products.previous_page_number %}" rel="prev">Previous</a>
-    {% endif %}
-    <span>Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
-    {% if products.has_next %}
+        {% endif %}
+        <span>Page {{ products.number }} of {{ products.paginator.num_pages }}</span>
+        {% if products.has_next %}
         <a href="{% querystring page=products.next_page_number %}" rel="next">Next</a>
         <a href="{% querystring page=products.paginator.num_pages %}">Last</a>
+        {% endif %}
+    </nav>
     {% endif %}
-</nav>
-{% endif %}
+</section>
+{% endblock %}

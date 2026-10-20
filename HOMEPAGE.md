@@ -37,14 +37,19 @@ Web fonts load from Google Fonts with local serif/sans-serif fallbacks.
 - Upload category images through Django Admin. Existing media remain local;
   the repository ignores `media/`, so another environment needs its own uploads.
 - Search is functional: the dialog and catalog submit keywords to `/store/search/`.
+- Category links retain native horizontal scrolling and keyboard access. Previous
+  and next controls appear only when JavaScript is available and the rail overflows;
+  controls disable at the corresponding end. Reduced-motion mode scrolls instantly.
 - New-arrival cards link to live product-detail pages.
+- Missing images use the shared fallback behavior. Empty categories and new
+  arrivals retain their useful empty states.
 - Header and mobile bag links show the current session's active-unit count.
 
 ## Scope
 
 The homepage and category directory retain the established visual system.
-Product detail, sign-in, registration, and shipping pages now use the shared
-layout; catalog/cart styling remains follow-up work. Search, cart size selection,
+Catalog/search, cart, product detail, sign-in, registration, and shipping pages use
+the shared layout. Catalog/cart details are in `CATALOG_IMPLEMENTATION.md`. Search, cart size selection,
 and shipping-draft saving are implemented. Payment completion, newsletter
 subscriptions, reviews, and delivery-rate/serviceability rules remain unfinished.
 

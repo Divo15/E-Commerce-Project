@@ -19,10 +19,12 @@ Using an app-namespaced template path avoids collisions with templates owned by 
 | `cart_items` | Active, size-specific `CartItem` records for the current browser session. |
 | `quantity` | Sum of the quantities of all active cart items. |
 | `total` | Sum of all cart-item subtotals. |
+| `has_stock_issues` | Whether any active row needs correction/removal before continuing to shipping. |
 
 Each `cart_item` exposes `product`, `size`, `quantity`, and the calculated
 `subtotal` property. The cart view also provides `available_quantity` and
 `stock_message` for each row, so stock changes are visible to the shopper.
+`product_url` is supplied only when the item is available and has a department path.
 
 ## Current behaviour
 
@@ -49,7 +51,13 @@ Each `cart_item` exposes `product`, `size`, `quantity`, and the calculated
 - The cart displays errors and POST forms for quantity changes and removal.
 - Tests cover sizes, stock limits, totals, session isolation, CSRF, request methods,
   inactive items, legacy items, catalog forms, and the data migration.
-- The current cart markup is intentionally minimal and does not yet inherit the shared Shali storefront layout.
+- The cart inherits the shared Shali layout and uses live item images, size/price
+  information, accessible quantity controls, removal actions, and a bag summary.
+- The summary stays alongside items on desktop and follows the items on phones.
+  Delivery charges remain unconfirmed; no shipping amount is invented.
+- The shipping link is replaced by a disabled control when stock/size issues exist.
+  Updating or removing the affected rows restores the link. Shipping POST still
+  independently validates stock.
 
 ## Mutation routes
 
@@ -71,6 +79,7 @@ Those rows show a request to remove and re-add the product with a selected size.
 ## Validation
 
 Run `python manage.py test carts` and `python manage.py makemigrations --check --dry-run`.
-Verified on 2026-10-15 as part of the passing 89-test suite. Shipping-address
+Verified on 2026-10-15 as part of the passing 90-test suite. Shipping-address
 collection and draft review are implemented; see `SHIPPING_IMPLEMENTATION.md`.
-Shared catalog/cart styling and payment completion remain follow-up work.
+Catalog/cart styling is complete; payment completion remains follow-up work.
+See `CATALOG_IMPLEMENTATION.md` for responsive and browser verification.

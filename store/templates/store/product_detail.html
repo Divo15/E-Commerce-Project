@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}{{ single_product.product_name }} — Shali Collections{% endblock %}
-{% block extra_head %}<link rel="stylesheet" href="{% static 'shali/commerce.css' %}">{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'shali/commerce.css' %}?v=product-gallery-20261020">
+<script src="{% static 'shali/product-gallery.js' %}?v=product-gallery-20261020" defer></script>
+{% endblock %}
 {% block content %}
 <section class="section page-width commerce-page">
     <nav class="commerce-breadcrumbs" aria-label="Breadcrumb">
@@ -10,13 +13,24 @@
         <span aria-current="page">{{ single_product.product_name }}</span>
     </nav>
     <div class="product-detail-layout">
-        <div class="product-gallery" aria-label="Product images">
+        {% if product_images %}
+        <div class="product-gallery-shell" data-product-gallery>
+            <div class="product-gallery" data-gallery-track role="region" aria-label="Product images" aria-roledescription="carousel" tabindex="0">
             {% for image in product_images %}
-                <a href="{{ image.url }}" aria-label="Open image {{ forloop.counter }} of {{ single_product.product_name }}">
+                <a class="product-gallery-slide" data-gallery-slide href="{{ image.url }}" role="group" aria-label="Image {{ forloop.counter }} of {{ product_images|length }}: {{ single_product.product_name }}">
                     <img src="{{ image.url }}" alt="{{ single_product.product_name }} — view {{ forloop.counter }}" width="600" height="750" {% if not forloop.first %}loading="lazy"{% endif %}>
                 </a>
-            {% empty %}<p class="product-image-empty">Image coming soon</p>{% endfor %}
+            {% endfor %}
+            </div>
+            {% if product_images|length > 1 %}
+            <div class="product-gallery-controls" aria-label="Product image controls">
+                <button class="product-gallery-arrow" type="button" data-gallery-prev aria-label="Previous product image"><span aria-hidden="true">←</span></button>
+                <span class="product-gallery-position" aria-live="polite"><span data-gallery-current>1</span> / {{ product_images|length }}</span>
+                <button class="product-gallery-arrow" type="button" data-gallery-next aria-label="Next product image"><span aria-hidden="true">→</span></button>
+            </div>
+            {% endif %}
         </div>
+        {% else %}<p class="product-image-empty">Image coming soon</p>{% endif %}
         <div class="product-detail-copy">
             <h1>{{ single_product.product_name }}</h1>
             <p class="detail-price">₹{{ single_product.price }}</p>

@@ -227,13 +227,41 @@ class ShippingDetailsTests(TestCase):
     def test_review_displays_saved_address_and_does_not_claim_order_is_placed(self):
         self.add_item()
         self.client.post(self.shipping_url, self.data)
-        Product.objects.filter(pk=self.product.pk).update(product_name='Changed name', price=2000)
+        Product.objects.filter(pk=self.product.pk).update(product_name='Changed name')
         response = self.client.get(self.review_url)
         self.assertContains(response, '12 Market Road')
         self.assertContains(response, 'Dress')
         self.assertNotContains(response, 'Changed name')
         self.assertContains(response, 'Your order has not been placed')
         self.assertIn('no-store', response['Cache-Control'])
+
+    def test_review_requires_resave_after_cart_quantity_changes(self):
+        self.add_item()
+        self.client.post(self.shipping_url, self.data)
+        order = Order.objects.get()
+        self.client.post(reverse('update_cart', args=[CartItem.objects.get().pk]), {'quantity': 3})
+
+        response = self.client.get(self.review_url, follow=True)
+        self.assertRedirects(response, self.shipping_url)
+        self.assertContains(response, 'Your bag changed. Save shipping details again')
+        self.assertEqual(response.context['form']['shipping_address_line1'].value(), '12 Market Road')
+        self.assertEqual(order.total_amount, 3000)
+
+        self.client.post(self.shipping_url, self.data)
+        order.refresh_from_db()
+        self.assertEqual(order.total_amount, 4500)
+        self.assertEqual(order.items.get().quantity, 3)
+        self.assertEqual(self.client.get(self.review_url).status_code, 200)
+
+    def test_review_requires_resave_after_product_price_changes(self):
+        self.add_item()
+        self.client.post(self.shipping_url, self.data)
+        Product.objects.filter(pk=self.product.pk).update(price=2000)
+
+        self.assertRedirects(self.client.get(self.review_url), self.shipping_url)
+        self.client.post(self.shipping_url, self.data)
+        self.assertEqual(Order.objects.get().total_amount, 4000)
+        self.assertEqual(self.client.get(self.review_url).status_code, 200)
 
     def test_saved_content_is_escaped(self):
         self.add_item()

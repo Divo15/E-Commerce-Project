@@ -1,72 +1,125 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block body_class %}home-page{% endblock %}
+{% block body_class %}home-page home-redesign{% endblock %}
+{% block announcement %}<div class="announcement">Shali Collections <span aria-hidden="true">·</span> Singapore &amp; India</div>{% endblock %}
+{% block search_intro %}{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'shali/landing.css' %}?v=ivory-category-labels-20261021">
+<script src="{% static 'shali/landing.js' %}?v=mobile-20261020" defer></script>
+{% endblock %}
 {% block content %}
-<section class="hero" aria-labelledby="hero-title">
-    <div class="hero-visual">
+<section class="landing-hero{% if hero_poster %} landing-hero-poster{% endif %}" aria-labelledby="hero-title">
+    <div class="landing-hero-media">
         {% if hero_poster %}
-        <img class="hero-image" src="{{ hero_poster.image.url }}" alt="{{ hero_poster.alt_text }}" width="1774" height="887" fetchpriority="high">
+        <img class="landing-hero-photo" src="{{ hero_poster.image.url }}" alt="{{ hero_poster.alt_text }}" width="1024" height="1280" fetchpriority="high">
         {% else %}
-        <img class="hero-image" src="{% static 'shali/hero-campaign.webp' %}" alt="A model wearing a burgundy and gold saree in a sandstone courtyard" width="1774" height="887" fetchpriority="high">
+        <img class="landing-hero-photo landing-hero-campaign" src="{% static 'shali/hero-campaign.webp' %}" alt="A model wearing a burgundy and gold saree in a sandstone courtyard" width="1774" height="887" fetchpriority="high">
         {% endif %}
     </div>
-    <div class="hero-copy">
-        <h1 id="hero-title">Elegance<br><span>Redefined.</span></h1>
-        <p class="hero-description">Rich colours. Beautiful details. Discover pieces for life's celebrations, big and small.</p>
-        <a class="button button-gold" href="{% url 'categories' %}">Shop collection <span aria-hidden="true">↗</span></a>
+    <div class="landing-hero-copy">
+        <div class="landing-hero-intro">
+            <p>Ethnic wear &amp; jewellery.<br> For every version of you.</p>
+            <a class="landing-button" href="{% url 'categories' %}">Explore collections <span aria-hidden="true">↗</span></a>
+        </div>
+        <h1 id="hero-title" class="landing-wordmark">Shali</h1>
+        <div class="landing-hero-bottom"><span>Tradition, worn your way.</span><a href="#new-arrivals">Discover new arrivals</a></div>
     </div>
 </section>
-<div class="brand-ribbon" aria-label="Brand motto"><span>For every day</span><span aria-hidden="true">✦</span><span>For every celebration</span><span aria-hidden="true">✦</span><span>For every you</span></div>
 
-<section class="section page-width category-section" id="collections" aria-labelledby="category-heading">
-    <div class="section-heading"><div><p class="eyebrow">A world of Shali</p><h2 id="category-heading">What speaks to you?</h2></div><a class="text-link" href="{% url 'categories' %}">All categories <span aria-hidden="true">↗</span></a></div>
-    <nav class="category-rail" aria-label="Shop by category">
-        {% for category in home_categories %}
-        <a class="category-circle" href="{{ category.get_url }}">
-            <span class="category-image">{% if category.category_image %}<img src="{{ category.category_image.url }}" alt="" width="200" height="200" loading="lazy">{% else %}<span class="image-placeholder">{{ category.category_name|first }}</span>{% endif %}</span>
-            <span>{{ category.category_name }}</span>
-        </a>
-        {% empty %}<p class="empty-note">Our collections are taking shape. Visit again soon to discover what's new.</p>{% endfor %}
-    </nav>
-</section>
-
-{% if featured_categories %}
-<section class="section page-width edits-section" aria-labelledby="edits-heading">
-    <div class="section-heading"><h2 id="edits-heading">A little more <em>you.</em></h2><p>Find your favourites.<br>Make them your own.</p></div>
-    <div class="collection-grid">
-        {% for category in featured_categories %}
-        <a class="collection-tile" href="{{ category.get_url }}">
-            <div class="collection-image"><img src="{{ category.category_image.url }}" alt="{{ category.category_name }} collection" loading="lazy" width="650" height="750"></div>
-            <div class="collection-caption"><div><p>{{ category.department.department_name }}</p><h3>{{ category.category_name }}</h3></div><span class="round-arrow" aria-hidden="true">↗</span></div>
+<section class="landing-collections landing-section landing-width" id="collections" aria-label="Shop collections">
+    <div class="landing-section-heading" data-arrive>
+        <p>Start with a silhouette.<br> Make the look your own.</p>
+    </div>
+    {% if home_categories %}
+    <div class="landing-collection-layout">
+        <div class="landing-collection-preview" id="collection-preview">
+            {% for category in home_categories %}
+            {% if category.category_image %}
+            <a class="landing-preview{% if category == hero_category %} is-active{% endif %}" href="{{ category.get_url }}" data-preview="{{ category.pk }}" {% if category != hero_category %}hidden{% endif %}>
+                <img src="{{ category.category_image.url }}" alt="{{ category.category_name }} collection" width="800" height="1000" loading="lazy">
+                <span class="landing-preview-caption"><span data-preview-name>{{ category.category_name }}</span><span>View collection</span></span>
+            </a>
+            {% endif %}
+            {% endfor %}
+            {% if not hero_category %}<p class="landing-collection-note">Choose a collection to discover the pieces inside.</p>{% endif %}
+        </div>
+        <div class="landing-collection-index">
+            <nav aria-label="Shop by category">
+                {% for category in home_categories %}
+                <div class="landing-category-row" data-arrive>
+                    <a href="{{ category.get_url }}" class="landing-category-link{% if category == hero_category %} is-active{% endif %}" data-category="{{ category.pk }}">
+                        <span>{{ category.category_name }}</span>
+                        <span class="landing-category-department">{{ category.department.department_name }}</span>
+                    </a>
+                    {% if category.category_image %}<button class="landing-preview-button" type="button" data-show-preview="{{ category.pk }}" aria-label="Preview {{ category.category_name }}" aria-controls="collection-preview" aria-pressed="{% if category == hero_category %}true{% else %}false{% endif %}" hidden><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>{% endif %}
+                </div>
+                {% endfor %}
+            </nav>
+            <a class="landing-text-link" href="{% url 'categories' %}">Browse all categories</a>
+        </div>
+    </div>
+    {% if mobile_categories %}
+    <nav class="landing-mobile-categories" aria-label="Featured categories">
+        {% for category in mobile_categories %}
+        <a class="landing-mobile-category" href="{{ category.get_url }}" data-arrive>
+            <span class="landing-mobile-category-photo">
+                <img src="{{ category.category_image.url }}" alt="" width="480" height="720" loading="lazy">
+            </span>
+            <span class="landing-mobile-category-label">{{ category.category_name }}</span>
         </a>
         {% endfor %}
-    </div>
+    </nav>
+    <a class="landing-mobile-all landing-text-link" href="{% url 'categories' %}">Browse all categories</a>
+    {% endif %}
+    <p class="landing-preview-status" role="status" aria-atomic="true"></p>
+    {% else %}<p class="landing-empty-note">Our collections are taking shape. Visit again soon to discover what's new.</p>{% endif %}
 </section>
-{% endif %}
 
-<section class="section arrivals-section" aria-labelledby="arrivals-heading">
-    <div class="page-width">
-        <div class="section-heading"><div><p class="eyebrow">Fresh discoveries</p><h2 id="arrivals-heading">Your next favourite.</h2></div><a class="text-link" href="{% url 'store:store' %}">Explore the store <span aria-hidden="true">↗</span></a></div>
-        {% if products %}
-        <div class="product-grid">
-            {% for product in products %}
-            <article class="product-card">
-                <a class="product-image" href="{{ product.get_url }}" aria-label="View {{ product.product_name }}">{% if product.image_1 %}<img src="{{ product.image_1.url }}" alt="{{ product.product_name }}" width="400" height="520" loading="lazy">{% else %}<span class="image-placeholder">Image coming soon</span>{% endif %}</a>
-                <p class="product-category">{{ product.category.category_name }}</p>
-                <h3>{{ product.product_name }}</h3>
-                <p class="product-price">₹{{ product.price }}</p>
-                <a class="text-link" href="{{ product.get_url }}">View product <span aria-hidden="true">↗</span></a>
+<section class="landing-arrivals" id="new-arrivals" aria-label="New arrivals">
+    <div class="landing-width landing-section">
+        {% if product_rows %}
+        {% for category in product_rows %}
+        <section class="landing-product-row" aria-labelledby="product-row-{{ category.pk }}">
+            <div class="landing-product-row-heading">
+                <h2 id="product-row-{{ category.pk }}">{{ category.category_name }}</h2>
+                <a class="landing-text-link" href="{{ category.get_url }}" aria-label="View all {{ category.category_name }}">View all <span aria-hidden="true">↗</span></a>
+            </div>
+        <div class="landing-products" role="region" aria-label="{{ category.category_name }} products" tabindex="0">
+            {% for product in category.home_products %}
+            <article class="landing-product" data-arrive>
+                <a href="{{ product.get_url }}" class="landing-product-photo">
+                    {% if product.image_1 %}<img src="{{ product.image_1.url }}" alt="{{ product.product_name }}" width="800" height="1040" loading="lazy">{% else %}<span class="image-placeholder">Image coming soon</span>{% endif %}
+                    <span class="landing-product-discover">View piece</span>
+                </a>
+                <div class="landing-product-details">
+                    <p class="landing-product-name"><a href="{{ product.get_url }}">{{ product.product_name }}</a></p>
+                    <p class="landing-product-price">₹{{ product.price }}</p>
+                </div>
             </article>
             {% endfor %}
         </div>
+        </section>
+        {% endfor %}
         {% else %}
-        <div class="arrivals-empty"><span class="empty-flower" aria-hidden="true">✦</span><div><h3>Something lovely is on its way.</h3><p>We're getting our latest pieces ready. Until then, discover the collections and find your style.</p></div><a class="text-link" href="{% url 'categories' %}">Discover collections <span aria-hidden="true">↗</span></a></div>
+        <div class="landing-empty"><p class="landing-empty-title">Something lovely is on its way.</p><p>We're getting our latest pieces ready. Until then, explore the collections.</p><a class="landing-text-link" href="{% url 'categories' %}">Discover collections</a></div>
         {% endif %}
     </div>
 </section>
 
-<section class="story-section page-width" id="our-story" aria-labelledby="story-heading">
-    <div class="story-mark"><img src="{% static 'shali/brand.jpg' %}" alt="Shali Collections brand emblem" width="1254" height="1254" loading="lazy"></div>
-    <div class="story-copy"><p class="eyebrow">The Shali spirit</p><h2 id="story-heading">Tradition you love.<br>A style that's yours.</h2><p>Some things never lose their charm. The richness of a saree. The finishing touch of jewellery. The joy of dressing for a moment that matters.</p><p>Shali brings that spirit to the way you dress today. Familiar, personal, and always a little special.</p><a class="text-link" href="{% url 'categories' %}">Find your Shali <span aria-hidden="true">↗</span></a></div>
-</section>
+{% endblock %}
+
+{% block footer %}
+<footer class="landing-footer">
+    <div class="landing-width">
+        <div class="landing-footer-top">
+            <div class="landing-footer-note" data-arrive><h2>Make it yours.</h2><p>Clothing and jewellery.<br>A world of Shali Collections.</p><a class="landing-text-link" href="{% url 'categories' %}">Explore collections</a></div>
+            <nav aria-label="Footer collections" data-arrive><h2>Collections</h2><a href="{% url 'store:store' %}">All pieces</a>{% for department in departments %}<a href="{{ department.get_url }}">{{ department.department_name }}</a>{% endfor %}</nav>
+            <nav aria-label="Footer account" data-arrive><h2>Your Shali</h2><a href="{% url 'accounts:login' %}">Your account</a><a href="{% url 'accounts:register' %}">Create an account</a><a href="{% url 'cart' %}">Shopping bag</a></nav>
+        </div>
+        <a class="landing-footer-brand" href="{% url 'home' %}" aria-label="Shali Collections home">
+            <img src="{% static 'shali/brand-removebg-preview.png' %}" alt="Shali Collections" width="500" height="500" loading="lazy">
+        </a>
+        <div class="landing-footer-bottom"><span>© {% now 'Y' %} Shali Collections</span><a href="#main-content">Back to top ↑</a></div>
+    </div>
+</footer>
 {% endblock %}

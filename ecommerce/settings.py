@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 import os
+import secrets
+
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +24,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-k%7_#55pge(2!iyn%tm4o#!xi$rq1i@5ajt5dqpbr$bp5gt_hk'
+DEBUG = os.environ.get('DJANGO_DEBUG', 'true').lower() in {'1', 'true', 'yes'}
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') or (secrets.token_urlsafe(50) if DEBUG else '')
+if not SECRET_KEY:
+    raise ImproperlyConfigured('DJANGO_SECRET_KEY is required when DJANGO_DEBUG is disabled.')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    host.strip() for host in os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',') if host.strip()
+]
+if not DEBUG and not ALLOWED_HOSTS:
+    raise ImproperlyConfigured('DJANGO_ALLOWED_HOSTS is required when DJANGO_DEBUG is disabled.')
 
 
 # Application definition

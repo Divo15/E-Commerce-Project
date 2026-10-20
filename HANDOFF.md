@@ -4,7 +4,7 @@ Last verified: **2026-10-15**. The interrupted-work review is complete; see [REC
 
 ## Environment
 
-- Repository: `https://github.com/Divo15/Shaali-E-commerce.git`
+- Repository: `https://github.com/Divo15/E-Commerce-Project.git`
 - Branch: `testing`
 - Workspace: `D:\Backend`
 - Python: 3.12.13 in `env`
@@ -14,7 +14,7 @@ Last verified: **2026-10-15**. The interrupted-work review is complete; see [REC
 
 ## Verified state
 
-All 89 tests pass. Django system checks, migration drift checks, pending-migration checks, and `git diff --check` pass.
+All 90 tests pass. Django system checks, migration drift checks, pending-migration checks, and `git diff --check` pass.
 
 Local migrations include `store.0008_alter_product_size_type`, `category.0009_heroposter`, `carts.0002_cartitem_size`, and `orders.0002_shipping_details`. The shipping migration was applied during recovery after backing up SQLite.
 
@@ -24,9 +24,10 @@ The current local catalog contains eight products. All 24 database image referen
 
 - Admin-managed department/category/subcategory navigation, category imagery, and hero posters.
 - Responsive homepage and category directory with desktop menus and mobile bottom navigation.
-- Department-aware catalog and keyword search with 12-product pagination.
+- Department-aware catalog/search with 12-product pagination, live image cards, stocked size choices, and a two-column phone grid.
 - Product detail with up to three images, price, description, stock-aware size choices, and add-to-bag.
-- Size-specific session cart, POST-only quantity/removal actions, stock checks, and CSRF protection.
+- Shared-layout session cart with item images, POST-only quantity/removal controls, a responsive summary, stock warnings, and CSRF protection.
+- Shipping navigation is disabled until unavailable, invalid-size, or over-stock rows are corrected or removed; server-side shipping checks remain authoritative.
 - Live bag count; sign-in preserves the guest cart and access to its saved shipping draft.
 - Registration, email sign-in, safe local return URLs, and POST-only logout.
 - Shipping-address form, current-session review, pending order/item snapshots, and read-only Admin details.
@@ -38,7 +39,7 @@ Shipping saves do not place orders, take payment, clear the cart, deduct stock, 
 - `ecommerce/templates/base.html` and `includes/`: shared layout.
 - `home.html`, `categories.html`, `signin.html`, and `register.html`: live Django pages.
 - `store/templates/store/product_detail.html`: live product detail.
-- `ecommerce/templates/store/store.html` and `carts/templates/carts/cart.html`: functional minimal catalog/cart.
+- `ecommerce/templates/store/store.html` and `carts/templates/carts/cart.html`: responsive catalog/search and bag pages using the shared storefront layout.
 - `orders/templates/orders/`: shipping and review.
 - `ecommerce/static/shali/`: storefront CSS/JS, product/account CSS, checkout CSS, brand and hero assets.
 - `carts/context_processors.py`: session-scoped active-unit counter, registered in settings.
@@ -65,10 +66,9 @@ Existing work was preserved. The cart/shipping implementation and recovery fixes
 
 Next tasks:
 
-1. Integrate the minimal catalog/cart markup with the shared storefront layout.
-2. Implement Stripe Checkout, webhooks, confirmed-order completion, and inventory deduction.
-3. Add delivery serviceability, rates, and confirmed order notifications.
-4. Add fabric/material, occasion, and sale-price fields.
-5. Prepare environment-based production settings, database, and storage.
+1. Implement Stripe Checkout, webhooks, confirmed-order completion, and inventory deduction.
+2. Add delivery serviceability, rates, and confirmed order notifications.
+3. Add fabric/material, occasion, and sale-price fields.
+4. Prepare environment-based production settings, database, and storage.
 
-See `CART_IMPLEMENTATION.md`, `SHIPPING_IMPLEMENTATION.md`, `HOMEPAGE.md`, and the product briefs for detailed behavior and scope.
+See `CATALOG_IMPLEMENTATION.md`, `CART_IMPLEMENTATION.md`, `SHIPPING_IMPLEMENTATION.md`, `HOMEPAGE.md`, and the product briefs for detailed behavior and scope.

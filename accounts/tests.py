@@ -3,7 +3,7 @@ from django.urls import reverse
 
 from carts.models import Cart, CartItem
 from category.models import Category, Department
-from orders.models import Order
+from orders.models import Order, OrderItem
 from store.models import Product, ProductInventory
 
 from .models import Account
@@ -37,6 +37,10 @@ class AccountFlowTests(TestCase):
         cart = Cart.objects.get()
         old_session_key = self.client.session.session_key
         order = Order.objects.create(cart=cart, total_amount=3000, shipping_name='Asha Rao')
+        OrderItem.objects.create(
+            order=order, product=product, product_name='Saree',
+            unit_price=1500, quantity=2, size='free_size',
+        )
         session = self.client.session
         session['checkout_order_id'] = order.pk
         session.save()

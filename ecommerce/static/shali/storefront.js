@@ -37,9 +37,33 @@ searchDialog.addEventListener('click', (event) => {
     }
 });
 
+const mobileMenuDialog = document.querySelector('#mobile-menu-dialog');
+let mobileMenuTrigger = null;
+for (const trigger of document.querySelectorAll('[data-mobile-menu-open]')) {
+    trigger.addEventListener('click', () => {
+        mobileMenuTrigger = trigger;
+        mobileMenuDialog.showModal();
+    });
+}
+mobileMenuDialog.querySelector('[data-mobile-menu-close]').addEventListener('click', () => mobileMenuDialog.close());
+mobileMenuDialog.addEventListener('close', () => mobileMenuTrigger?.focus());
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && mobileMenuDialog.open) {
+        event.preventDefault();
+        mobileMenuDialog.close();
+    }
+});
+mobileMenuDialog.addEventListener('click', (event) => {
+    const bounds = mobileMenuDialog.getBoundingClientRect();
+    if (event.target === mobileMenuDialog && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) {
+        mobileMenuDialog.close();
+    }
+});
+
 const mobileLayout = window.matchMedia('(max-width: 900px)');
 mobileLayout.addEventListener('change', () => {
     for (const menu of departmentMenus) menu.open = false;
+    if (!mobileLayout.matches && mobileMenuDialog.open) mobileMenuDialog.close();
 });
 
 for (const image of document.querySelectorAll('main img')) {

@@ -1,0 +1,2179 @@
+{
+ "url": "http://127.0.0.1:8000",
+ "at": "2026-10-20T11:15:47.202Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 6,
+   "filled": [
+    1,
+    0.58,
+    0.6,
+    0.84,
+    0.83,
+    0.86
+   ],
+   "motion": {
+    "elements": 2,
+    "css": 2,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 4821,
+     "screens": 5.4,
+     "words": 316,
+     "img": 19,
+     "video": 0,
+     "canvas": 0,
+     "svg": 20,
+     "sections": 6,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 17,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "jain-textiles-wedding-edit-20261015.jpeg",
+      "WhatsApp_Image_2026-06-12_at_2_u6cLBmq.04.43_PM.",
+      "WhatsApp_Image_2026-09-01_at_10.53.41_PM.jpeg",
+      "ChatGPT_Image_Sep_27_2026_08_20_08_PM_l1UkW0q.pn",
+      "ChatGPT_Image_Sep_27_2026_08_47_09_PM.png",
+      "ChatGPT_Image_Sep_27_2026_08_51_20_PM.png",
+      "ChatGPT_Image_Sep_27_2026_08_56_47_PM_1.png",
+      "f03728e8-cd1f-45b4-8078-e8315d47fbc7.png"
+     ],
+     "blendText": 0,
+     "sideScrollers": 5,
+     "brokenImages": [],
+     "emoji": [
+      "✦"
+     ]
+    },
+    "hero": {
+     "text": "Tradition, with a little you.",
+     "words": 5,
+     "chars": 29,
+     "lines": 3,
+     "size": 80.6,
+     "vw": 5.6,
+     "font": "Prata",
+     "weight": 400,
+     "tracking": -0.035,
+     "leading": 1.13,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "left",
+     "widthRatio": 0.44,
+     "top": 324,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Tradition, with a little you.",
+     "words": 5,
+     "lines": 3,
+     "size": 80.6,
+     "font": "Prata"
+    },
+    "headings": [
+     {
+      "text": "Shali COLLECTIONS",
+      "words": 2,
+      "chars": 17,
+      "lines": 2,
+      "size": 34,
+      "vw": 2.4,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.06,
+      "top": 53,
+      "mixedFonts": [
+       "Prata",
+       "Manrope"
+      ],
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Woman",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.75,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.16,
+      "top": 140,
+      "tag": "p",
+      "kind": "statement"
+     },
+     {
+      "text": "Man",
+      "words": 1,
+      "chars": 3,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.75,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.16,
+      "top": 140,
+      "tag": "p",
+      "kind": "statement"
+     },
+     {
+      "text": "Kids",
+      "words": 1,
+      "chars": 4,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.75,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.16,
+      "top": 140,
+      "tag": "p",
+      "kind": "statement"
+     },
+     {
+      "text": "Jewellery",
+      "words": 1,
+      "chars": 9,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.75,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.16,
+      "top": 140,
+      "tag": "p",
+      "kind": "statement"
+     },
+     {
+      "text": "Tradition, with a little you.",
+      "words": 5,
+      "chars": 29,
+      "lines": 3,
+      "size": 80.6,
+      "vw": 5.6,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.13,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.44,
+      "top": 324,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "So many ways to be you.",
+      "words": 6,
+      "chars": 23,
+      "lines": 2,
+      "size": 50.4,
+      "vw": 3.5,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.03,
+      "leading": 1.23,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.24,
+      "top": 1277,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Your next favourite.",
+      "words": 3,
+      "chars": 20,
+      "lines": 1,
+      "size": 50.4,
+      "vw": 3.5,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.03,
+      "leading": 1.23,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.3,
+      "top": 1942,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Some things never lose their charm.",
+      "words": 6,
+      "chars": 35,
+      "lines": 3,
+      "size": 56.2,
+      "vw": 3.9,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.22,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.35,
+      "top": 2815,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "For every side of you.",
+      "words": 5,
+      "chars": 22,
+      "lines": 1,
+      "size": 50.4,
+      "vw": 3.5,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.03,
+      "leading": 1.23,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.33,
+      "top": 3448,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Necklaces",
+      "words": 1,
+      "chars": 9,
+      "lines": 1,
+      "size": 41.8,
+      "vw": 2.9,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.14,
+      "top": 3761,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Churidar",
+      "words": 1,
+      "chars": 8,
+      "lines": 1,
+      "size": 41.8,
+      "vw": 2.9,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.13,
+      "top": 4085,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Traditional Wear",
+      "words": 2,
+      "chars": 16,
+      "lines": 1,
+      "size": 41.8,
+      "vw": 2.9,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.24,
+      "top": 4085,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Dress for the way you feel.",
+      "words": 6,
+      "chars": 27,
+      "lines": 1,
+      "size": 43.2,
+      "vw": 3,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.35,
+      "top": 4312,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 14,
+     "maxLines": 3,
+     "over2Lines": 2,
+     "statements": 4,
+     "centered": 0,
+     "medianWords": 2,
+     "mixedFontHeadings": 1
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Manrope",
+       "share": 0.84,
+       "mono": false
+      },
+      {
+       "family": "Prata",
+       "share": 0.16,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      19,
+      20,
+      21,
+      26,
+      32,
+      34,
+      42,
+      43,
+      50,
+      56,
+      81
+     ],
+     "sizeCount": 19,
+     "notLoaded": [],
+     "body": {
+      "font": "Manrope",
+      "size": 12,
+      "leading": 1.75,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 11.1
+     },
+     "measureChars": 44,
+     "max": {
+      "size": 80.6,
+      "vw": 5.6,
+      "font": "Prata",
+      "text": "Tradition,"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 1,
+     "microLabelShare": 0.021,
+     "microSamples": [
+      "Shali Collections · Ethnic wear & jewell"
+     ],
+     "upperShare": 0.03,
+     "centerShare": 0,
+     "smallText": 28
+    },
+    "eyebrows": [
+     {
+      "text": "Shali Collections · Ethnic wear & jewellery",
+      "above": "Tradition, with a little you.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 10,
+      "top": 277
+     },
+     {
+      "text": "Discover your Shali",
+      "above": "So many ways to be you.",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 1239
+     },
+     {
+      "text": "New to the collection",
+      "above": "Your next favourite.",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 1905
+     },
+     {
+      "text": "The Shali spirit",
+      "above": "Some things never lose their charm.",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 2771
+     },
+     {
+      "text": "Jewellery",
+      "above": "Necklaces",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 3736
+     },
+     {
+      "text": "Woman",
+      "above": "Churidar",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 4060
+     },
+     {
+      "text": "Man",
+      "above": "Traditional Wear",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 4060
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#fdfafa",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0.43,
+      "l": 0.99
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#580624",
+       "top": 127,
+       "hsl": {
+        "h": 338,
+        "s": 0.87,
+        "l": 0.18
+       }
+      },
+      {
+       "color": "#fdfafa",
+       "top": 1804,
+       "hsl": {
+        "h": 0,
+        "s": 0.43,
+        "l": 0.99
+       }
+      },
+      {
+       "color": "#3b0617",
+       "top": 2685,
+       "hsl": {
+        "h": 341,
+        "s": 0.82,
+        "l": 0.13
+       }
+      },
+      {
+       "color": "#e6d4cb",
+       "top": 3546,
+       "hsl": {
+        "h": 20,
+        "s": 0.35,
+        "l": 0.85
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#311e21",
+       "share": 0.23
+      },
+      {
+       "color": "#580624",
+       "share": 0.12
+      },
+      {
+       "color": "#fdfafa",
+       "share": 0.11
+      },
+      {
+       "color": "#f0dce4",
+       "share": 0.11
+      },
+      {
+       "color": "#fff8f1",
+       "share": 0.1
+      }
+     ],
+     "button": {
+      "bg": "#f0bd78",
+      "hsl": {
+       "h": 35,
+       "s": 0.8,
+       "l": 0.71
+      },
+      "fg": "#3b0617"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 3,
+     "inHero": 2,
+     "radius": 0,
+     "height": 54,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Skip to content",
+      "Explore collections"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 4,
+     "shadowOverlay": 0,
+     "shadowSamples": [
+      "div.mega-menu → rgba(38, 9, 20, 0.07) 0px 6px 8px 0px",
+      "div.mega-menu → rgba(38, 9, 20, 0.07) 0px 6px 8px 0px",
+      "div.mega-menu → rgba(38, 9, 20, 0.07) 0px 6px 8px 0px",
+      "div.mega-menu → rgba(38, 9, 20, 0.07) 0px 6px 8px 0px"
+     ],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 2,
+     "hairlineSamples": [
+      "header.site-header 1440px",
+      "div.footer-bottom.page-width 1320px"
+     ],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 17,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 8,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 1179
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "img",
+      "ratio": 0.36
+     }
+    ],
+    "nav": {
+     "links": 4,
+     "fixed": true,
+     "height": 93,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "manrope",
+     "prata"
+    ]
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 5,
+   "filled": [
+    0.87,
+    0.6,
+    0.76,
+    0.73,
+    0.87
+   ],
+   "motion": {
+    "elements": 2,
+    "css": 2,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 4800,
+     "screens": 4.7,
+     "words": 309,
+     "img": 19,
+     "video": 0,
+     "canvas": 0,
+     "svg": 20,
+     "sections": 6,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 16,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "jain-textiles-wedding-edit-20261015.jpeg",
+      "WhatsApp_Image_2026-06-12_at_2_u6cLBmq.04.43_PM.",
+      "WhatsApp_Image_2026-09-01_at_10.53.41_PM.jpeg",
+      "ChatGPT_Image_Sep_27_2026_08_20_08_PM_l1UkW0q.pn",
+      "ChatGPT_Image_Sep_27_2026_08_47_09_PM.png",
+      "ChatGPT_Image_Sep_27_2026_08_56_47_PM_1.png",
+      "f03728e8-cd1f-45b4-8078-e8315d47fbc7.png",
+      "pastel_saree_image_3.png"
+     ],
+     "blendText": 0,
+     "sideScrollers": 1,
+     "brokenImages": [],
+     "emoji": [
+      "✦"
+     ]
+    },
+    "hero": {
+     "text": "Tradition, with a little you.",
+     "words": 5,
+     "chars": 29,
+     "lines": 3,
+     "size": 47.6,
+     "vw": 6.2,
+     "font": "Prata",
+     "weight": 400,
+     "tracking": -0.035,
+     "leading": 1.13,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "left",
+     "widthRatio": 0.44,
+     "top": 229,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Tradition, with a little you.",
+     "words": 5,
+     "lines": 3,
+     "size": 47.6,
+     "font": "Prata"
+    },
+    "headings": [
+     {
+      "text": "Shali COLLECTIONS",
+      "words": 2,
+      "chars": 17,
+      "lines": 2,
+      "size": 29,
+      "vw": 3.8,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.1,
+      "top": 50,
+      "mixedFonts": [
+       "Prata",
+       "Manrope"
+      ],
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Tradition, with a little you.",
+      "words": 5,
+      "chars": 29,
+      "lines": 3,
+      "size": 47.6,
+      "vw": 6.2,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.13,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.44,
+      "top": 229,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "So many ways to be you.",
+      "words": 6,
+      "chars": 23,
+      "lines": 2,
+      "size": 34,
+      "vw": 4.4,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.03,
+      "leading": 1.23,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.3,
+      "top": 948,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Your next favourite.",
+      "words": 3,
+      "chars": 20,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.03,
+      "leading": 1.23,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.36,
+      "top": 1475,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Some things never lose their charm.",
+      "words": 6,
+      "chars": 35,
+      "lines": 3,
+      "size": 35,
+      "vw": 4.6,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.22,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.42,
+      "top": 2877,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "For every side of you.",
+      "words": 5,
+      "chars": 22,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.03,
+      "leading": 1.23,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.4,
+      "top": 3369,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Dress for the way you feel.",
+      "words": 6,
+      "chars": 27,
+      "lines": 1,
+      "size": 28,
+      "vw": 3.6,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.43,
+      "top": 4010,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 7,
+     "maxLines": 3,
+     "over2Lines": 2,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 6,
+     "mixedFontHeadings": 1
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Manrope",
+       "share": 0.82,
+       "mono": false
+      },
+      {
+       "family": "Prata",
+       "share": 0.18,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      20,
+      21,
+      23,
+      26,
+      28,
+      29,
+      32,
+      34,
+      35,
+      48
+     ],
+     "sizeCount": 19,
+     "notLoaded": [],
+     "body": {
+      "font": "Manrope",
+      "size": 13,
+      "leading": 1.9,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 11
+     },
+     "measureChars": 44,
+     "max": {
+      "size": 47.6,
+      "vw": 6.2,
+      "font": "Prata",
+      "text": "Tradition,"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 1,
+     "microLabelShare": 0.025,
+     "microSamples": [
+      "Shali Collections · Ethnic wear & jewell"
+     ],
+     "upperShare": 0.03,
+     "centerShare": 0,
+     "smallText": 27
+    },
+    "eyebrows": [
+     {
+      "text": "Shali Collections · Ethnic wear & jewellery",
+      "above": "Tradition, with a little you.",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 9,
+      "top": 175
+     },
+     {
+      "text": "Discover your Shali",
+      "above": "So many ways to be you.",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 911
+     },
+     {
+      "text": "New to the collection",
+      "above": "Your next favourite.",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 1438
+     },
+     {
+      "text": "The Shali spirit",
+      "above": "Some things never lose their charm.",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 2834
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#fdfafa",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0.43,
+      "l": 0.99
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#580624",
+       "top": 113,
+       "hsl": {
+        "h": 338,
+        "s": 0.87,
+        "l": 0.18
+       }
+      },
+      {
+       "color": "#fdfafa",
+       "top": 1374,
+       "hsl": {
+        "h": 0,
+        "s": 0.43,
+        "l": 0.99
+       }
+      },
+      {
+       "color": "#3b0617",
+       "top": 4093,
+       "hsl": {
+        "h": 341,
+        "s": 0.82,
+        "l": 0.13
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#311e21",
+       "share": 0.16
+      },
+      {
+       "color": "#f0dce4",
+       "share": 0.13
+      },
+      {
+       "color": "#f0bd78",
+       "share": 0.11
+      },
+      {
+       "color": "#fdfafa",
+       "share": 0.11
+      },
+      {
+       "color": "#fff8f1",
+       "share": 0.1
+      }
+     ],
+     "button": {
+      "bg": "#f0bd78",
+      "hsl": {
+       "h": 35,
+       "s": 0.8,
+       "l": 0.71
+      },
+      "fg": "#3b0617"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 3,
+     "inHero": 2,
+     "radius": 0,
+     "height": 54,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Skip to content",
+      "Explore collections"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 3,
+     "hairlineSamples": [
+      "header.site-header 768px",
+      "div.footer-bottom.page-width 704px",
+      "nav.mobile-navigation 768px"
+     ],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 17,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 8,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 875
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "img",
+      "ratio": 0.19
+     }
+    ],
+    "nav": {
+     "links": 2,
+     "fixed": true,
+     "height": 79,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "manrope",
+     "prata"
+    ]
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 7,
+   "filled": [
+    0.98,
+    0.57,
+    0.77,
+    0.96,
+    0.81,
+    0.96,
+    0.96
+   ],
+   "motion": {
+    "elements": 2,
+    "css": 2,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 5531,
+     "screens": 6.6,
+     "words": 285,
+     "img": 19,
+     "video": 0,
+     "canvas": 0,
+     "svg": 20,
+     "sections": 6,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 16,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "jain-textiles-wedding-edit-20261015.jpeg",
+      "WhatsApp_Image_2026-06-12_at_2_u6cLBmq.04.43_PM.",
+      "WhatsApp_Image_2026-09-01_at_10.53.41_PM.jpeg",
+      "ChatGPT_Image_Sep_27_2026_08_20_08_PM_l1UkW0q.pn",
+      "ChatGPT_Image_Sep_27_2026_08_47_09_PM.png",
+      "ChatGPT_Image_Sep_27_2026_08_51_20_PM.png",
+      "ChatGPT_Image_Sep_27_2026_08_56_47_PM_1.png",
+      "f03728e8-cd1f-45b4-8078-e8315d47fbc7.png"
+     ],
+     "blendText": 0,
+     "sideScrollers": 1,
+     "brokenImages": [],
+     "emoji": [
+      "✦"
+     ]
+    },
+    "hero": {
+     "text": "Shali COLLECTIONS",
+     "words": 2,
+     "chars": 17,
+     "lines": 2,
+     "size": 28,
+     "vw": 7.2,
+     "font": "Prata",
+     "weight": 400,
+     "tracking": 0,
+     "leading": 1.15,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "left",
+     "widthRatio": 0.2,
+     "top": 47,
+     "mixedFonts": [
+      "Prata",
+      "Manrope"
+     ],
+     "tag": "span",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Tradition, with a little you.",
+     "words": 5,
+     "lines": 1,
+     "size": 26.5,
+     "font": "Prata"
+    },
+    "headings": [
+     {
+      "text": "Shali COLLECTIONS",
+      "words": 2,
+      "chars": 17,
+      "lines": 2,
+      "size": 28,
+      "vw": 7.2,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.2,
+      "top": 47,
+      "mixedFonts": [
+       "Prata",
+       "Manrope"
+      ],
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Tradition, with a little you.",
+      "words": 5,
+      "chars": 29,
+      "lines": 1,
+      "size": 26.5,
+      "vw": 6.8,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.14,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 632,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "So many ways to be you.",
+      "words": 6,
+      "chars": 23,
+      "lines": 2,
+      "size": 35,
+      "vw": 9,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.03,
+      "leading": 1.23,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 931,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Dresses & Tops ↗",
+      "words": 4,
+      "chars": 16,
+      "lines": 2,
+      "size": 25,
+      "vw": 6.4,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.47,
+      "top": 1390,
+      "mixedFonts": [
+       "Prata",
+       "Manrope"
+      ],
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Traditional Wear ↗",
+      "words": 3,
+      "chars": 18,
+      "lines": 2,
+      "size": 25,
+      "vw": 6.4,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.47,
+      "top": 1390,
+      "mixedFonts": [
+       "Prata",
+       "Manrope"
+      ],
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Churidar ↗",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 25,
+      "vw": 6.4,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.47,
+      "top": 1422,
+      "mixedFonts": [
+       "Prata",
+       "Manrope"
+      ],
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Necklaces ↗",
+      "words": 2,
+      "chars": 11,
+      "lines": 1,
+      "size": 25,
+      "vw": 6.4,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.47,
+      "top": 1422,
+      "mixedFonts": [
+       "Prata",
+       "Manrope"
+      ],
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Bangles ↗",
+      "words": 2,
+      "chars": 9,
+      "lines": 1,
+      "size": 25,
+      "vw": 6.4,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.47,
+      "top": 1422,
+      "mixedFonts": [
+       "Prata",
+       "Manrope"
+      ],
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Earrings ↗",
+      "words": 2,
+      "chars": 10,
+      "lines": 1,
+      "size": 25,
+      "vw": 6.4,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.47,
+      "top": 1422,
+      "mixedFonts": [
+       "Prata",
+       "Manrope"
+      ],
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Sarees ↗",
+      "words": 2,
+      "chars": 8,
+      "lines": 1,
+      "size": 25,
+      "vw": 6.4,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.47,
+      "top": 1422,
+      "mixedFonts": [
+       "Prata",
+       "Manrope"
+      ],
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Shirts ↗",
+      "words": 2,
+      "chars": 8,
+      "lines": 1,
+      "size": 25,
+      "vw": 6.4,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.47,
+      "top": 1422,
+      "mixedFonts": [
+       "Prata",
+       "Manrope"
+      ],
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Your next favourite.",
+      "words": 3,
+      "chars": 20,
+      "lines": 1,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.03,
+      "leading": 1.23,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.71,
+      "top": 1632,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Some things never lose their charm.",
+      "words": 6,
+      "chars": 35,
+      "lines": 3,
+      "size": 39,
+      "vw": 10,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.22,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 2964,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "For every side of you.",
+      "words": 5,
+      "chars": 22,
+      "lines": 1,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.03,
+      "leading": 1.23,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.78,
+      "top": 3439,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Churidar",
+      "words": 1,
+      "chars": 8,
+      "lines": 1,
+      "size": 30,
+      "vw": 7.7,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.34,
+      "top": 3900,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Necklaces",
+      "words": 1,
+      "chars": 9,
+      "lines": 1,
+      "size": 30,
+      "vw": 7.7,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.38,
+      "top": 4185,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Traditional Wear",
+      "words": 2,
+      "chars": 16,
+      "lines": 2,
+      "size": 30,
+      "vw": 7.7,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.55,
+      "top": 4431,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Dress for the way you feel.",
+      "words": 6,
+      "chars": 27,
+      "lines": 2,
+      "size": 30,
+      "vw": 7.7,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.3,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.9,
+      "top": 4619,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 18,
+     "maxLines": 3,
+     "over2Lines": 1,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 2,
+     "mixedFontHeadings": 9
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Manrope",
+       "share": 0.82,
+       "mono": false
+      },
+      {
+       "family": "Prata",
+       "share": 0.18,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      8,
+      9,
+      10,
+      11,
+      12,
+      14,
+      15,
+      16,
+      18,
+      20,
+      25,
+      27,
+      28,
+      30,
+      32,
+      35,
+      39
+     ],
+     "sizeCount": 17,
+     "notLoaded": [],
+     "body": {
+      "font": "Manrope",
+      "size": 12,
+      "leading": 1.9,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 6.7
+     },
+     "measureChars": 44,
+     "max": {
+      "size": 39,
+      "vw": 10,
+      "font": "Prata",
+      "text": "Some thingsnever losetheir charm."
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.01,
+     "centerShare": 0.01,
+     "smallText": 30
+    },
+    "eyebrows": [
+     {
+      "text": "Discover your Shali",
+      "above": "So many ways to be you.",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 897
+     },
+     {
+      "text": "New to the collection",
+      "above": "Your next favourite.",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 1599
+     },
+     {
+      "text": "The Shali spirit",
+      "above": "Some things never lose their charm.",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 2921
+     },
+     {
+      "text": "Woman",
+      "above": "Churidar",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 3874
+     },
+     {
+      "text": "Jewellery",
+      "above": "Necklaces",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 4160
+     },
+     {
+      "text": "Man",
+      "above": "Traditional Wear",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 11,
+      "top": 4406
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#fdfafa",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0.43,
+      "l": 0.99
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#580624",
+       "top": 106,
+       "hsl": {
+        "h": 338,
+        "s": 0.87,
+        "l": 0.18
+       }
+      },
+      {
+       "color": "#3b0617",
+       "top": 106,
+       "hsl": {
+        "h": 341,
+        "s": 0.82,
+        "l": 0.13
+       }
+      },
+      {
+       "color": "#fdfafa",
+       "top": 1547,
+       "hsl": {
+        "h": 0,
+        "s": 0.43,
+        "l": 0.99
+       }
+      },
+      {
+       "color": "#e6d4cb",
+       "top": 3565,
+       "hsl": {
+        "h": 20,
+        "s": 0.35,
+        "l": 0.85
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#311e21",
+       "share": 0.18
+      },
+      {
+       "color": "#fff8f1",
+       "share": 0.13
+      },
+      {
+       "color": "#fdfafa",
+       "share": 0.12
+      },
+      {
+       "color": "#580624",
+       "share": 0.11
+      },
+      {
+       "color": "#685558",
+       "share": 0.11
+      }
+     ],
+     "button": {
+      "bg": "#f0bd78",
+      "hsl": {
+       "h": 35,
+       "s": 0.8,
+       "l": 0.71
+      },
+      "fg": "#3b0617"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 3,
+     "inHero": 2,
+     "radius": 0,
+     "height": 50,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Skip to content",
+      "Explore collections"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 3,
+     "hairlineSamples": [
+      "header.site-header 390px",
+      "div.footer-bottom.page-width 350px",
+      "nav.mobile-navigation 390px"
+     ],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 13,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 8,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 1168
+      },
+      {
+       "count": 3,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 3565
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "img",
+      "ratio": 0.58
+     }
+    ],
+    "nav": {
+     "links": 2,
+     "fixed": true,
+     "height": 73,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "manrope",
+     "prata"
+    ]
+   },
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "FAIL",
+   "id": "headline-lines",
+   "width": 1440,
+   "message": "2 headline(s) wrap past two lines at 1440px: \"Tradition, with a little you.\" → 3 lines (5 words, 80.6px); \"Some things never lose their charm.\" → 3 lines (6 words, 56.2px)",
+   "fix": "Cut words first (a headline is a title, not a sentence). Then give it a wider measure. Lower the size only as a last resort and never below the scale you chose. A real statement paragraph belongs in a <p> or <blockquote> at 36px or less."
+  },
+  {
+   "level": "WARN",
+   "id": "mixed-font-headline",
+   "width": 1440,
+   "message": "1 headline(s) switch typeface or to italic mid-line (the \"one italic serif word\" move).",
+   "fix": "Set the whole headline in one face. Emphasis comes from the words.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "eyebrow",
+   "width": 1440,
+   "message": "7 eyebrow/kicker label(s) above headings: \"Shali Collections · Ethnic wear & jewellery\" above \"Tradition, with a little you.\"; \"Discover your Shali\" above \"So many ways to be you.\"; \"New to the collection\" above \"Your next favourite.\"; \"The Shali spirit\" above \"Some things never lose their charm.\"; \"Jewellery\" above \"Necklaces\"",
+   "fix": "Delete them. If the label carried real information, fold it into the headline or the supporting sentence.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "micro-label",
+   "width": 1440,
+   "message": "1 tiny uppercase letter-spaced label(s): \"Shali Collections · Ethnic wear & jewell\"",
+   "fix": "Prefer sentence case at body size.",
+   "alsoAt": [
+    768
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "emoji",
+   "width": 1440,
+   "message": "Emoji in the page: ✦",
+   "fix": "Remove. Use words or real imagery.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "shadow",
+   "width": 1440,
+   "message": "4 box-shadow(s) on elements at rest: div.mega-menu → rgba(38, 9, 20, 0.07) 0px 6px 8px 0px | div.mega-menu → rgba(38, 9, 20, 0.07) 0px 6px 8px 0px | div.mega-menu → rgba(38, 9, 20, 0.07) 0px 6px 8px 0px",
+   "fix": "Remove. Separate surfaces with a tone step or space. Shadows are for things that really float (menus, dialogs, sticky bars)."
+  },
+  {
+   "level": "FAIL",
+   "id": "hairline",
+   "width": 1440,
+   "message": "2 thin rule(s)/divider line(s): header.site-header 1440px | div.footer-bottom.page-width 1320px",
+   "fix": "Delete. Separate with space, a tone change, or scale. Lines are only for real tables and form fields.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "palette-cream",
+   "width": 1440,
+   "message": "Yellow-cream background (text #fff8f1).",
+   "fix": "Use the drawn palette. If you want warmth, take a low-chroma stone or bone, not a yellow cream.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "size-count",
+   "width": 1440,
+   "message": "19 different font sizes (9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 26, 32, 34, 42, 43, 50, 56, 81).",
+   "fix": "A page needs about five: display, heading, lead, body, small.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "body-size",
+   "width": 1440,
+   "message": "Body text is 12px (the size most of the running text is set in).",
+   "fix": "Body copy 16–20px. Map small sizes from blueprints onto your body step.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "no-footage",
+   "width": 1440,
+   "message": "No video anywhere on the page.",
+   "fix": "Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject."
+  },
+  {
+   "level": "WARN",
+   "id": "side-scroll",
+   "width": 1440,
+   "message": "5 row(s) scroll sideways with content past their edge.",
+   "fix": "Jurors and most visitors read a row cut at the edge as clipped, not as scrollable. Wrap it onto more lines, or end it inside the grid.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "small-text",
+   "width": 1440,
+   "message": "28 text blocks under 13px.",
+   "fix": "Nothing meant to be read goes below 13px.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "covered-text",
+   "width": 1440,
+   "message": "Large text lies under another element at some scroll position: \"Woman\" (screen 6, 75% hidden); \"Man\" (screen 6, 100% hidden); \"Kids\" (screen 6, 100% hidden); \"Jewellery\" (screen 6, 100% hidden)",
+   "fix": "Nothing may sit on top of a headline or statement. Move the picture, shorten the pinned run, or raise the text above it (z-index) and give it a ground.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "still-page",
+   "width": 1440,
+   "message": "Only 2 element(s) moved while the page loaded and scrolled.",
+   "fix": "Build the motion layer (SKILL.md step 9, references/motion.md): the signature move, an entrance for the parts of every section, feedback on every control, and one moving picture. Transform and opacity only, with a reduced-motion fallback."
+  },
+  {
+   "level": "FAIL",
+   "id": "headline-lines",
+   "width": 768,
+   "message": "2 headline(s) wrap past two lines at 768px: \"Tradition, with a little you.\" → 3 lines (5 words, 47.6px); \"Some things never lose their charm.\" → 3 lines (6 words, 35px)",
+   "fix": "Cut words first (a headline is a title, not a sentence). Then give it a wider measure. Lower the size only as a last resort and never below the scale you chose. A real statement paragraph belongs in a <p> or <blockquote> at 32px or less."
+  },
+  {
+   "level": "FAIL",
+   "id": "headline-lines",
+   "width": 390,
+   "message": "1 headline(s) wrap past two lines at 390px: \"Some things never lose their charm.\" → 3 lines (6 words, 39px)",
+   "fix": "Cut words first (a headline is a title, not a sentence). Then give it a wider measure. Lower the size only as a last resort and never below the scale you chose. A real statement paragraph belongs in a <p> or <blockquote> at 24px or less."
+  },
+  {
+   "level": "WARN",
+   "id": "card-rows",
+   "width": 390,
+   "message": "2 rows of identical boxed cards.",
+   "fix": "Vary the composition; not every section is a card grid."
+  },
+  {
+   "level": "WARN",
+   "id": "grey-body",
+   "width": 390,
+   "message": "The running text is a soft grey on its ground (6.7:1).",
+   "fix": "Set body copy in the full ink (7:1 or more). Keep the muted ink for secondary notes; pages read thin and unfinished when everything is grey."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "D:\\Backend\\.taste-skill\\before\\desktop-fold.jpg",
+   "pages": [
+    "D:\\Backend\\.taste-skill\\before\\desktop-page-01.jpg",
+    "D:\\Backend\\.taste-skill\\before\\desktop-page-02.jpg"
+   ]
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "D:\\Backend\\.taste-skill\\before\\tablet-fold.jpg",
+   "pages": [
+    "D:\\Backend\\.taste-skill\\before\\tablet-page-01.jpg"
+   ]
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "D:\\Backend\\.taste-skill\\before\\mobile-fold.jpg",
+   "pages": [
+    "D:\\Backend\\.taste-skill\\before\\mobile-page-01.jpg"
+   ]
+  }
+ ]
+}

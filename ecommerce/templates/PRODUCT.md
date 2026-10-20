@@ -191,6 +191,8 @@ Implemented:
 - Three product images, category images, and Admin-managed hero posters.
 - Responsive homepage, desktop department menus, mobile bottom navigation, and category directory.
 - Keyword search and catalog/search pagination.
+- Shared-layout catalog/search with live image cards, prices, stock-aware size choices, and two columns on phones.
+- Shared-layout bag with item images, accessible quantity controls, stock warnings, a responsive summary, and shipping navigation after stock correction.
 - Live product detail with gallery, stocked size choices, and add-to-bag.
 - Size-specific cart rows, stock validation, POST-only mutations, and navigation counts.
 - Guest-cart preservation on sign-in, live registration/sign-in forms, and POST-only logout.
@@ -198,7 +200,6 @@ Implemented:
 
 Remaining:
 
-- Integrate catalog/cart markup with the shared storefront visual layout and complete product-card imagery/layout.
 - Add fabric/material, occasion, and sale-price fields.
 - Add department/subcategory imagery if required beyond existing category images.
 - Add explicit Admin reordering controls; current catalog ordering follows record creation.

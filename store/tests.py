@@ -30,6 +30,8 @@ class ProductDetailTests(TestCase):
         self.assertTemplateUsed(response, 'base.html')
         for image in [self.product.image_1, self.product.image_2, self.product.image_3]:
             self.assertContains(response, image.url)
+        self.assertContains(response, 'data-product-gallery')
+        self.assertContains(response, 'data-gallery-next')
         self.assertContains(response, 'value="s"')
         self.assertNotContains(response, 'value="xl"')
         self.assertNotContains(response, 'value="free_size"')
@@ -76,6 +78,12 @@ class ProductDetailTests(TestCase):
                 self.assertEqual(response.status_code, 200)
                 self.assertContains(response, self.product.product_name)
                 self.assertNotContains(response, 'Unassigned dress')
+
+
+    def test_negative_price_is_rejected(self):
+        self.product.price = -1
+        with self.assertRaises(ValidationError):
+            self.product.full_clean()
 
 
 class ProductSubcategoryTests(TestCase):

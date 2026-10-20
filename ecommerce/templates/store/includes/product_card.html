@@ -1,0 +1,26 @@
+<article class="product-card catalog-card" aria-labelledby="product-title-{{ product.pk }}">
+    <a class="product-image" href="{{ product.get_url }}" aria-label="View {{ product.product_name }}">
+        {% if product.image_1 %}<img src="{{ product.image_1.url }}" alt="{{ product.product_name }}" width="600" height="780" loading="lazy">{% else %}<span class="image-placeholder">Image coming soon</span>{% endif %}
+    </a>
+    <div class="catalog-card-copy">
+        <p class="product-category">{{ product.category.category_name }}</p>
+        <h2 id="product-title-{{ product.pk }}"><a href="{{ product.get_url }}">{{ product.product_name }}</a></h2>
+        <p class="product-price">₹{{ product.price }}</p>
+        {% if product.available_stock %}
+            <p class="catalog-stock">In stock{% if product.size_type == 'free_size' %} · Free Size{% endif %}</p>
+            {% if product.size_type == 'clothing' %}
+            <div class="catalog-card-action">
+                <a class="button button-burgundy" href="{{ product.get_url }}" aria-label="Choose a size for {{ product.product_name }}">Choose size</a>
+            </div>
+            {% else %}
+            <form class="catalog-add-form" method="post" action="{% url 'add_cart' product.pk %}">
+                {% csrf_token %}
+                <button class="button button-burgundy" type="submit" aria-label="Add {{ product.product_name }} to bag">Add to bag</button>
+            </form>
+            {% endif %}
+        {% else %}
+            <p class="catalog-stock catalog-out-of-stock">Out of stock</p>
+            <div class="catalog-card-unavailable"><button class="button catalog-disabled-button" type="button" disabled>Out of stock</button></div>
+        {% endif %}
+    </div>
+</article>

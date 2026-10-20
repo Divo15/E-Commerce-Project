@@ -108,6 +108,14 @@ def shipping_review(request):
     order = _pending_order(request, cart) if cart else None
     if order is None:
         return redirect('orders:shipping_details')
+    saved_items = sorted(order.items.values_list('product_id', 'size', 'quantity', 'unit_price'))
+    current_items = sorted(
+        (item.product_id, item.size, item.quantity, item.product.price)
+        for item in CartItem.objects.filter(cart=cart, is_active=True).select_related('product')
+    )
+    if current_items != saved_items:
+        messages.warning(request, 'Your bag changed. Save shipping details again to refresh the review.')
+        return redirect('orders:shipping_details')
     return render(request, 'orders/shipping_review.html', {
         'order': order,
         'order_items': order.items.all().order_by('pk'),

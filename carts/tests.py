@@ -218,12 +218,17 @@ class CartMutationTests(TestCase):
         ProductInventory.objects.filter(pk=self.small_stock.pk).update(quantity=1)
         response = self.client.get(reverse('cart'))
         self.assertContains(response, 'Only 1 item(s) are available')
+        self.assertNotContains(response, f'href="{reverse("orders:shipping_details")}"')
+        self.assertContains(response, 'Update or remove the marked items to continue.')
         self.client.post(reverse('increase_cart', args=[item.pk]))
         item.refresh_from_db()
         self.assertEqual(item.quantity, 3)
         self.client.post(reverse('update_cart', args=[item.pk]), {'quantity': 1})
         item.refresh_from_db()
         self.assertEqual(item.quantity, 1)
+
+        response = self.client.get(reverse('cart'))
+        self.assertContains(response, f'href="{reverse("orders:shipping_details")}"')
 
     def test_unavailable_product_can_be_removed_but_cannot_be_increased(self):
         self.add_item(size='s')
@@ -266,12 +271,23 @@ class CartMutationTests(TestCase):
         with self.assertRaises(IntegrityError), transaction.atomic():
             CartItem.objects.create(cart=item.cart, product=self.product, size='s')
 
-    def test_catalog_forms_offer_only_stocked_clothing_sizes(self):
+    def test_catalog_sends_sized_products_to_detail_page(self):
         response = self.client.get(reverse('store:store'))
-        self.assertContains(response, f'action="{reverse("add_cart", args=[self.product.pk])}"')
-        self.assertContains(response, '<option value="s">S</option>')
-        self.assertContains(response, '<option value="xl">XL</option>')
-        self.assertNotContains(response, '<option value="xxl">XXL</option>')
+        self.assertContains(response, f'href="{self.product.get_url()}"')
+        self.assertContains(response, 'Choose size')
+        self.assertNotContains(response, f'id="size-{self.product.pk}"')
+        self.assertNotContains(response, f'action="{reverse("add_cart", args=[self.product.pk])}"')
+
+    def test_catalog_does_not_offer_addition_for_missing_or_incompatible_stock(self):
+        ProductInventory.objects.filter(product=self.product).update(quantity=0)
+        ProductInventory.objects.create(product=self.product, size='free_size', quantity=5)
+        ProductInventory.objects.filter(product=self.saree).delete()
+        for route in ['store:store', 'store:search']:
+            with self.subTest(route=route):
+                response = self.client.get(reverse(route), {'keyword': 'Dress'})
+                self.assertNotContains(response, f'action="{reverse("add_cart", args=[self.product.pk])}"')
+                self.assertNotContains(response, f'action="{reverse("add_cart", args=[self.saree.pk])}"')
+                self.assertContains(response, 'Out of stock')
 
 
 class CartSizeMigrationTests(TransactionTestCase):

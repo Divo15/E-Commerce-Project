@@ -1,62 +1,84 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Cart | GG Fashion</title>
-  <link rel="stylesheet" href="{% static 'styles.css' %}">
-</head>
-<body>
-  <main>
-    <h1>Your Cart</h1>
-
-    {% for message in messages %}
-      <p role="alert">{{ message }}</p>
-    {% endfor %}
-
+{% block title %}Your bag — Shali Collections{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'shali/commerce.css' %}">
+<link rel="stylesheet" href="{% static 'shali/catalog-cart.css' %}">
+{% endblock %}
+{% block content %}
+<section class="section page-width bag-page">
+    <header class="bag-heading">
+        <div><h1>Your bag</h1><p>{{ quantity }} item{{ quantity|pluralize }}</p></div>
+        <a class="text-link" href="{% url 'store:store' %}">Continue shopping <span aria-hidden="true">↗</span></a>
+    </header>
+    {% for message in messages %}<p class="bag-feedback" role="alert">{{ message }}</p>{% endfor %}
     {% if cart_items %}
-      <p>{{ quantity }} item{{ quantity|pluralize }}</p>
-
-      {% for cart_item in cart_items %}
-        <article>
-          <h2>{{ cart_item.product.product_name }}</h2>
-          {% if cart_item.size != 'no_size' %}
-            <p>Size: {{ cart_item.get_size_display|default:'Selection required' }}</p>
-          {% endif %}
-          <p>Quantity: {{ cart_item.quantity }}</p>
-          <p>Price: ₹{{ cart_item.product.price }}</p>
-          <p>Subtotal: ₹{{ cart_item.subtotal }}</p>
-          {% if cart_item.stock_message %}<p role="alert">{{ cart_item.stock_message }}</p>{% endif %}
-          {% if cart_item.available_quantity %}
-            <form method="post" action="{% url 'update_cart' cart_item.pk %}">
-              {% csrf_token %}
-              <label for="quantity-{{ cart_item.pk }}">Quantity for {{ cart_item.product.product_name }} {{ cart_item.get_size_display }}</label>
-              <input id="quantity-{{ cart_item.pk }}" type="number" name="quantity" value="{{ cart_item.quantity }}" min="1" max="{{ cart_item.available_quantity }}" required>
-              <button type="submit">Update quantity</button>
-            </form>
-            <form method="post" action="{% url 'increase_cart' cart_item.pk %}">
-              {% csrf_token %}
-              <button type="submit" {% if cart_item.quantity >= cart_item.available_quantity %}disabled{% endif %}>Increase quantity</button>
-            </form>
-          {% endif %}
-          <form method="post" action="{% url 'decrease_cart' cart_item.pk %}">
-            {% csrf_token %}
-            <button type="submit">{% if cart_item.quantity == 1 %}Remove last item{% else %}Decrease quantity{% endif %}</button>
-          </form>
-          <form method="post" action="{% url 'remove_cart' cart_item.pk %}">
-            {% csrf_token %}
-            <button type="submit">Remove item</button>
-          </form>
-        </article>
-      {% endfor %}
-
-      <h2>Total: ₹{{ total }}</h2>
-      <a href="{% url 'orders:shipping_details' %}">Continue to shipping details</a>
+    <div class="bag-layout">
+        <div class="bag-items" aria-label="Items in your bag">
+            {% for cart_item in cart_items %}
+            <article class="bag-item" aria-labelledby="bag-item-{{ cart_item.pk }}">
+                <div>
+                    {% if cart_item.product_url %}<a class="bag-item-image" href="{{ cart_item.product_url }}" aria-label="View {{ cart_item.product.product_name }}">{% else %}<span class="bag-item-image">{% endif %}
+                        {% if cart_item.product.image_1 %}<img src="{{ cart_item.product.image_1.url }}" alt="{{ cart_item.product.product_name }}" width="300" height="390" loading="lazy">{% else %}<span class="image-placeholder">Image coming soon</span>{% endif %}
+                    {% if cart_item.product_url %}</a>{% else %}</span>{% endif %}
+                </div>
+                <div class="bag-item-copy">
+                    <div class="bag-item-heading">
+                        <h2 id="bag-item-{{ cart_item.pk }}">{% if cart_item.product_url %}<a href="{{ cart_item.product_url }}">{{ cart_item.product.product_name }}</a>{% else %}{{ cart_item.product.product_name }}{% endif %}</h2>
+                        <p class="bag-item-total"><span class="visually-hidden">Subtotal: </span>₹{{ cart_item.subtotal }}</p>
+                    </div>
+                    <p class="bag-item-meta">{% if cart_item.size != 'no_size' %}Size: {{ cart_item.get_size_display|default:'Selection required' }} · {% endif %}Price: ₹{{ cart_item.product.price }}</p>
+                    {% if cart_item.stock_message %}<p class="bag-item-alert" role="alert">{{ cart_item.stock_message }}</p>{% else %}<p class="bag-stock-note">In stock · {{ cart_item.available_quantity }} available</p>{% endif %}
+                    <div class="bag-item-actions">
+                        {% if cart_item.available_quantity %}
+                        <div class="quantity-controls" role="group" aria-label="Quantity for {{ cart_item.product.product_name }} {{ cart_item.get_size_display }}">
+                            <form method="post" action="{% url 'decrease_cart' cart_item.pk %}">
+                                {% csrf_token %}
+                                <button class="quantity-step" type="submit" aria-label="{% if cart_item.quantity == 1 %}Remove last item{% else %}Decrease quantity{% endif %} for {{ cart_item.product.product_name }} {{ cart_item.get_size_display }}"><span aria-hidden="true">−</span></button>
+                            </form>
+                            <form class="quantity-form" id="quantity-form-{{ cart_item.pk }}" method="post" action="{% url 'update_cart' cart_item.pk %}">
+                                {% csrf_token %}
+                                <label class="visually-hidden" for="quantity-{{ cart_item.pk }}">Quantity for {{ cart_item.product.product_name }} {{ cart_item.get_size_display }}</label>
+                                <input id="quantity-{{ cart_item.pk }}" type="number" name="quantity" value="{{ cart_item.quantity }}" min="1" max="{{ cart_item.available_quantity }}" required>
+                            </form>
+                            <form method="post" action="{% url 'increase_cart' cart_item.pk %}">
+                                {% csrf_token %}
+                                <button class="quantity-step" type="submit" {% if cart_item.quantity >= cart_item.available_quantity %}disabled{% endif %} aria-label="Increase quantity for {{ cart_item.product.product_name }} {{ cart_item.get_size_display }}"><span aria-hidden="true">+</span></button>
+                            </form>
+                            <button class="bag-text-button" type="submit" form="quantity-form-{{ cart_item.pk }}" aria-label="Update quantity for {{ cart_item.product.product_name }} {{ cart_item.get_size_display }}">Update</button>
+                        </div>
+                        {% else %}<p class="bag-item-meta">Quantity: {{ cart_item.quantity }}</p>{% endif %}
+                        <form method="post" action="{% url 'remove_cart' cart_item.pk %}">
+                            {% csrf_token %}
+                            <button class="bag-text-button" type="submit" aria-label="Remove {{ cart_item.product.product_name }} {{ cart_item.get_size_display }} from bag">Remove</button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        <aside class="bag-summary" aria-labelledby="bag-summary-title">
+            <h2 id="bag-summary-title">Bag summary</h2>
+            <dl>
+                <div><dt>Items ({{ quantity }})</dt><dd>₹{{ total }}</dd></div>
+                <div><dt>Delivery</dt><dd>To be confirmed</dd></div>
+                <div class="bag-summary-total"><dt>Item subtotal</dt><dd>₹{{ total }}</dd></div>
+            </dl>
+            {% if has_stock_issues %}
+                <button class="button" type="button" disabled>Continue to shipping details</button>
+                <p class="bag-summary-warning">Update or remove the marked items to continue.</p>
+            {% else %}
+                <a class="button button-burgundy" href="{% url 'orders:shipping_details' %}">Continue to shipping details <span aria-hidden="true">→</span></a>
+            {% endif %}
+            <p>Delivery charges and payment will be confirmed before an order is placed.</p>
+        </aside>
+    </div>
     {% else %}
-      <p>Your cart is empty.</p>
-      <a href="{% url 'store:store' %}">Continue shopping</a>
+    <div class="shop-empty">
+        <h2>Room for something lovely.</h2>
+        <p>Your cart is empty.</p>
+        <a class="button button-burgundy" href="{% url 'store:store' %}">Explore collections <span aria-hidden="true">↗</span></a>
+    </div>
     {% endif %}
-  </main>
-</body>
-</html>
+</section>
+{% endblock %}

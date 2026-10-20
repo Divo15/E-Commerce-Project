@@ -1,33 +1,51 @@
 from django.shortcuts import render
+from django.db.models import Prefetch
 from category.models import Category, HeroPoster
 from store.models import Product
 
 def home(request):
     categories = list(Category.objects.filter(
         department__isnull=False,
-    ).select_related('department').order_by('pk'))
+    ).select_related('department').prefetch_related(Prefetch(
+        'product_set',
+        queryset=Product.objects.filter(is_available=True).select_related(
+            'category__department',
+        ).order_by('-create_date', '-pk')[:8],
+        to_attr='home_products',
+    )).order_by('pk'))
     illustrated_categories = [category for category in categories if category.category_image]
     hero_category = next(
         (category for category in illustrated_categories if category.slug.lower() == 'sarees'),
         illustrated_categories[0] if illustrated_categories else None,
     )
-    featured_categories = []
-    featured_departments = set()
+    category_priority = {'sarees': 0, 'churidar': 1, 'shirts': 2}
+    product_rows = sorted(
+        (category for category in categories if category.home_products),
+        key=lambda category: category_priority.get(category.slug.lower(), 3),
+    )
+    mobile_categories = []
+    if hero_category:
+        mobile_categories.append(hero_category)
+    mobile_departments = {
+        category.department_id for category in mobile_categories
+    }
     for category in illustrated_categories:
-        if category.department_id not in featured_departments and category != hero_category:
-            featured_categories.append(category)
-            featured_departments.add(category.department_id)
-    products = Product.objects.filter(
-        is_available=True,
-        category__department__isnull=False,
-    ).select_related('category__department').order_by('-create_date', '-pk')[:4]
-
+        if len(mobile_categories) == 4:
+            break
+        if category not in mobile_categories and category.department_id not in mobile_departments:
+            mobile_categories.append(category)
+            mobile_departments.add(category.department_id)
+    for category in illustrated_categories:
+        if len(mobile_categories) == 4:
+            break
+        if category not in mobile_categories:
+            mobile_categories.append(category)
     context = {
-        'products': products,
+        'product_rows': product_rows,
         'home_categories': categories,
         'hero_category': hero_category,
         'hero_poster': HeroPoster.objects.exclude(image='').first(),
-        'featured_categories': featured_categories[:3],
+        'mobile_categories': mobile_categories,
     }
     return render(request,'home.html',context)
 

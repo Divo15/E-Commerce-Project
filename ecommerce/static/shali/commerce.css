@@ -2,10 +2,17 @@
 .commerce-breadcrumbs { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 13px; margin-bottom: 36px; }
 .commerce-breadcrumbs a { text-decoration: underline; text-underline-offset: 4px; }
 .product-detail-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
-.product-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.product-gallery a:first-child { grid-column: 1 / -1; }
-.product-gallery img { width: 100%; height: auto; }
-.product-image-empty { grid-column: 1 / -1; padding: 80px 24px; background: var(--surface); text-align: center; color: var(--muted); }
+.product-gallery-shell { position: relative; min-width: 0; }
+.product-gallery { display: flex; width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: inline mandatory; scrollbar-width: none; background: var(--surface); }
+.product-gallery::-webkit-scrollbar { display: none; }
+.product-gallery-slide { display: grid; place-items: center; flex: 0 0 100%; min-width: 0; aspect-ratio: 4 / 5; scroll-snap-align: start; scroll-snap-stop: always; background: var(--surface); }
+.product-gallery img { width: 100%; height: 100%; object-fit: contain; }
+.product-gallery-controls { position: absolute; left: 50%; bottom: 14px; display: flex; align-items: center; padding: 4px; border-radius: 999px; background: var(--background); color: var(--ink); transform: translateX(-50%); }
+.product-gallery-arrow { display: inline-grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: var(--burgundy); font: 600 18px/1 var(--body); cursor: pointer; }
+.product-gallery-arrow:hover { background: var(--surface); }
+.product-gallery-arrow:disabled { color: var(--muted); cursor: default; opacity: 0.45; }
+.product-gallery-position { min-width: 44px; font-size: 12px; font-weight: 600; text-align: center; }
+.product-image-empty { padding: 80px 24px; background: var(--surface); text-align: center; color: var(--muted); }
 .product-detail-copy { min-width: 0; overflow-wrap: anywhere; }
 .product-detail-copy h1, .account-page h1 { font-size: clamp(1.9rem, 3vw, 3rem); line-height: 1.35; margin-bottom: 16px; }
 .detail-price { font-size: 1.25rem; font-weight: 600; color: var(--burgundy); margin-bottom: 24px; }
@@ -25,5 +32,6 @@
 .commerce-field .errorlist { margin-block: 8px 0; padding-left: 20px; color: var(--burgundy); font-size: 13px; }
 @media (max-width: 760px) {
     .product-detail-layout { grid-template-columns: 1fr; }
+    .product-gallery-slide { aspect-ratio: 2 / 3; }
     .product-detail-copy .commerce-form { max-width: none; }
 }

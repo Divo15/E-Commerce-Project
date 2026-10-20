@@ -1,0 +1,1436 @@
+{
+ "url": "http://127.0.0.1:8001/",
+ "at": "2026-10-20T15:03:11.777Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 8,
+   "filled": [
+    1,
+    0.4,
+    0.76,
+    0.99,
+    0.93,
+    0.53,
+    0.76,
+    1
+   ],
+   "motion": {
+    "elements": 27,
+    "css": 27,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 6711,
+     "screens": 7.5,
+     "words": 199,
+     "img": 22,
+     "video": 0,
+     "canvas": 0,
+     "svg": 22,
+     "sections": 4,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 10,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "jain-textiles-wedding-edit-20261015.jpeg",
+      "ChatGPT_Image_Sep_27_2026_08_56_47_PM_1.png",
+      "pastel_saree_image_3.png",
+      "Ivory_Embroidered_Outfit_Display.png",
+      "pic-4.jpeg",
+      "pic-5_2cZqENe.jpeg",
+      "ChatGPT_Image_Sep_27_2026_08_56_47_PM_1.png",
+      "WhatsApp_Image_2026-06-12_at_2_u6cLBmq.04.43_PM."
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": []
+    },
+    "hero": {
+     "text": "Shali",
+     "words": 1,
+     "chars": 5,
+     "lines": 1,
+     "size": 266.4,
+     "vw": 18.5,
+     "font": "Prata",
+     "weight": 400,
+     "tracking": -0.04,
+     "leading": 1.02,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "right",
+     "widthRatio": 0.48,
+     "top": 547,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Shali",
+     "words": 1,
+     "lines": 1,
+     "size": 266.4,
+     "font": "Prata"
+    },
+    "headings": [
+     {
+      "text": "Shali",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 30,
+      "vw": 2.1,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.09,
+      "top": 20,
+      "tag": "a",
+      "kind": "heading"
+     },
+     {
+      "text": "Ethnic wear & jewellery. For every version of you.",
+      "words": 9,
+      "chars": 50,
+      "lines": 2,
+      "size": 30,
+      "vw": 2.1,
+      "font": "Manrope",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.45,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.32,
+      "top": 260,
+      "tag": "p",
+      "kind": "statement"
+     },
+     {
+      "text": "Shali",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 266.4,
+      "vw": 18.5,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.04,
+      "leading": 1.02,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.48,
+      "top": 547,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Find your Shali",
+      "words": 3,
+      "chars": 15,
+      "lines": 1,
+      "size": 43.2,
+      "vw": 3,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.2,
+      "top": 1026,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Churidar",
+      "words": 1,
+      "chars": 8,
+      "lines": 1,
+      "size": 37.4,
+      "vw": 2.6,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.11,
+      "top": 1153,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Dresses & Tops",
+      "words": 3,
+      "chars": 14,
+      "lines": 1,
+      "size": 37.4,
+      "vw": 2.6,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.18,
+      "top": 1238,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Necklaces",
+      "words": 1,
+      "chars": 9,
+      "lines": 1,
+      "size": 37.4,
+      "vw": 2.6,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.12,
+      "top": 1323,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Bangles",
+      "words": 1,
+      "chars": 7,
+      "lines": 1,
+      "size": 37.4,
+      "vw": 2.6,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.09,
+      "top": 1408,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Earrings",
+      "words": 1,
+      "chars": 8,
+      "lines": 1,
+      "size": 37.4,
+      "vw": 2.6,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.1,
+      "top": 1493,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Sarees",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 37.4,
+      "vw": 2.6,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.08,
+      "top": 1578,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Traditional Wear",
+      "words": 2,
+      "chars": 16,
+      "lines": 1,
+      "size": 37.4,
+      "vw": 2.6,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.2,
+      "top": 1663,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Shirts",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 37.4,
+      "vw": 2.6,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.07,
+      "top": 1748,
+      "tag": "span",
+      "kind": "heading"
+     },
+     {
+      "text": "Just arrived",
+      "words": 2,
+      "chars": 12,
+      "lines": 1,
+      "size": 43.2,
+      "vw": 3,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.23,
+      "top": 2148,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "A saree for the celebration. Jewellery to finish the look. Discover clothing and accessories across the Shali collections, and put together something that feels like you.",
+      "words": 26,
+      "chars": 170,
+      "lines": 3,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.02,
+      "leading": 1.5,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.62,
+      "top": 4608,
+      "tag": "p",
+      "kind": "statement"
+     },
+     {
+      "text": "Make it yours.",
+      "words": 3,
+      "chars": 14,
+      "lines": 1,
+      "size": 43.2,
+      "vw": 3,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.44,
+      "top": 5779,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Shali",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 504,
+      "vw": 35,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.04,
+      "leading": 1.02,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.95,
+      "top": 6105,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 16,
+     "maxLines": 3,
+     "over2Lines": 0,
+     "statements": 2,
+     "centered": 1,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Manrope",
+       "share": 0.76,
+       "mono": false
+      },
+      {
+       "family": "Prata",
+       "share": 0.24,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      14,
+      16,
+      30,
+      32,
+      37,
+      43,
+      266,
+      504
+     ],
+     "sizeCount": 8,
+     "notLoaded": [],
+     "body": null,
+     "measureChars": null,
+     "max": {
+      "size": 504,
+      "vw": 35,
+      "font": "Prata",
+      "text": "Shali"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#fdfafa",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0.43,
+      "l": 0.99
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#580624",
+       "top": 88,
+       "hsl": {
+        "h": 338,
+        "s": 0.87,
+        "l": 0.18
+       }
+      },
+      {
+       "color": "#f9eff0",
+       "top": 2018,
+       "hsl": {
+        "h": 354,
+        "s": 0.45,
+        "l": 0.96
+       }
+      },
+      {
+       "color": "#fdfafa",
+       "top": 2297,
+       "hsl": {
+        "h": 0,
+        "s": 0.43,
+        "l": 0.99
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#311e21",
+       "share": 0.6
+      },
+      {
+       "color": "#fdfafa",
+       "share": 0.31
+      },
+      {
+       "color": "#685558",
+       "share": 0.06
+      },
+      {
+       "color": "#580624",
+       "share": 0.02
+      },
+      {
+       "color": "#3b0617",
+       "share": 0.02
+      }
+     ],
+     "button": {
+      "bg": "#ffffff",
+      "hsl": {
+       "h": 0,
+       "s": 0,
+       "l": 1
+      },
+      "fg": "#580624"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 2,
+     "inHero": 2,
+     "radius": 0,
+     "height": 50,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Skip to content",
+      "Explore collections ↗"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 9,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "img",
+      "ratio": 0.38
+     }
+    ],
+    "nav": {
+     "links": 4,
+     "fixed": false,
+     "height": 88,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "manrope",
+     "prata"
+    ]
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 5,
+   "filled": [
+    0.72,
+    0.71,
+    0.96,
+    0.49,
+    0.8
+   ],
+   "motion": {
+    "elements": 27,
+    "css": 27,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 4772,
+     "screens": 4.7,
+     "words": 193,
+     "img": 22,
+     "video": 0,
+     "canvas": 0,
+     "svg": 22,
+     "sections": 4,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 9,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "jain-textiles-wedding-edit-20261015.jpeg",
+      "ChatGPT_Image_Sep_27_2026_08_56_47_PM_1.png",
+      "pastel_saree_image_3.png",
+      "Ivory_Embroidered_Outfit_Display.png",
+      "pic-4.jpeg",
+      "pic-5_2cZqENe.jpeg",
+      "WhatsApp_Image_2026-06-12_at_2_u6cLBmq.04.43_PM.",
+      "ChatGPT_Image_Sep_27_2026_08_20_08_PM_l1UkW0q.pn"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": []
+    },
+    "hero": {
+     "text": "Shali",
+     "words": 1,
+     "chars": 5,
+     "lines": 1,
+     "size": 142.1,
+     "vw": 18.5,
+     "font": "Prata",
+     "weight": 400,
+     "tracking": -0.04,
+     "leading": 1.02,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "right",
+     "widthRatio": 0.46,
+     "top": 111,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Shali",
+     "words": 1,
+     "lines": 1,
+     "size": 142.1,
+     "font": "Prata"
+    },
+    "headings": [
+     {
+      "text": "Shali",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.17,
+      "top": 20,
+      "tag": "a",
+      "kind": "heading"
+     },
+     {
+      "text": "Shali",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 142.1,
+      "vw": 18.5,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.04,
+      "leading": 1.02,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.46,
+      "top": 111,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Find your Shali",
+      "words": 3,
+      "chars": 15,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.27,
+      "top": 625,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Just arrived",
+      "words": 2,
+      "chars": 12,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.42,
+      "top": 1649,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Make it yours.",
+      "words": 3,
+      "chars": 14,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.38,
+      "top": 4080,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Shali",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 268.8,
+      "vw": 35,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.04,
+      "leading": 1.02,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.95,
+      "top": 4406,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 6,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 1,
+     "medianWords": 2,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Manrope",
+       "share": 0.75,
+       "mono": false
+      },
+      {
+       "family": "Prata",
+       "share": 0.25,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      14,
+      16,
+      22,
+      24,
+      30,
+      142,
+      269
+     ],
+     "sizeCount": 7,
+     "notLoaded": [],
+     "body": {
+      "font": "Prata",
+      "size": 24,
+      "leading": 1.5,
+      "weight": 400,
+      "tracking": -0.02,
+      "contrast": 15.1
+     },
+     "measureChars": 49,
+     "max": {
+      "size": 268.8,
+      "vw": 35,
+      "font": "Prata",
+      "text": "Shali"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#fdfafa",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0.43,
+      "l": 0.99
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#580624",
+       "top": 88,
+       "hsl": {
+        "h": 338,
+        "s": 0.87,
+        "l": 0.18
+       }
+      },
+      {
+       "color": "#f9eff0",
+       "top": 1577,
+       "hsl": {
+        "h": 354,
+        "s": 0.45,
+        "l": 0.96
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#311e21",
+       "share": 0.62
+      },
+      {
+       "color": "#fdfafa",
+       "share": 0.29
+      },
+      {
+       "color": "#685558",
+       "share": 0.06
+      },
+      {
+       "color": "#580624",
+       "share": 0.02
+      },
+      {
+       "color": "#3b0617",
+       "share": 0.02
+      }
+     ],
+     "button": {
+      "bg": "#ffffff",
+      "hsl": {
+       "h": 0,
+       "s": 0,
+       "l": 1
+      },
+      "fg": "#580624"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 2,
+     "inHero": 2,
+     "radius": 0,
+     "height": 50,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Skip to content",
+      "Explore collections ↗"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 9,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "img",
+      "ratio": 0.19
+     },
+     {
+      "type": "img",
+      "ratio": 0.12
+     }
+    ],
+    "nav": {
+     "links": 2,
+     "fixed": false,
+     "height": 88,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "manrope",
+     "prata"
+    ]
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 7,
+   "filled": [
+    0.86,
+    0.85,
+    1,
+    0.7,
+    0.77,
+    0.95,
+    1
+   ],
+   "motion": {
+    "elements": 22,
+    "css": 22,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 5367,
+     "screens": 6.4,
+     "words": 161,
+     "img": 22,
+     "video": 0,
+     "canvas": 0,
+     "svg": 22,
+     "sections": 4,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 12,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "jain-textiles-wedding-edit-20261015.jpeg",
+      "ChatGPT_Image_Sep_27_2026_08_56_47_PM_1.png",
+      "ChatGPT_Image_Sep_27_2026_08_20_08_PM_l1UkW0q.pn",
+      "f03728e8-cd1f-45b4-8078-e8315d47fbc7.png",
+      "WhatsApp_Image_2026-06-12_at_2_u6cLBmq.04.43_PM.",
+      "pastel_saree_image_3.png",
+      "Ivory_Embroidered_Outfit_Display.png",
+      "pic-4.jpeg"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": []
+    },
+    "hero": {
+     "text": "Shali",
+     "words": 1,
+     "chars": 5,
+     "lines": 1,
+     "size": 93.6,
+     "vw": 24,
+     "font": "Prata",
+     "weight": 400,
+     "tracking": -0.04,
+     "leading": 1.08,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "center",
+     "position": "center",
+     "widthRatio": 0.91,
+     "top": 416,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Shali",
+     "words": 1,
+     "lines": 1,
+     "size": 93.6,
+     "font": "Prata"
+    },
+    "headings": [
+     {
+      "text": "Shali",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.26,
+      "top": 11,
+      "tag": "a",
+      "kind": "heading"
+     },
+     {
+      "text": "Shali",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 93.6,
+      "vw": 24,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.04,
+      "leading": 1.08,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.91,
+      "top": 416,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Find your Shali",
+      "words": 3,
+      "chars": 15,
+      "lines": 1,
+      "size": 30,
+      "vw": 7.7,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.91,
+      "top": 711,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Just arrived",
+      "words": 2,
+      "chars": 12,
+      "lines": 1,
+      "size": 30,
+      "vw": 7.7,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.91,
+      "top": 1507,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Make it yours.",
+      "words": 3,
+      "chars": 14,
+      "lines": 1,
+      "size": 30,
+      "vw": 7.7,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.035,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.91,
+      "top": 4644,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Shali",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 132.6,
+      "vw": 34,
+      "font": "Prata",
+      "weight": 400,
+      "tracking": -0.04,
+      "leading": 1.02,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "center",
+      "position": "center",
+      "widthRatio": 0.91,
+      "top": 5155,
+      "tag": "div",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 6,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 2,
+     "medianWords": 2,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Manrope",
+       "share": 0.78,
+       "mono": false
+      },
+      {
+       "family": "Prata",
+       "share": 0.22,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      13,
+      14,
+      15,
+      16,
+      22,
+      30,
+      94,
+      133
+     ],
+     "sizeCount": 8,
+     "notLoaded": [],
+     "body": {
+      "font": "Prata",
+      "size": 22,
+      "leading": 1.5,
+      "weight": 400,
+      "tracking": -0.02,
+      "contrast": 15.1
+     },
+     "measureChars": 32,
+     "max": {
+      "size": 132.6,
+      "vw": 34,
+      "font": "Prata",
+      "text": "Shali"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.01,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#fdfafa",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0.43,
+      "l": 0.99
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#580624",
+       "top": 60,
+       "hsl": {
+        "h": 338,
+        "s": 0.87,
+        "l": 0.18
+       }
+      },
+      {
+       "color": "#f9eff0",
+       "top": 1459,
+       "hsl": {
+        "h": 354,
+        "s": 0.45,
+        "l": 0.96
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#311e21",
+       "share": 0.62
+      },
+      {
+       "color": "#fdfafa",
+       "share": 0.31
+      },
+      {
+       "color": "#685558",
+       "share": 0.03
+      },
+      {
+       "color": "#3b0617",
+       "share": 0.02
+      },
+      {
+       "color": "#580624",
+       "share": 0.01
+      }
+     ],
+     "button": {
+      "bg": "#ffffff",
+      "hsl": {
+       "h": 0,
+       "s": 0,
+       "l": 1
+      },
+      "fg": "#580624"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 2,
+     "inHero": 2,
+     "radius": 0,
+     "height": 50,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Skip to content",
+      "Explore collections ↗"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 4,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "img",
+      "ratio": 0.39
+     }
+    ],
+    "nav": {
+     "links": 2,
+     "fixed": true,
+     "height": 60,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "manrope",
+     "prata"
+    ]
+   },
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "WARN",
+   "id": "no-footage",
+   "width": 1440,
+   "message": "No video anywhere on the page.",
+   "fix": "Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "D:\\Backend\\.taste-skill\\inspect\\desktop-fold.jpg",
+   "pages": [
+    "D:\\Backend\\.taste-skill\\inspect\\desktop-page-01.jpg",
+    "D:\\Backend\\.taste-skill\\inspect\\desktop-page-02.jpg"
+   ]
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "D:\\Backend\\.taste-skill\\inspect\\tablet-fold.jpg",
+   "pages": [
+    "D:\\Backend\\.taste-skill\\inspect\\tablet-page-01.jpg"
+   ]
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "D:\\Backend\\.taste-skill\\inspect\\mobile-fold.jpg",
+   "pages": [
+    "D:\\Backend\\.taste-skill\\inspect\\mobile-page-01.jpg"
+   ]
+  }
+ ]
+}

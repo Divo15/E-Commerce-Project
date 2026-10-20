@@ -12,14 +12,14 @@ Implemented:
 - Admin-managed departments, categories, subcategories, hero posters, products, and size-specific inventory.
 - Department-aware catalog routes and keyword search across product names and descriptions.
 - Catalog/search pagination with 12 products per page and stable ordering.
-- Shared storefront layout, responsive homepage, category directory, product-detail gallery, account pages, and shipping pages.
+- Shared storefront layout across the homepage, category directory, catalog/search, product detail, cart, accounts, and shipping.
 - POST-only cart additions, quantity updates, increases, decreases, and removals with CSRF protection and session isolation.
 - Separate cart rows for each product/size, stock validation, and a live navigation bag count.
 - Guest cart and saved shipping-draft access preserved when sign-in rotates the session key.
 - Shipping validation, pending order/item snapshots, and read-only order details in Django Admin.
 - Development SQLite, static/media configuration, and console email backend.
 
-The catalog and cart work but retain minimal markup; they still need integration with the shared visual layout.
+Catalog cards show live images, prices, stock, and stocked size choices in a responsive grid with two columns on phones. The cart shows image-based item rows, quantity controls, stock warnings, and a bag summary. See [CATALOG_IMPLEMENTATION.md](CATALOG_IMPLEMENTATION.md).
 
 Not implemented:
 
@@ -65,11 +65,11 @@ Backend/
 
 `Department → Category → SubCategory` defines the catalog. Categories may remain unassigned in Admin, but public navigation, listings, and search exclude incomplete department paths. Products may belong to multiple subcategories only within their own category.
 
-Products store a name, description, integer rupee price, color, up to three images, size type, and availability. `ProductInventory` tracks non-negative stock for clothing sizes `s`, `xl`, and `xxl`, saree `free_size`, or unsized `no_size`.
+Products store a name, description, non-negative integer rupee price, color, up to three images, size type, and availability. `ProductInventory` tracks non-negative stock for clothing sizes `s`, `xl`, and `xxl`, saree `free_size`, or unsized `no_size`.
 
 A `Cart` is identified by the browser session key. A database constraint prevents duplicate product/size rows in one cart. Adding the same size increases quantity; different sizes stay separate. Cart changes validate stock but do not reserve or deduct inventory. Navigation counts active units rather than distinct rows, and browsing does not create a cart/session just to calculate the count.
 
-Saving shipping details creates or refreshes a pending `Order` and its `OrderItem` snapshots. Snapshots preserve names, sizes, quantities, and prices. Paid orders and drafts with payment references cannot be overwritten by the shipping form. Saving leaves the cart and inventory intact and does not place an order.
+Saving shipping details creates or refreshes a pending `Order` and its `OrderItem` snapshots. Snapshots preserve names, sizes, quantities, and prices. Paid orders and drafts with payment references cannot be overwritten by the shipping form. Saving leaves the cart and inventory intact and does not place an order. If bag items, quantities, or prices change afterward, review redirects to the prefilled shipping form so the draft can be refreshed.
 
 ## Routes
 
@@ -99,8 +99,8 @@ Saving shipping details creates or refreshes a pending `Order` and its `OrderIte
 ## Local setup
 
 ```powershell
-git clone https://github.com/Divo15/Shaali-E-commerce.git
-cd Shaali-E-commerce
+git clone https://github.com/Divo15/E-Commerce-Project.git
+cd E-Commerce-Project
 py -3.12 -m venv env
 .\env\Scripts\Activate.ps1
 python -m pip install --upgrade pip
@@ -124,7 +124,7 @@ The existing migrations `carts.0002_cartitem_size` and `orders.0002_shipping_det
 
 ## Validation
 
-Verified on 2026-10-15:
+Current automated checks (2026-10-20):
 
 ```powershell
 .\env\Scripts\python.exe manage.py check
@@ -134,24 +134,26 @@ Verified on 2026-10-15:
 git diff --check
 ```
 
-All **89 tests pass**, Django reports no system-check issues, and there is no migration drift or pending migration. Tests cover catalog/search/detail rendering, stock rules, cart mutations and isolation, bag counts, registration/login/logout, CSRF, safe redirects, shipping snapshots, and Admin access.
+All **93 tests pass**, Django reports no system-check issues, and there is no migration drift or pending migration. Tests cover catalog/search/detail rendering, stock rules, cart mutations and isolation, bag counts, registration/login/logout, CSRF, safe redirects, shipping snapshots, and Admin access.
 
 A browser check at 1440px and 390px verified product and account pages, add-to-bag, shipping save/review, registration, sign-in, and guest-cart preservation using a temporary database copy. No local asset failures, page script errors, or horizontal overflow occurred on the checked pages. Screenshots were visually inspected.
 
+Catalog/cart checks at 1440, 1024, 768, 390, and 320px also verified two-column phone grids, collection navigation, pagination, search, missing images, unavailable stock, quantity updates/removal, and shipping access after stock correction. No overflow, duplicate IDs, local asset failures, or script errors were found. Preview fixtures were created only in a temporary database copy.
+
 ## Remaining work
 
-1. Integrate the catalog and cart with the shared storefront layout.
-2. Build payment completion around the existing draft-order models, rechecking price and stock before payment and fulfilment.
-3. Calculate delivery charges/serviceability and send confirmed order notifications.
-4. Add the deferred catalog fields and corresponding Admin/UI support.
-5. Move secrets and environment-specific settings into environment variables and prepare production database/storage/deployment.
+1. Build payment completion around the existing draft-order models, rechecking price and stock before payment and fulfilment.
+2. Calculate delivery charges/serviceability and send confirmed order notifications.
+3. Add the deferred catalog fields and corresponding Admin/UI support.
+4. Prepare production database, storage, HTTPS/security settings, and deployment.
 
-The current `SECRET_KEY`, `DEBUG`, and `ALLOWED_HOSTS` are development settings. The console email backend is configured, but order-email workflows are not implemented.
+Set `DJANGO_DEBUG=false`, a private `DJANGO_SECRET_KEY`, and comma-separated `DJANGO_ALLOWED_HOSTS` for deployment. Startup requires the key and hosts when debug is disabled. Local development defaults to debug mode and generates a temporary secret if none is supplied; set `DJANGO_SECRET_KEY` locally to keep sessions valid across restarts. The console email backend is configured, but order-email workflows are not implemented.
 
 ## Documentation
 
 - [HANDOFF.md](HANDOFF.md): current development state and next tasks.
 - [RECOVERY_REVIEW.md](RECOVERY_REVIEW.md): defects found, recovery actions, backup, and verification.
+- [CATALOG_IMPLEMENTATION.md](CATALOG_IMPLEMENTATION.md): catalog/cart layout, stock presentation, and responsive verification.
 - [CART_IMPLEMENTATION.md](CART_IMPLEMENTATION.md): cart routes and migration behavior.
 - [SHIPPING_IMPLEMENTATION.md](SHIPPING_IMPLEMENTATION.md): shipping validation and draft-order behavior.
 - [HOMEPAGE.md](HOMEPAGE.md): storefront assets and homepage behavior.

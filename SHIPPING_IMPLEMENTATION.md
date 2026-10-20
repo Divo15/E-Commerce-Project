@@ -18,7 +18,7 @@ format validation; delivery serviceability and shipping rates are not calculated
 - Repeated saves update that session's pending draft and refresh its item snapshot.
 - Orders that are paid or have payment references are never edited by this form.
 - Saving does not clear the cart, deduct inventory, take payment, or send email.
-- `/checkout/shipping/review/` displays only the current session's saved draft.
+- `/checkout/shipping/review/` displays only the current session's saved draft. If bag items, quantities, or prices change, it sends the customer to the prefilled shipping form to refresh the draft.
 - Shipping and review responses disable browser caching.
 - Sign-in preserves the guest cart through session-key rotation, so its saved
   draft remains accessible from the same browser.

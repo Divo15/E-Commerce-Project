@@ -6,6 +6,16 @@ from . models import Product
 from django.db.models import Q
 
 
+def _add_stock_context(product):
+    allowed_sizes = dict(AddCartForm(product=product).fields['size'].choices)
+    product.stocked_inventory = [
+        row for row in product.inventory.all()
+        if row.size in allowed_sizes and row.quantity > 0
+    ]
+    product.available_stock = sum(row.quantity for row in product.stocked_inventory)
+    return product
+
+
 def store(
     request,
     department_slug=None,
@@ -41,6 +51,8 @@ def store(
     products = products.select_related('category__department').prefetch_related('inventory').order_by('pk')
     paginator = Paginator(products, 12)
     page_obj = paginator.get_page(request.GET.get('page'))
+    for product in page_obj:
+        _add_stock_context(product)
 
     context = {
         'products': page_obj,
@@ -59,15 +71,11 @@ def product_detail(request, department_slug, category_slug, product_slug):
         slug=product_slug,
         is_available=True,
     )
-    allowed_sizes = dict(AddCartForm(product=single_product).fields['size'].choices)
-    stocked_inventory = [
-        row for row in single_product.inventory.all()
-        if row.size in allowed_sizes and row.quantity > 0
-    ]
+    _add_stock_context(single_product)
     context = {
         'single_product': single_product,
-        'stocked_inventory': stocked_inventory,
-        'available_stock': sum(row.quantity for row in stocked_inventory),
+        'stocked_inventory': single_product.stocked_inventory,
+        'available_stock': single_product.available_stock,
         'product_images': [
             image for image in (single_product.image_1, single_product.image_2, single_product.image_3)
             if image
@@ -87,6 +95,8 @@ def search(request):
         ).select_related('category__department').prefetch_related('inventory').order_by('-create_date', '-pk')
     paginator = Paginator(products, 12)
     page_obj = paginator.get_page(request.GET.get('page'))
+    for product in page_obj:
+        _add_stock_context(product)
     context = {
         'products': page_obj,
         'product_count': paginator.count,

@@ -125,8 +125,12 @@ def cart(request):
     cart_items = list(CartItem.objects.filter(
         cart__cart_id=request.session.session_key,
         is_active=True,
-    ).select_related('product').prefetch_related('product__inventory').order_by('pk'))
+    ).select_related('product__category__department').prefetch_related('product__inventory').order_by('pk'))
     for item in cart_items:
+        item.product_url = (
+            item.product.get_url()
+            if item.product.is_available and item.product.category.department_id else ''
+        )
         size_form = AddCartForm({'size': item.size}, product=item.product)
         valid_size = size_form.is_valid() and size_form.cleaned_data['size'] == item.size
         inventory = next((row for row in item.product.inventory.all() if row.size == item.size), None)
@@ -144,4 +148,5 @@ def cart(request):
         'total': sum(item.subtotal for item in cart_items),
         'quantity': sum(item.quantity for item in cart_items),
         'cart_items': cart_items,
+        'has_stock_issues': any(item.stock_message for item in cart_items),
     })

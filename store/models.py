@@ -18,7 +18,7 @@ class Product(models.Model):
     slug = models.SlugField(max_length=200, unique= True)
     description = models.TextField(max_length=500, blank = True)
     color = models.CharField(max_length=50)
-    price  = models.IntegerField()
+    price  = models.PositiveIntegerField()
     image_1 = models.ImageField(upload_to='photos/products')
     image_2 = models.ImageField(upload_to='photos/products',blank = True)
     image_3 = models.ImageField(upload_to='photos/products',blank = True)

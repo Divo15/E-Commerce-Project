@@ -1,9 +1,9 @@
 {% load static %}
 <header class="site-header">
     <div class="header-inner page-width">
+        <button class="mobile-menu-link icon-button" type="button" data-mobile-menu-open aria-label="Open navigation menu"><svg aria-hidden="true"><use href="#icon-menu"/></svg></button>
         <a class="brand" href="{% url 'home' %}" aria-label="Shali Collections home">
-            <img src="{% static 'shali/brand.jpg' %}" alt="" width="64" height="64">
-            <span class="brand-name">Shali<span>Collections</span></span>
+            <img src="{% static 'shali/brand-removebg-preview.png' %}" alt="" width="500" height="500">
         </a>
         <nav class="desktop-navigation" aria-label="Main navigation">
             <a class="navigation-link" href="{% url 'store:store' %}">All collections</a>
@@ -29,4 +29,29 @@
             <a class="icon-button bag-link" href="{% url 'cart' %}" aria-label="Shopping bag, {{ cart_count }} item{{ cart_count|pluralize }}"><svg aria-hidden="true"><use href="#icon-bag"/></svg>{% if cart_count %}<span class="bag-count" aria-hidden="true">{% if cart_count > 99 %}99+{% else %}{{ cart_count }}{% endif %}</span>{% endif %}</a>
         </div>
     </div>
+    <dialog class="mobile-menu-dialog" id="mobile-menu-dialog" aria-labelledby="mobile-menu-title">
+        <div class="mobile-menu-panel">
+            <div class="mobile-menu-top">
+                <p id="mobile-menu-title">Browse Shali</p>
+                <button class="icon-button" type="button" data-mobile-menu-close aria-label="Close navigation menu"><svg aria-hidden="true"><use href="#icon-close"/></svg></button>
+            </div>
+            <nav class="mobile-menu-nav" aria-label="Mobile catalog navigation">
+                <a href="{% url 'store:store' %}">All collections</a>
+                <a href="{% url 'categories' %}">All categories</a>
+                {% for department in departments %}
+                <details>
+                    <summary><span>{{ department.department_name }}</span><svg aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+                    <div class="mobile-menu-group">
+                        <a href="{{ department.get_url }}">Shop all {{ department.department_name }}</a>
+                        {% for category in department.categories.all %}<a href="{{ category.get_url }}">{{ category.category_name }}</a>{% endfor %}
+                    </div>
+                </details>
+                {% endfor %}
+            </nav>
+            <div class="mobile-menu-secondary">
+                <a href="{% url 'accounts:login' %}">Your account</a>
+                <a href="{% url 'cart' %}">Shopping bag{% if cart_count %} ({{ cart_count }}){% endif %}</a>
+            </div>
+        </div>
+    </dialog>
 </header>

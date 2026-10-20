@@ -208,8 +208,8 @@ No `AGENTS.md` file was found in this repository when this guide was prepared.
 - Custom user model: `accounts.Account`.
 - `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` are read from environment variables
   and default to empty strings.
-- `DEBUG = True`, an empty development `ALLOWED_HOSTS`, and a hard-coded development
-  secret key are currently present.
+- `DJANGO_DEBUG`, `DJANGO_SECRET_KEY`, and `DJANGO_ALLOWED_HOSTS` configure deployment.
+  Production startup requires a private key and allowed hosts; local debug mode uses a temporary secret if none is supplied.
 
 ### Rules for future work
 

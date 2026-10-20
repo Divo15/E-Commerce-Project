@@ -42,9 +42,11 @@ Existing storefront implementation notes remain in `HOMEPAGE.md`.
 
 The current application supports catalog search, product galleries, stock-aware
 size selection, session carts and navigation counts, account forms, and shipping
-drafts. Product and account pages use the established storefront layout.
-Payments, delivery rates/serviceability, order notifications, catalog/cart visual
-integration, and production deployment remain unfinished.
+drafts. Catalog/search, cart, product, account, and shipping pages use the
+established storefront layout. The catalog has live image cards and a two-column
+phone grid; the bag has quantity controls, stock warnings, and a responsive summary.
+Payments, delivery rates/serviceability, order notifications, and production
+deployment remain unfinished.
 
 See [RECOVERY_REVIEW.md](RECOVERY_REVIEW.md) for the recovery results and
 [HANDOFF.md](HANDOFF.md) for the current development handoff.
