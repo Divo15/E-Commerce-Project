@@ -10,7 +10,7 @@ from store.models import Product, ProductInventory
 from .models import Order
 
 
-@override_settings(WHATSAPP_ORDER_NUMBER='916282069689', PASSWORD_HASHERS=['django.contrib.auth.hashers.MD5PasswordHasher'])
+@override_settings(WHATSAPP_ORDER_NUMBER='6583952511', PASSWORD_HASHERS=['django.contrib.auth.hashers.MD5PasswordHasher'])
 class WhatsAppOrderingTests(TestCase):
     def setUp(self):
         self.user = Account.objects.create_user('Meera', 'Rao', 'meera', 'meera@example.com', 'Velvet-forest-43!')
@@ -30,7 +30,7 @@ class WhatsAppOrderingTests(TestCase):
         response = self.client.post(self.url, {'size': 's', 'quantity': 2, 'price': 1, 'email': 'spoof@example.com', 'phone': '123'})
         self.assertEqual(response.status_code, 302)
         link = urlsplit(response.url)
-        self.assertEqual((link.scheme, link.netloc, link.path), ('https', 'wa.me', '/916282069689'))
+        self.assertEqual((link.scheme, link.netloc, link.path), ('https', 'wa.me', '/6583952511'))
         text = parse_qs(link.query)['text'][0]
         for expected in ['Meera Rao', self.user.email, self.user.phone_number, 'Chennai', '600001', self.product.product_name, 'Size: S', 'Quantity: 2', '₹1,500', '₹3,000', self.product.get_url()]:
             self.assertIn(expected, text)
@@ -73,6 +73,7 @@ class WhatsAppOrderingTests(TestCase):
         self.client.force_login(self.user)
         self.client.post(reverse('add_cart', args=[self.product.pk]), {'size': 's', 'quantity': 2})
         response = self.client.post(reverse('buy_bag'))
+        self.assertEqual(urlsplit(response.url).path, '/6583952511')
         text = parse_qs(urlsplit(response.url).query)['text'][0]
         self.assertIn('Item total: ₹3,000', text)
         self.assertEqual(CartItem.objects.get().quantity, 2)

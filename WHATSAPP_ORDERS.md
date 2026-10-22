@@ -1,7 +1,7 @@
 # WhatsApp purchase requests
 
 The product-page Buy now button and bag's Proceed to WhatsApp to buy button open a
-prefilled chat with **+91 6282069689**. Override `WHATSAPP_ORDER_NUMBER` in the
+prefilled chat with **+65 8395 2511**. Override `WHATSAPP_ORDER_NUMBER` in the
 server environment to change it; use international digits without a leading +.
 
 The customer must sign in. Name, verified account email, phone, city and PIN
