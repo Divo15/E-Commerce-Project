@@ -15,6 +15,7 @@ import os
 import secrets
 
 from django.core.exceptions import ImproperlyConfigured
+from .storage_config import storage_paths
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'true').lower() in {'1', 'true', 'yes'}
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') or (secrets.token_urlsafe(50) if DEBUG else '')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '')
+if not SECRET_KEY and DEBUG:
+    # Email tokens and browser sessions must survive local server restarts.
+    local_secret_path = BASE_DIR / '.local' / 'secret_key'
+    local_secret_path.parent.mkdir(exist_ok=True)
+    try:
+        with local_secret_path.open('x', encoding='utf-8') as secret_file:
+            secret_file.write(secrets.token_urlsafe(50))
+    except FileExistsError:
+        pass
+    SECRET_KEY = local_secret_path.read_text(encoding='utf-8').strip()
 if not SECRET_KEY:
     raise ImproperlyConfigured('DJANGO_SECRET_KEY is required when DJANGO_DEBUG is disabled.')
 
@@ -34,6 +45,8 @@ ALLOWED_HOSTS = [
 ]
 if not DEBUG and not ALLOWED_HOSTS:
     raise ImproperlyConfigured('DJANGO_ALLOWED_HOSTS is required when DJANGO_DEBUG is disabled.')
+
+DATA_ROOT, BACKUP_ROOT, BACKUP_REPLICA_ROOT = storage_paths(BASE_DIR, DEBUG, os.environ)
 
 
 # Application definition
@@ -50,6 +63,7 @@ INSTALLED_APPS = [
     'store',
     'carts',
     'orders',
+    'maintenance',
 ]
 
 MIDDLEWARE = [
@@ -76,6 +90,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processor.menu_links',
                 'carts.context_processors.counter',
+                'accounts.google_auth.google_context',
             ],
         },
     },
@@ -91,7 +106,8 @@ AUTH_USER_MODEL = 'accounts.Account'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': DATA_ROOT / 'db.sqlite3',
+        'OPTIONS': {'timeout': 20},
     }
 }
 
@@ -136,7 +152,48 @@ STATIC_URL = '/static/'
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = os.environ.get('DJANGO_EMAIL_BACKEND', 'django.core.mail.backends.filebased.EmailBackend' if DEBUG else 'django.core.mail.backends.smtp.EmailBackend')
+EMAIL_FILE_PATH = BASE_DIR / '.local' / 'emails'
+EMAIL_HOST = os.environ.get('EMAIL_HOST', '')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', '587'))
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'true').lower() in {'true', '1', 'yes'}
+EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', 'false').lower() in {'true', '1', 'yes'}
+EMAIL_TIMEOUT = 15
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'Shali Collections <noreply@localhost>')
+ACCOUNT_PUBLIC_ORIGIN = os.environ.get('ACCOUNT_PUBLIC_ORIGIN', '')
+GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', '')
+GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET', '')
+GOOGLE_OAUTH_CONFIG_FILE = BASE_DIR / '.local' / 'google-oauth.json'
+if DEBUG:
+    # Only stage/category information is emitted by this logger, never tokens.
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {'google_signin': {'format': '{asctime} {levelname} {message}', 'style': '{'}},
+        'handlers': {'google_signin_private': {
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / '.local' / 'google-signin.log',
+            'formatter': 'google_signin',
+            'delay': True,
+        }},
+        'loggers': {'accounts.google_auth': {
+            'handlers': ['google_signin_private'], 'level': 'WARNING', 'propagate': False,
+        }},
+    }
+PASSWORD_RESET_TIMEOUT = 3600
+WHATSAPP_ORDER_NUMBER = os.environ.get('WHATSAPP_ORDER_NUMBER', '916282069689')
+LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'accounts:account'
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+# Enable only when the trusted reverse proxy strips incoming forwarding headers.
+if os.environ.get('DJANGO_TRUST_PROXY', '').lower() in {'true', '1'}:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',') if origin.strip()]
 
 
 STATIC_ROOT = BASE_DIR / 'static'
@@ -144,6 +201,6 @@ STATICFILES_DIRS = [
     BASE_DIR / 'ecommerce' / 'static',
 ]
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR /'media'
+MEDIA_ROOT = DATA_ROOT / 'media'
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
 STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', '')

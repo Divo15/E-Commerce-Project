@@ -94,16 +94,20 @@ class AccountFlowTests(TestCase):
             with self.subTest(name=name):
                 self.assertEqual(client.post(reverse(f'accounts:{name}'), {}).status_code, 403)
 
-    def test_registration_creates_active_account_with_hashed_password(self):
+    def test_registration_creates_pending_account_with_hashed_password(self):
         response = self.client.post(reverse('accounts:register'), {
-            'first_name': 'Meera', 'last_name': 'Rao', 'username': 'meera',
+            'first_name': 'Meera', 'last_name': 'Rao',
             'email': 'MEERA@example.com', 'phone_number': '9876543210',
+            'city': 'Chennai', 'postal_code': '600001',
             'password': self.password, 'confirm_password': self.password,
         })
-        self.assertRedirects(response, reverse('accounts:login'))
-        user = Account.objects.get(username='meera')
+        self.assertRedirects(response, reverse('accounts:verification_sent'))
+        user = Account.objects.get(email='meera@example.com')
         self.assertEqual(user.email, 'meera@example.com')
-        self.assertTrue(user.is_active)
+        self.assertEqual(user.city, 'Chennai')
+        self.assertEqual(user.postal_code, '600001')
+        self.assertFalse(user.is_active)
+        self.assertTrue(user.email_verification_pending)
         self.assertTrue(user.check_password(self.password))
         self.assertFalse(user.is_admin)
 
@@ -113,6 +117,35 @@ class AccountFlowTests(TestCase):
         self.assertContains(response, 'Check the details below.')
         self.assertTrue(response.context['form'].is_bound)
         self.assertEqual(Account.objects.count(), 1)
+
+    def test_registration_rejects_missing_location_and_invalid_postal_codes(self):
+        data = {
+            'first_name': 'Meera', 'last_name': 'Rao', 'username': 'meera',
+            'email': 'meera@example.com', 'phone_number': '9876543210',
+            'password': self.password, 'confirm_password': self.password,
+        }
+        response = self.client.post(reverse('accounts:register'), data)
+        self.assertIn('city', response.context['form'].errors)
+        self.assertIn('postal_code', response.context['form'].errors)
+        for postal_code in ['12345', '1234567', 'ABCDEF', '123 45']:
+            with self.subTest(postal_code=postal_code):
+                response = self.client.post(reverse('accounts:register'), {
+                    **data, 'city': 'Chennai', 'postal_code': postal_code,
+                })
+                self.assertIn('postal_code', response.context['form'].errors)
+                self.assertContains(response, 'value="Chennai"')
+                self.assertNotContains(response, self.password)
+        self.assertFalse(Account.objects.filter(email='meera@example.com').exists())
+
+    def test_registration_preserves_leading_zero_in_postal_code(self):
+        response = self.client.post(reverse('accounts:register'), {
+            'first_name': 'Meera', 'last_name': 'Rao', 'username': 'meera',
+            'email': 'meera@example.com', 'phone_number': '81234567',
+            'city': 'Singapore', 'postal_code': '018956',
+            'password': self.password, 'confirm_password': self.password,
+        })
+        self.assertRedirects(response, reverse('accounts:verification_sent'))
+        self.assertEqual(Account.objects.get(email='meera@example.com').postal_code, '018956')
 
     def test_duplicate_email_and_password_mismatch_do_not_create_account(self):
         data = {

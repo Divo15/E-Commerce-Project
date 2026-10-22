@@ -1,0 +1,10 @@
+{% extends 'accounts/layout.html' %}
+{% block account_content %}
+<h1>Your account</h1><p class="account-intro">Welcome, {{ request.user.first_name }}.</p>
+<div class="account-links"><a class="text-link" href="{% url 'accounts:details' %}">Edit contact details</a></div>
+<dl class="account-details"><dt>Email address</dt><dd>{{ request.user.email }}</dd><dt>Name</dt><dd>{{ request.user.first_name }} {{ request.user.last_name }}</dd>{% if request.user.city %}<dt>Location</dt><dd>{{ request.user.city }} {{ request.user.postal_code }}</dd>{% endif %}</dl>
+<a class="button button-burgundy account-shopping-button" href="{% url 'store:store' %}">Continue shopping <span aria-hidden="true">→</span></a>
+{% if request.user.has_usable_password %}<div class="account-links"><a class="text-link" href="{% url 'accounts:password_change' %}">Change password</a></div>{% endif %}
+{% if not request.user.google_subject %}<p class="account-intro">Connect your Google account for easier sign-in.</p>{% include 'accounts/google_button.html' %}{% else %}<p class="account-intro">Your Google account is connected. You can sign in with Google next time.</p>{% endif %}
+<form method="post" action="{% url 'accounts:logout' %}" class="commerce-form">{% csrf_token %}<button class="button button-outline" type="submit">Sign out</button></form>
+{% endblock %}

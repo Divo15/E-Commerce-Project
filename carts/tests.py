@@ -228,7 +228,7 @@ class CartMutationTests(TestCase):
         self.assertEqual(item.quantity, 1)
 
         response = self.client.get(reverse('cart'))
-        self.assertContains(response, f'href="{reverse("orders:shipping_details")}"')
+        self.assertContains(response, f'action="{reverse("buy_bag")}"')
 
     def test_unavailable_product_can_be_removed_but_cannot_be_increased(self):
         self.add_item(size='s')

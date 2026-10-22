@@ -4,22 +4,34 @@
 {% block announcement %}<div class="announcement">Shali Collections <span aria-hidden="true">·</span> Singapore &amp; India</div>{% endblock %}
 {% block search_intro %}{% endblock %}
 {% block extra_head %}
-<link rel="stylesheet" href="{% static 'shali/landing.css' %}?v=ivory-category-labels-20261021">
+<link rel="stylesheet" href="{% static 'shali/landing.css' %}?v=hero-clean-link-dots-20261022">
 <script src="{% static 'shali/landing.js' %}?v=mobile-20261020" defer></script>
+<script src="{% static 'shali/hero-slideshow.js' %}?v=hero-dots-2s-20261022" defer></script>
 {% endblock %}
 {% block content %}
-<section class="landing-hero{% if hero_poster %} landing-hero-poster{% endif %}" aria-labelledby="hero-title">
-    <div class="landing-hero-media">
+<section class="landing-hero{% if hero_poster %} landing-hero-poster{% endif %}" aria-labelledby="hero-title"{% if hero_posters|length > 1 %} aria-roledescription="carousel" data-hero-carousel{% endif %}>
+    <div class="landing-hero-media{% if hero_posters|length > 1 %} landing-hero-slideshow{% endif %}">
         {% if hero_poster %}
-        <img class="landing-hero-photo" src="{{ hero_poster.image.url }}" alt="{{ hero_poster.alt_text }}" width="1024" height="1280" fetchpriority="high">
+        {% for poster in hero_posters %}
+        <div class="landing-hero-slide{% if forloop.first %} is-active{% endif %}" data-hero-slide aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}">
+            <img class="landing-hero-photo" src="{{ poster.image.url }}" alt="{{ poster.alt_text }}" width="1024" height="1280" decoding="async" {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy" fetchpriority="low"{% endif %}>
+        </div>
+        {% endfor %}
         {% else %}
         <img class="landing-hero-photo landing-hero-campaign" src="{% static 'shali/hero-campaign.webp' %}" alt="A model wearing a burgundy and gold saree in a sandstone courtyard" width="1774" height="887" fetchpriority="high">
         {% endif %}
     </div>
+    {% if hero_posters|length > 1 %}
+    <div class="landing-hero-controls" data-hero-controls role="group" aria-label="Hero slideshow controls" hidden>
+        {% for poster in hero_posters %}
+        <button class="landing-hero-dot" type="button" data-hero-select="{{ forloop.counter0 }}" aria-label="Show hero image {{ forloop.counter }} of {{ hero_posters|length }}: {{ poster.alt_text }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"><span aria-hidden="true"></span></button>
+        {% endfor %}
+    </div>
+    {% endif %}
     <div class="landing-hero-copy">
         <div class="landing-hero-intro">
             <p>Ethnic wear &amp; jewellery.<br> For every version of you.</p>
-            <a class="landing-button" href="{% url 'categories' %}">Explore collections <span aria-hidden="true">↗</span></a>
+            <a class="landing-button" href="{% url 'categories' %}">Explore collections</a>
         </div>
         <h1 id="hero-title" class="landing-wordmark">Shali</h1>
         <div class="landing-hero-bottom"><span>Tradition, worn your way.</span><a href="#new-arrivals">Discover new arrivals</a></div>
@@ -114,12 +126,12 @@
         <div class="landing-footer-top">
             <div class="landing-footer-note" data-arrive><h2>Make it yours.</h2><p>Clothing and jewellery.<br>A world of Shali Collections.</p><a class="landing-text-link" href="{% url 'categories' %}">Explore collections</a></div>
             <nav aria-label="Footer collections" data-arrive><h2>Collections</h2><a href="{% url 'store:store' %}">All pieces</a>{% for department in departments %}<a href="{{ department.get_url }}">{{ department.department_name }}</a>{% endfor %}</nav>
-            <nav aria-label="Footer account" data-arrive><h2>Your Shali</h2><a href="{% url 'accounts:login' %}">Your account</a><a href="{% url 'accounts:register' %}">Create an account</a><a href="{% url 'cart' %}">Shopping bag</a></nav>
+            <nav aria-label="Footer account" data-arrive><h2>Your Shali</h2><a href="{% url 'accounts:account' %}">Your account</a>{% if not request.user.is_authenticated %}<a href="{% url 'accounts:register' %}">Create an account</a>{% endif %}<a href="{% url 'cart' %}">Shopping bag</a></nav>
         </div>
         <a class="landing-footer-brand" href="{% url 'home' %}" aria-label="Shali Collections home">
             <img src="{% static 'shali/brand-removebg-preview.png' %}" alt="Shali Collections" width="500" height="500" loading="lazy">
         </a>
-        <div class="landing-footer-bottom"><span>© {% now 'Y' %} Shali Collections</span><a href="#main-content">Back to top ↑</a></div>
+        <div class="landing-footer-bottom"><span>© {% now 'Y' %} Shali Collections</span><a href="{% url 'returns_refunds' %}">Returns &amp; Refunds</a><a href="#main-content">Back to top ↑</a></div>
     </div>
 </footer>
 {% endblock %}

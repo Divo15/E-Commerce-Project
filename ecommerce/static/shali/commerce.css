@@ -1,3 +1,10 @@
+:is(.product-detail-page, .registration-page) .site-header { background: var(--burgundy); color: var(--background); border-bottom-color: var(--burgundy); }
+:is(.product-detail-page, .registration-page) .department-menu[open] > summary { color: var(--gold); }
+:is(.product-detail-page, .registration-page) .mega-menu { color: var(--ink); }
+:is(.product-detail-page, .registration-page) .site-header :focus-visible { outline-color: var(--gold); }
+:is(.product-detail-page, .registration-page) .mega-menu :focus-visible, :is(.product-detail-page, .registration-page) .mobile-menu-dialog :focus-visible { outline-color: var(--gold-ink); }
+:is(.product-detail-page, .registration-page) .header-inner .icon-button:hover { background: var(--burgundy-deep); color: var(--background); }
+:is(.product-detail-page, .registration-page) .bag-count { background: var(--gold); color: var(--burgundy-deep); }
 .commerce-page { max-width: 1160px; }
 .commerce-breadcrumbs { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 13px; margin-bottom: 36px; }
 .commerce-breadcrumbs a { text-decoration: underline; text-underline-offset: 4px; }
@@ -25,9 +32,32 @@
 .commerce-field { margin-bottom: 8px; }
 .commerce-field label { margin-bottom: 8px; }
 .commerce-form .button { margin-top: 12px; justify-content: center; }
+.commerce-form .button-outline { background: var(--background); border-color: var(--burgundy); color: var(--burgundy); }
+.commerce-form .button-outline:hover { background: var(--surface); }
 .commerce-help { font-size: 12px; color: var(--muted); }
 .commerce-notice { padding: 20px; margin-block: 24px; border: 1px solid var(--burgundy); background: var(--surface); }
 .account-page { max-width: 560px; }
+.google-signin-form { margin-block: 24px; }
+.google-signin-button { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 44px; padding: 10px 16px; border: 1px solid #747775; border-radius: 4px; background: #fff; color: #1f1f1f; font: 500 14px/1.4 Arial, sans-serif; }
+.google-signin-button svg { width: 20px; height: 20px; flex: none; }
+.google-signin-button:hover:not(:disabled) { background: #f2f2f2; }
+.google-signin-button:disabled { cursor: not-allowed; color: #5f6368; background: #f8f9fa; }
+.google-signin-form .commerce-help { margin-top: 10px; }
+.account-method-note { margin-block: 24px 0; }
+.account-email-alternative { margin-top: 28px; }
+.account-email-alternative > summary { display: list-item; min-height: 44px; padding-block: 10px; color: var(--burgundy); text-decoration: underline; text-underline-offset: 4px; }
+.account-email-alternative[open] > summary { margin-bottom: 12px; }
+.account-intro { margin-top: 16px; }
+.account-links { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 24px; }
+.account-shopping-button { display: flex; width: 100%; min-height: 60px; margin-top: 24px; padding: 16px 24px; border-radius: 4px; font-size: 16px; font-weight: 700; }
+.account-shopping-button:hover { background: var(--burgundy-deep); }
+.account-shopping-button span { font-size: 22px; line-height: 1; }
+.account-details { display: grid; gap: 8px; margin-block: 28px; }
+.account-details dt { font-weight: 600; }
+.account-details dd { margin: 0 0 12px; overflow-wrap: anywhere; }
+.account-page .commerce-field input { width: 100%; min-height: 48px; padding: 11px 12px; border: 1px solid var(--muted); border-radius: 4px; background: var(--background); color: var(--ink); font: inherit; }
+.account-page .commerce-field input[aria-invalid="true"] { border: 2px solid var(--burgundy); }
+.account-page .commerce-help ul { padding-left: 20px; }
 .account-page .commerce-form { max-width: none; }
 .commerce-field .errorlist { margin-block: 8px 0; padding-left: 20px; color: var(--burgundy); font-size: 13px; }
 @media (max-width: 760px) {

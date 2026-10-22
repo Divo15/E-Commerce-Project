@@ -1,0 +1,8 @@
+Hello {{ user.first_name }},
+
+Verify your Shali Collections email by opening this link and selecting Verify my email:
+{{ link }}
+
+This link expires in one hour and works once. If you did not create this account, ignore this message.
+
+Shali Collections

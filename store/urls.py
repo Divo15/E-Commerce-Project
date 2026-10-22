@@ -1,9 +1,11 @@
 from django.urls import path
 from . import views
+from orders.whatsapp import buy_now
 
 app_name = 'store'
 
 urlpatterns = [
+    path('buy/<int:product_id>/', buy_now, name='buy_now'),
     path('',views.store, name='store'),
     path(
         'category/<slug:department_slug>/',

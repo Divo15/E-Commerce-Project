@@ -25,7 +25,7 @@
         </nav>
         <div class="header-actions">
             <button type="button" class="icon-button" data-search-open aria-label="Search collections"><svg aria-hidden="true"><use href="#icon-search"/></svg></button>
-            <a class="icon-button account-link" href="{% url 'accounts:login' %}" aria-label="Your account"><svg aria-hidden="true"><use href="#icon-user"/></svg></a>
+            <a class="icon-button account-link" href="{% url 'accounts:account' %}" aria-label="Your account"><svg aria-hidden="true"><use href="#icon-user"/></svg></a>
             <a class="icon-button bag-link" href="{% url 'cart' %}" aria-label="Shopping bag, {{ cart_count }} item{{ cart_count|pluralize }}"><svg aria-hidden="true"><use href="#icon-bag"/></svg>{% if cart_count %}<span class="bag-count" aria-hidden="true">{% if cart_count > 99 %}99+{% else %}{{ cart_count }}{% endif %}</span>{% endif %}</a>
         </div>
     </div>
@@ -49,7 +49,8 @@
                 {% endfor %}
             </nav>
             <div class="mobile-menu-secondary">
-                <a href="{% url 'accounts:login' %}">Your account</a>
+                <a href="{% url 'accounts:account' %}">Your account</a>
+                {% if request.user.is_authenticated %}<form method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button class="button button-burgundy" type="submit">Sign out</button></form>{% endif %}
                 <a href="{% url 'cart' %}">Shopping bag{% if cart_count %} ({{ cart_count }}){% endif %}</a>
             </div>
         </div>

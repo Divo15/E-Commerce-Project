@@ -67,6 +67,23 @@ the new navigation regression test covers isolation between departments.
 
 ## Hero asset provenance
 
+### Admin-managed slideshow
+
+Add images through **Django Admin → Hero posters → Add hero poster**, one image
+per entry, with descriptive alt text. The homepage displays the three newest
+nonempty uploads, newest first, and loops every two seconds with a fade.
+Editing a poster replaces its image without changing its position. Upload images
+with matching dimensions for a consistent presentation.
+
+With one image, the hero stays still and has no slideshow controls. With no
+uploads, it uses the campaign image below. Multiple images have three simple dot
+selectors over the image. Automatic switching pauses while the hero
+is off-screen, the tab is hidden, or the user hovers or focuses the hero.
+Reduced-motion users select images manually without automatic playback. The first
+image remains visible without JavaScript. On phones, the collection link sits
+over a gradient at the bottom of the photograph, with no separate button box.
+No database schema changes are needed, and existing uploads are preserved.
+
 Asset: `ecommerce/static/shali/hero-campaign.webp` (1774 × 887, about 156 KiB).
 Created with the built-in image generation tool, then encoded as WebP for delivery.
 The photograph illustrates the brand rather than advertising a specific inventory item.

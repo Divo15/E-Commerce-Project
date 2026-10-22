@@ -61,7 +61,7 @@ class ShippingDetailsTests(TestCase):
 
     def test_cart_links_to_shipping_and_get_does_not_create_an_order(self):
         self.add_item()
-        self.assertContains(self.client.get(reverse('cart')), self.shipping_url)
+        self.assertContains(self.client.get(reverse('cart')), reverse('buy_bag'))
         response = self.client.get(self.shipping_url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'orders/shipping_details.html')

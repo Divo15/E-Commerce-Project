@@ -2,21 +2,15 @@ from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect, render
+from django.http import Http404
+from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_POST
 
 from store.models import Product
 
 from .forms import AddCartForm, CartQuantityForm
-from .models import Cart, CartItem
-from .services import validate_stock
-
-
-def _cart_id(request):
-    cart_id = request.session.session_key
-    if not cart_id:
-        request.session.create()
-        cart_id = request.session.session_key
-    return cart_id
+from .models import CartItem
+from .services import get_cart, validate_stock
 
 
 def _form_error(request, form):
@@ -32,11 +26,9 @@ def add_cart(request, product_id):
     if not form.is_valid():
         _form_error(request, form)
         return redirect('cart')
-    cart_id = _cart_id(request)
     try:
         with transaction.atomic():
-            cart, _ = Cart.objects.get_or_create(cart_id=cart_id)
-            cart = Cart.objects.select_for_update().get(pk=cart.pk)
+            cart = get_cart(request, create=True, lock=True)
             item = CartItem.objects.filter(
                 cart=cart,
                 product=product,
@@ -64,10 +56,9 @@ def add_cart(request, product_id):
 
 def _update_cart_item(request, item_id, delta=None):
     with transaction.atomic():
-        cart = get_object_or_404(
-            Cart.objects.select_for_update(),
-            cart_id=request.session.session_key,
-        )
+        cart = get_cart(request, lock=True)
+        if cart is None:
+            raise Http404
         item = get_object_or_404(
             CartItem.objects.select_related('product'),
             pk=item_id,
@@ -111,19 +102,25 @@ def decrease_cart(request, item_id):
 
 
 @require_POST
+@transaction.atomic
 def remove_cart(request, item_id):
+    cart = get_cart(request, lock=True)
+    if cart is None:
+        raise Http404
     item = get_object_or_404(
         CartItem,
         pk=item_id,
-        cart__cart_id=request.session.session_key,
+        cart=cart,
     )
     item.delete()
     return redirect('cart')
 
 
+@never_cache
 def cart(request):
+    current_cart = get_cart(request)
     cart_items = list(CartItem.objects.filter(
-        cart__cart_id=request.session.session_key,
+        cart=current_cart,
         is_active=True,
     ).select_related('product__category__department').prefetch_related('product__inventory').order_by('pk'))
     for item in cart_items:

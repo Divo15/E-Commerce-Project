@@ -116,6 +116,11 @@ Open `http://127.0.0.1:8000/` and `http://127.0.0.1:8000/admin/`. Add catalog re
 
 ## Media and migrations
 
+Persistent data and verified backup/recovery commands are documented in
+[PERSISTENT_STORAGE.md](PERSISTENT_STORAGE.md). Production requires an explicit
+`DJANGO_DATA_DIR` on mounted persistent storage. Local activation can place the
+database and uploaded photos outside this source checkout.
+
 `MEDIA_ROOT` is `BASE_DIR / 'media'`, served under `/media/` during development. Uploaded media, SQLite databases, virtual environments, and collected static files are ignored by Git.
 
 During recovery, 28 files were copied from the old `store/media/` directory to `media/`, preserving the originals. All 24 database image references now resolve. Both media locations are ignored. Fresh environments need their own uploads or an explicit copy of existing media.

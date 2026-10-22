@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Returns &amp; Refunds — Shali Collections{% endblock %}
+{% block body_class %}product-detail-page policy-page{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'shali/commerce.css' %}?v=account-shopping-action-20261022">
+<link rel="stylesheet" href="{% static 'shali/policies.css' %}?v=returns-20261022">
+{% endblock %}
+{% block content %}
+<article class="policy-document page-width" aria-labelledby="policy-title">
+    <header class="policy-intro">
+        <a class="text-link" href="{% url 'store:store' %}"><span aria-hidden="true">←</span> Back to shopping</a>
+        <h1 id="policy-title">Returns &amp; Refunds</h1>
+        <p>For purchases delivered in India and Singapore. Here’s how to request a return, what’s eligible, and when to expect your refund.</p>
+        <p class="policy-date">Effective <time datetime="2026-10-22">22 October 2026</time></p>
+    </header>
+    <dl class="policy-summary" aria-label="Return policy at a glance">
+        <div><dt>Request a return</dt><dd>Within 14 days<span>of delivery</span></dd></div>
+        <div><dt>Return shipping</dt><dd>Paid by Shali<span>for approved returns</span></dd></div>
+        <div><dt>Approved refunds</dt><dd>5–7 business days<span>after return inspection</span></dd></div>
+    </dl>
+    <div class="policy-layout">
+        <nav class="policy-contents" aria-label="On this page">
+            <p>On this page</p>
+            <a href="#eligible-returns">What you can return</a>
+            <a href="#request-return">How to request a return</a>
+            <a href="#return-shipping">Shipping your return</a>
+            <a href="#refunds-exchanges">Refunds &amp; exchanges</a>
+            <a href="#cancellations">Cancellations</a>
+            <a href="#policy-contact">Contact &amp; complaints</a>
+            <a href="#consumer-rights">Your consumer rights</a>
+        </nav>
+        <div class="policy-copy">
+            <section aria-labelledby="eligible-returns">
+                <h2 id="eligible-returns">What you can return</h2>
+                <p>You can request a return within <strong>14 days after delivery</strong> if your item is damaged, defective, incorrect, or materially different from its description.</p>
+                <p>We also accept change-of-mind returns. These items must be unused, unwashed, unaltered, and returned with their tags and accessories. Please keep the packaging where possible.</p>
+                <p><strong>Pierced earrings and customised pieces are excluded from change-of-mind returns.</strong> This exclusion does not remove your rights if the item is damaged, defective, incorrect, or materially misdescribed.</p>
+                <p>The 14-day window and unused-item conditions do not limit your statutory rights, including for defects discovered later.</p>
+            </section>
+            <section aria-labelledby="request-return">
+                <h2 id="request-return">How to request a return</h2>
+                <p>Contact Rajani Cherian on <a href="https://wa.me/6583952511" rel="noreferrer">WhatsApp at +65 8395 2511</a> or email <a href="mailto:rajani.cherian@gmail.com">rajani.cherian@gmail.com</a>.</p>
+                <p>Please include:</p>
+                <ul>
+                    <li>Your order reference or the WhatsApp purchase conversation.</li>
+                    <li>The product name and delivery date.</li>
+                    <li>The reason for your return, with photos if they help explain the issue.</li>
+                </ul>
+                <p>An unboxing video is not required to make a complaint.</p>
+                <a class="button button-burgundy policy-contact-button" href="https://wa.me/6583952511" rel="noreferrer"><svg aria-hidden="true"><use href="#icon-whatsapp"/></svg>Request a return on WhatsApp</a>
+            </section>
+            <section aria-labelledby="return-shipping">
+                <h2 id="return-shipping">Shipping your return</h2>
+                <p><strong>Shali Collections pays return shipping for approved returns, including change-of-mind returns.</strong></p>
+                <p>Contact Rajani before posting your item so we can arrange the return or confirm how postage will be reimbursed before you pay for shipping.</p>
+                <p>The sender’s address is printed on your package. Rajani will confirm the correct return address and instructions for your order before you send it. Keep your postage receipt or tracking number until your request is resolved.</p>
+            </section>
+            <section aria-labelledby="refunds-exchanges">
+                <h2 id="refunds-exchanges">Refunds &amp; exchanges</h2>
+                <p>We will explain the available resolution after reviewing your request. An exchange depends on stock availability and your agreement. Store credit or an exchange will not replace a refund you are entitled to receive.</p>
+                <p>For an approved refund, we initiate payment within <strong>5–7 business days after receiving and inspecting your returned item</strong>, or after approval if no return is required.</p>
+                <p>Refunds go to the original payment method where possible. Any alternative method will be agreed with you. Your bank or payment provider may take additional time to credit the amount.</p>
+                <p>We will confirm the refund amount, including any delivery charges refundable under applicable law or the terms disclosed before purchase. If an item cannot be supplied after payment, we will notify you and refund the amount paid for that item and any related refundable charges.</p>
+            </section>
+            <section aria-labelledby="cancellations">
+                <h2 id="cancellations">Cancellations</h2>
+                <p>Opening a prefilled WhatsApp message does not confirm an order or take payment. Contact us promptly if you wish to cancel a confirmed purchase, and we will check whether dispatch can still be stopped.</p>
+                <p>After dispatch, the applicable return process and your consumer rights apply.</p>
+            </section>
+            <section aria-labelledby="policy-contact">
+                <h2 id="policy-contact">Contact &amp; complaints</h2>
+                <p>For help with your purchase or a complaint, contact <strong>Rajani Cherian, Owner of Shali Collections</strong>.</p>
+                <address>
+                    <a href="https://wa.me/6583952511" rel="noreferrer">WhatsApp: +65 8395 2511</a>
+                    <a href="mailto:rajani.cherian@gmail.com">rajani.cherian@gmail.com</a>
+                </address>
+                <p>We acknowledge consumer complaints within <strong>48 hours</strong> and resolve them within <strong>one month</strong>.</p>
+            </section>
+            <section aria-labelledby="consumer-rights">
+                <h2 id="consumer-rights">Your consumer rights</h2>
+                <p>Nothing in this policy limits your rights under applicable consumer protection law in India or Singapore, including applicable rights to repair, replacement, price reduction, or refund for goods that do not conform to the purchase agreement.</p>
+                <p>The 14-day return window and change-of-mind exclusions do not shorten statutory time limits or exclude remedies required by law. We also assess requests involving counterfeit goods and late delivery where a return or refund is required by applicable law.</p>
+            </section>
+        </div>
+    </div>
+</article>
+{% endblock %}

@@ -27,7 +27,7 @@
         <a href="{% url 'categories' %}" {% if request.resolver_match.url_name == 'categories' %}aria-current="page"{% endif %}><svg aria-hidden="true"><use href="#icon-grid"/></svg>Categories</a>
         <button type="button" data-search-open><svg aria-hidden="true"><use href="#icon-search"/></svg>Search</button>
         <a href="{% url 'cart' %}" aria-label="Shopping bag, {{ cart_count }} item{{ cart_count|pluralize }}"><svg aria-hidden="true"><use href="#icon-bag"/></svg>Bag{% if cart_count %} ({{ cart_count }}){% endif %}</a>
-        <a href="{% url 'accounts:login' %}"><svg aria-hidden="true"><use href="#icon-user"/></svg>Account</a>
+        <a href="{% url 'accounts:account' %}"><svg aria-hidden="true"><use href="#icon-user"/></svg>Account</a>
     </nav>
     <dialog id="search-dialog" aria-labelledby="search-title" aria-describedby="search-description">
         <button type="button" class="icon-button dialog-close" data-dialog-close aria-label="Close search"><svg aria-hidden="true"><use href="#icon-close"/></svg></button>

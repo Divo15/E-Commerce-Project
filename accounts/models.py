@@ -3,6 +3,9 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
 class AccountManager(BaseUserManager):
+    def get_by_natural_key(self, username):
+        return self.get(email__iexact=username)
+
     def create_user(self, first_name, last_name, username, email, password=None):
         if not email:
             raise ValueError('User must have an email id')
@@ -41,6 +44,11 @@ class Account(AbstractBaseUser):
     username = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=100, unique=True)
     phone_number = models.CharField(max_length=50)
+    city = models.CharField(max_length=100, blank=True)
+    postal_code = models.CharField(max_length=6, blank=True)
+    email_verification_pending = models.BooleanField(default=False)
+    email_verified_at = models.DateTimeField(null=True, blank=True)
+    google_subject = models.CharField(max_length=255, unique=True, null=True, blank=True)
 
 
 
@@ -65,3 +73,9 @@ class Account(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
+
+
+class AccountRequestLimit(models.Model):
+    key = models.CharField(max_length=64, unique=True)
+    started_at = models.DateTimeField()
+    count = models.PositiveIntegerField(default=0)

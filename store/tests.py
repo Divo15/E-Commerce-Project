@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from django.core.exceptions import ValidationError
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from category.models import Category, Department, SubCategory
@@ -38,6 +38,27 @@ class ProductDetailTests(TestCase):
         self.assertContains(response, '&lt;script&gt;alert(1)&lt;/script&gt;')
         self.assertNotContains(response, '<script>alert(1)</script>')
 
+    @override_settings(ACCOUNT_PUBLIC_ORIGIN='https://shop.example')
+    def test_product_sharing_uses_its_own_photo_and_canonical_url(self):
+        response = self.client.get(self.product.get_url() + '?size=s&quantity=2')
+        self.assertContains(response, '<meta property="og:image" content="https://shop.example/media/photos/products/front.jpg">')
+        self.assertContains(response, f'<meta property="og:url" content="https://shop.example{self.product.get_url()}">')
+        self.assertContains(response, '<meta property="og:title" content="Festive dress">')
+        self.assertContains(response, '<meta property="og:image:alt" content="Festive dress">')
+        self.assertNotContains(response, '<meta property="og:image" content="/static/shali/brand')
+
+    @override_settings(ACCOUNT_PUBLIC_ORIGIN='https://shop.example', MEDIA_URL='https://cdn.example/')
+    def test_product_sharing_preserves_cdn_photo_url_and_escapes_product_name(self):
+        Product.objects.filter(pk=self.product.pk).update(product_name='Silk & "Gold" <Saree>')
+        response = self.client.get(self.product.get_url())
+        self.assertContains(response, '<meta property="og:image" content="https://cdn.example/photos/products/front.jpg">')
+        self.assertContains(response, '<meta property="og:title" content="Silk &amp; &quot;Gold&quot; &lt;Saree&gt;">')
+
+    def test_product_sharing_uses_next_photo_if_main_photo_is_missing(self):
+        Product.objects.filter(pk=self.product.pk).update(image_1='')
+        response = self.client.get(self.product.get_url())
+        self.assertContains(response, '<meta property="og:image" content="http://testserver/media/photos/products/back.jpg">')
+
     def test_missing_images_and_zero_stock_render_without_add_action(self):
         Product.objects.filter(pk=self.product.pk).update(image_1='', image_2='', image_3='')
         ProductInventory.objects.filter(product=self.product, size='s').update(quantity=0)
@@ -45,6 +66,7 @@ class ProductDetailTests(TestCase):
         self.assertContains(response, 'Image coming soon')
         self.assertContains(response, 'Out of stock')
         self.assertNotContains(response, reverse('add_cart', args=[self.product.pk]))
+        self.assertNotContains(response, 'property="og:image"')
 
     def test_free_size_and_unsized_products_do_not_require_size_selection(self):
         for size_type in ['free_size', 'no_size']:

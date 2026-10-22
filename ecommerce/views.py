@@ -40,11 +40,13 @@ def home(request):
             break
         if category not in mobile_categories:
             mobile_categories.append(category)
+    hero_posters = list(HeroPoster.objects.exclude(image='')[:3])
     context = {
         'product_rows': product_rows,
         'home_categories': categories,
         'hero_category': hero_category,
-        'hero_poster': HeroPoster.objects.exclude(image='').first(),
+        'hero_poster': hero_posters[0] if hero_posters else None,
+        'hero_posters': hero_posters,
         'mobile_categories': mobile_categories,
     }
     return render(request,'home.html',context)

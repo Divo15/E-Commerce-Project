@@ -5,8 +5,8 @@ from django.shortcuts import redirect, render
 from django.views.decorators.cache import never_cache
 from django.views.decorators.http import require_GET, require_http_methods
 
-from carts.models import Cart, CartItem
-from carts.services import validate_stock
+from carts.models import CartItem
+from carts.services import get_cart, validate_stock
 
 from .forms import ShippingDetailsForm
 from .models import Order, OrderItem
@@ -14,26 +14,27 @@ from .models import Order, OrderItem
 
 def _pending_order(request, cart, lock=False):
     orders = Order.objects.filter(
-        pk=request.session.get('checkout_order_id'),
         cart=cart,
         status=Order.PaymentStatus.PENDING,
         paid_at__isnull=True,
         stripe_checkout_session_id__isnull=True,
         stripe_payment_intent_id='',
     )
+    if request.user.is_authenticated:
+        orders = orders.filter(user=request.user)
+    else:
+        orders = orders.filter(pk=request.session.get('checkout_order_id'), user__isnull=True)
     if lock:
         orders = orders.select_for_update()
-    return orders.first()
+    # A signed-in customer can recover the latest draft on any device.
+    return orders.order_by('-created_at', '-pk').first()
 
 
 @never_cache
 @require_http_methods(['GET', 'POST'])
 @transaction.atomic
 def shipping_details(request):
-    carts = Cart.objects.filter(cart_id=request.session.session_key)
-    if request.method == 'POST':
-        carts = carts.select_for_update()
-    cart = carts.first()
+    cart = get_cart(request, lock=request.method == 'POST')
     cart_items = list(CartItem.objects.filter(
         cart=cart,
         is_active=True,
@@ -104,7 +105,7 @@ def shipping_details(request):
 @never_cache
 @require_GET
 def shipping_review(request):
-    cart = Cart.objects.filter(cart_id=request.session.session_key).first()
+    cart = get_cart(request)
     order = _pending_order(request, cart) if cart else None
     if order is None:
         return redirect('orders:shipping_details')

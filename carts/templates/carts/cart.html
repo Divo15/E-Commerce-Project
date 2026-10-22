@@ -3,7 +3,7 @@
 {% block title %}Your bag — Shali Collections{% endblock %}
 {% block extra_head %}
 <link rel="stylesheet" href="{% static 'shali/commerce.css' %}">
-<link rel="stylesheet" href="{% static 'shali/catalog-cart.css' %}">
+<link rel="stylesheet" href="{% static 'shali/catalog-cart.css' %}?v=whatsapp-action-20261022">
 {% endblock %}
 {% block content %}
 <section class="section page-width bag-page">
@@ -65,12 +65,12 @@
                 <div class="bag-summary-total"><dt>Item subtotal</dt><dd>₹{{ total }}</dd></div>
             </dl>
             {% if has_stock_issues %}
-                <button class="button" type="button" disabled>Continue to shipping details</button>
+                <button class="button bag-whatsapp-button" type="button" disabled><svg aria-hidden="true" focusable="false"><use href="#icon-whatsapp"/></svg><span>Proceed to WhatsApp to buy</span></button>
                 <p class="bag-summary-warning">Update or remove the marked items to continue.</p>
             {% else %}
-                <a class="button button-burgundy" href="{% url 'orders:shipping_details' %}">Continue to shipping details <span aria-hidden="true">→</span></a>
+                <form method="post" action="{% url 'buy_bag' %}">{% csrf_token %}<button class="button button-burgundy bag-whatsapp-button" type="submit"><svg aria-hidden="true" focusable="false"><use href="#icon-whatsapp"/></svg><span>Proceed to WhatsApp to buy</span></button></form>
             {% endif %}
-            <p>Delivery charges and payment will be confirmed before an order is placed.</p>
+            <p>Continue your purchase on WhatsApp. Your bag and saved contact details will be included in a message you can review and send. We’ll confirm availability, delivery, and payment with you.</p>
         </aside>
     </div>
     {% else %}

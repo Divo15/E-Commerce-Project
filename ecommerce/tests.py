@@ -12,6 +12,7 @@ class HomepageTests(TestCase):
         self.assertIsNone(response.context['hero_poster'])
         self.assertContains(response, '/static/shali/hero-campaign.webp')
         self.assertNotContains(response, 'landing-hero-poster')
+        self.assertNotContains(response, 'data-hero-carousel')
 
     def test_hero_uses_newest_uploaded_poster_and_its_alt_text(self):
         department = Department.objects.create(department_name='Women', slug='women')
@@ -33,8 +34,37 @@ class HomepageTests(TestCase):
         self.assertContains(response, 'alt="Our festive collection"')
         self.assertContains(response, 'landing-hero-poster')
         self.assertNotContains(response, 'landing-hero-detail')
-        self.assertNotContains(response, older_poster.image.url)
+        self.assertContains(response, older_poster.image.url)
+        self.assertEqual(response.context['hero_posters'], [newest_poster, older_poster])
+        self.assertContains(response, 'data-hero-carousel')
         self.assertNotContains(response, '/static/shali/hero-campaign.webp')
+
+    def test_hero_rotates_only_the_three_newest_nonempty_posters(self):
+        posters = [HeroPoster.objects.create(
+            image=f'photos/hero/collection-{index}.jpg', alt_text=f'Collection {index}',
+        ) for index in range(4)]
+        HeroPoster.objects.create(image='', alt_text='No image')
+
+        response = self.client.get(reverse('home'))
+
+        self.assertEqual(response.context['hero_posters'], list(reversed(posters[1:])))
+        self.assertNotContains(response, posters[0].image.url)
+        self.assertContains(response, 'data-hero-slide ', count=3)
+        self.assertContains(response, 'data-hero-select=', count=3)
+        self.assertContains(response, 'fetchpriority="high"', count=1)
+        self.assertContains(response, 'loading="lazy" fetchpriority="low"', count=2)
+        self.assertNotContains(response, 'data-hero-pause')
+
+    def test_single_hero_poster_shows_without_slideshow_controls(self):
+        poster = HeroPoster.objects.create(image='photos/hero/one.jpg', alt_text='Our collection')
+
+        response = self.client.get(reverse('home'))
+
+        self.assertEqual(response.context['hero_posters'], [poster])
+        self.assertContains(response, poster.image.url)
+        self.assertContains(response, 'is-active" data-hero-slide aria-hidden="false"')
+        self.assertNotContains(response, 'data-hero-carousel')
+        self.assertNotContains(response, 'data-hero-controls')
 
     def test_department_navigation_does_not_leak_other_department_products(self):
         for department_name in ['Women', 'Men']:
@@ -117,6 +147,52 @@ class HomepageTests(TestCase):
         for row in response.context['product_rows']:
             self.assertTrue(all(product.category_id == row.pk for product in row.home_products))
             self.assertContains(response, f'aria-label="{row.category_name} products"')
+
+    def test_jewellery_rows_appear_as_products_are_added_and_disappear_when_unavailable(self):
+        jewellery = Department.objects.create(department_name='Jewellery', slug='jewellery')
+        necklaces = Category.objects.create(category_name='Necklaces', slug='necklaces', department=jewellery)
+        earrings = Category.objects.create(category_name='Earrings', slug='earrings', department=jewellery)
+        bangles = Category.objects.create(category_name='Bangles', slug='bangles', department=jewellery)
+
+        self.assertEqual(self.client.get(reverse('home')).context['product_rows'], [])
+
+        for category in [necklaces, earrings, bangles]:
+            with self.subTest(category=category.category_name):
+                product = Product.objects.create(
+                    product_name=f'{category.category_name} new piece',
+                    slug=f'{category.slug}-new-piece',
+                    price=750,
+                    color='Gold',
+                    category=category,
+                    size_type=Product.SizeType.NO_SIZE,
+                )
+                response = self.client.get(reverse('home'))
+                self.assertContains(response, f'id="product-row-{category.pk}"')
+                self.assertContains(response, f'aria-label="{category.category_name} products"')
+                self.assertContains(response, product.product_name)
+                self.assertContains(response, f'href="{product.get_url()}"')
+                self.assertContains(response, f'href="{category.get_url()}" aria-label="View all {category.category_name}"')
+
+                product.is_available = False
+                product.save(update_fields=['is_available'])
+                response = self.client.get(reverse('home'))
+                self.assertNotContains(response, f'id="product-row-{category.pk}"')
+                self.assertNotContains(response, product.product_name)
+
+    def test_new_category_needs_no_homepage_configuration_or_category_image(self):
+        department = Department.objects.create(department_name='Accessories', slug='accessories')
+        self.client.get(reverse('home'))
+        category = Category.objects.create(category_name='Hair accessories', slug='hair-accessories', department=department)
+        product = Product.objects.create(
+            product_name='Floral hair clip', slug='floral-hair-clip', price=250,
+            color='Gold', category=category, size_type=Product.SizeType.NO_SIZE,
+        )
+
+        response = self.client.get(reverse('home'))
+
+        self.assertEqual([row.pk for row in response.context['product_rows']], [category.pk])
+        self.assertContains(response, f'id="product-row-{category.pk}"')
+        self.assertContains(response, product.product_name)
 
     def test_new_arrivals_show_only_available_products_with_complete_paths(self):
         department = Department.objects.create(department_name='Women', slug='women')

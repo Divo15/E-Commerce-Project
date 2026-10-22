@@ -1,8 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}{{ single_product.product_name }} — Shali Collections{% endblock %}
+{% block body_class %}product-detail-page{% endblock %}
 {% block extra_head %}
-<link rel="stylesheet" href="{% static 'shali/commerce.css' %}?v=product-gallery-20261020">
+<link rel="canonical" href="{{ product_share_url }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Shali Collections">
+<meta property="og:title" content="{{ single_product.product_name }}">
+<meta property="og:description" content="{{ single_product.description|default:single_product.product_name|striptags|truncatechars:180 }}">
+<meta property="og:url" content="{{ product_share_url }}">
+{% if product_share_image %}
+<meta property="og:image" content="{{ product_share_image }}">
+<meta property="og:image:alt" content="{{ single_product.product_name }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{{ product_share_image }}">
+{% endif %}
+<link rel="stylesheet" href="{% static 'shali/commerce.css' %}?v=whatsapp-orders-20261022">
 <script src="{% static 'shali/product-gallery.js' %}?v=product-gallery-20261020" defer></script>
 {% endblock %}
 {% block content %}
@@ -33,6 +46,7 @@
         {% else %}<p class="product-image-empty">Image coming soon</p>{% endif %}
         <div class="product-detail-copy">
             <h1>{{ single_product.product_name }}</h1>
+            {% for message in messages %}<p class="commerce-notice" role="alert">{{ message }}</p>{% endfor %}
             <p class="detail-price">₹{{ single_product.price }}</p>
             {% if single_product.description %}<div class="detail-description">{{ single_product.description|linebreaks }}</div>{% endif %}
             <p>Colour: {{ single_product.color }}</p>
@@ -43,13 +57,14 @@
                         <label for="product-size">Choose your size</label>
                         <select class="commerce-input" id="product-size" name="size" required>
                             <option value="">Select size</option>
-                            {% for inventory in stocked_inventory %}<option value="{{ inventory.size }}">{{ inventory.get_size_display }}</option>{% endfor %}
+                            {% for inventory in stocked_inventory %}<option value="{{ inventory.size }}"{% if selected_size == inventory.size %} selected{% endif %}>{{ inventory.get_size_display }}</option>{% endfor %}
                         </select>
                     {% elif single_product.size_type == 'free_size' %}<p>Free Size</p>{% endif %}
                     <label for="product-quantity">Quantity</label>
-                    <input class="commerce-input" id="product-quantity" name="quantity" type="number" min="1" value="1" required>
-                    <button class="button button-burgundy" type="submit">Add to bag</button>
-                    <p class="commerce-help">Availability is checked again when you add this item to your bag.</p>
+                    <input class="commerce-input" id="product-quantity" name="quantity" type="number" min="1" value="{{ selected_quantity }}" required>
+                    <button class="button button-burgundy" type="submit" formaction="{% url 'store:buy_now' single_product.pk %}">Buy now</button>
+                    <p class="commerce-help">Opens WhatsApp with this item and your saved name, email, phone, city, and PIN. Review and send your request there. Sign in is required.</p>
+                    <button class="button button-outline" type="submit">Add to bag</button>
                 </form>
             {% else %}<p class="commerce-notice" role="status">Out of stock</p>{% endif %}
             <a class="text-link" href="{{ single_product.category.get_url }}">Explore {{ single_product.category.category_name }} <span aria-hidden="true">↗</span></a>

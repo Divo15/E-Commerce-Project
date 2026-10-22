@@ -20,9 +20,8 @@
 .catalog-results-count { margin-block: 24px 28px; font-size: 13px; color: var(--muted); }
 .catalog-grid { align-items: stretch; gap: 44px 24px; }
 .catalog-card { display: flex; flex-direction: column; min-width: 0; }
-.catalog-card .product-image { aspect-ratio: 2 / 3; background: var(--surface); }
-.catalog-card .product-image img { object-fit: contain; object-position: center; }
-.catalog-card .product-image:hover img { transform: none; }
+.catalog-card .product-image { background: var(--surface); }
+.catalog-card .product-image img { object-position: center top; }
 .catalog-card-copy { display: flex; flex-direction: column; flex: 1; }
 .catalog-card .product-category { font-size: 11px; margin-block: 16px 6px; }
 .catalog-card h2 { font: 600 14px/1.6 var(--body); letter-spacing: 0; }
@@ -75,6 +74,8 @@
 .bag-summary dd { margin: 0; text-align: right; }
 .bag-summary-total { border-top: 1px solid var(--line); margin-top: 12px; font-weight: 600; }
 .bag-summary .button { width: 100%; margin-top: 24px; min-height: 54px; justify-content: center; gap: 12px; padding-inline: 12px; }
+.bag-summary .bag-whatsapp-button { min-height: 56px; font-size: 14px; }
+.bag-whatsapp-button svg { width: 22px; height: 22px; flex: 0 0 22px; fill: currentColor; stroke: none; }
 .bag-summary .button[disabled] { border-color: var(--line); background: var(--background); color: var(--muted); cursor: not-allowed; transform: none; }
 .bag-summary > p { margin-top: 16px; font-size: 12px; color: var(--muted); }
 .bag-summary .bag-summary-warning { color: var(--burgundy); }

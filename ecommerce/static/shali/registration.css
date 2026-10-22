@@ -1,0 +1,24 @@
+.registration { max-width: 640px; padding-block: 36px 56px; }
+.registration-heading { margin-bottom: 28px; }
+.registration-heading h1 { font-size: clamp(26px, 5vw, 34px); margin-bottom: 10px; letter-spacing: -0.025em; }
+.registration-heading > p { color: var(--muted); font-size: 14px; }
+.registration-heading .registration-signin { margin-top: 16px; color: var(--ink); font-size: 13px; }
+.registration-signin a { display: inline-flex; align-items: center; min-height: 44px; color: var(--burgundy); font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+.registration .registration-form { margin: 0; gap: 24px; }
+.registration-required { font-size: 12px; color: var(--muted); }
+.registration-group { min-width: 0; margin: 0; padding: 20px 0 0; border: 0; border-top: 1px solid var(--line); }
+.registration-group legend { padding: 0 14px 0 0; font: 700 15px/1.5 var(--body); color: var(--burgundy); }
+.registration-fields { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+.registration-field { min-width: 0; margin: 0; }
+.registration-form label { margin-bottom: 7px; font-size: 13px; font-weight: 600; }
+.registration .commerce-input { min-height: 48px; border-color: var(--muted); border-radius: 8px; font-size: 16px; line-height: 1.5; }
+.registration .commerce-input:focus-visible { border-color: var(--burgundy); outline: 2px solid var(--burgundy); outline-offset: 2px; }
+.registration .commerce-input[aria-invalid="true"] { border-color: var(--burgundy); }
+.registration .commerce-help { margin-top: 7px; font-size: 12px; line-height: 1.6; }
+.registration .button { min-height: 52px; border-radius: 8px; font-size: 14px; margin-top: 4px; }
+.registration .commerce-notice { padding: 16px; font-size: 14px; border-radius: 8px; }
+@media (min-width: 420px) {
+    .registration-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 16px; }
+    .registration-field-email, .registration-field-phone_number,
+    .registration-field-password, .registration-field-confirm_password { grid-column: 1 / -1; }
+}

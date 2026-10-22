@@ -19,6 +19,7 @@ from django.urls import path, include
 from . import views
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,6 +27,7 @@ urlpatterns = [
     path('store/', include('store.urls')),
     path('', views.home, name='home'),
     path('categories/', views.categories, name='categories'),
+    path('returns-refunds/', TemplateView.as_view(template_name='policies/returns_refunds.html'), name='returns_refunds'),
     path('carts/', include('carts.urls')),
     path('checkout/', include('orders.urls')),
 ] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)

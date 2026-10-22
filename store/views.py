@@ -4,6 +4,7 @@ from carts.forms import AddCartForm
 from category.models import Category, Department, SubCategory
 from . models import Product
 from django.db.models import Q
+from ecommerce.public_urls import public_url
 
 
 def _add_stock_context(product):
@@ -72,14 +73,21 @@ def product_detail(request, department_slug, category_slug, product_slug):
         is_available=True,
     )
     _add_stock_context(single_product)
+    selection = AddCartForm(request.GET, product=single_product)
+    selected = selection.cleaned_data if selection.is_valid() else {}
+    product_images = [
+        image for image in (single_product.image_1, single_product.image_2, single_product.image_3)
+        if image
+    ]
     context = {
         'single_product': single_product,
         'stocked_inventory': single_product.stocked_inventory,
         'available_stock': single_product.available_stock,
-        'product_images': [
-            image for image in (single_product.image_1, single_product.image_2, single_product.image_3)
-            if image
-        ],
+        'selected_size': selected.get('size', ''),
+        'selected_quantity': selected.get('quantity', 1),
+        'product_images': product_images,
+        'product_share_url': public_url(request, single_product.get_url()),
+        'product_share_image': public_url(request, product_images[0].url) if product_images else '',
     }
     return render(request, 'store/product_detail.html',context)
 

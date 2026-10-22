@@ -1,21 +1,47 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Sign in — Shali Collections{% endblock %}
-{% block extra_head %}<link rel="stylesheet" href="{% static 'shali/commerce.css' %}">{% endblock %}
+{% block body_class %}product-detail-page signin-page{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'shali/commerce.css' %}?v=google-signin-20261022">
+<link rel="stylesheet" href="{% static 'shali/signin.css' %}?v=20261022">
+<script src="{% static 'shali/signin.js' %}?v=20261022" defer></script>
+{% endblock %}
 {% block content %}
-<section class="section page-width account-page">
-    <h1>Welcome back.</h1>
-    <p>Sign in with your email address.</p>
-    {% if error_message %}<p class="commerce-notice" role="alert">{{ error_message }}</p>{% endif %}
-    <form class="commerce-form" method="post" action="{% url 'accounts:login' %}">
+<section class="signin-layout" aria-labelledby="signin-title">
+    <div class="signin-story">
+        <img src="{% static 'shali/hero-campaign.webp' %}" alt="Burgundy saree with gold detailing from the Shali campaign" width="1774" height="887">
+        <div class="signin-story-copy"><p>For the moments<br>you dress up.</p><span>Shali Collections</span></div>
+    </div>
+    <div class="signin-panel">
+        <div class="signin-intro">
+            <h1 id="signin-title">Welcome back.</h1>
+            <p>Sign in to your Shali account.</p>
+        </div>
+        {% include 'accounts/google_button.html' with setup_note='Google sign-in is coming soon. Use email below.' %}
+        <p class="signin-divider">Or continue with email</p>
+        {% if error_message %}<p class="commerce-notice signin-error" role="alert">{{ error_message }}</p>{% endif %}
+        <form class="commerce-form signin-form" method="post" action="{% url 'accounts:login' %}">
         {% csrf_token %}
         {% if next_url %}<input type="hidden" name="next" value="{{ next_url }}">{% endif %}
-        <label for="login-email">Email address</label>
-        <input class="commerce-input" id="login-email" name="email" type="email" value="{{ email }}" autocomplete="username" required>
-        <label for="login-password">Password</label>
-        <input class="commerce-input" id="login-password" name="password" type="password" autocomplete="current-password" required>
-        <button class="button button-burgundy" type="submit">Sign in</button>
-    </form>
-    <p>New to Shali? <a class="text-link" href="{% url 'accounts:register' %}">Create an account</a></p>
+            <div class="signin-field">
+                <label for="login-email">Email address</label>
+                <input class="commerce-input" id="login-email" name="email" type="email" value="{{ email }}" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false" required>
+            </div>
+            <div class="signin-field">
+                <div class="signin-label-row"><label for="login-password">Password</label><a href="{% url 'accounts:password_reset' %}">Forgot password?</a></div>
+                <div class="signin-password">
+                    <input class="commerce-input" id="login-password" name="password" type="password" autocomplete="current-password" required>
+                    <button class="signin-password-toggle" type="button" aria-controls="login-password" aria-pressed="false" aria-label="Show password" hidden>Show</button>
+                </div>
+            </div>
+            <button class="button button-burgundy signin-submit" type="submit">Sign in <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="signin-register">New to Shali? <a href="{% url 'accounts:register' %}{% if next_url %}?next={{ next_url|urlencode }}{% endif %}">Create an account</a></p>
+        <p class="signin-verification"><a href="{% url 'accounts:resend_verification' %}">Resend verification email</a></p>
+    </div>
 </section>
+{% endblock %}
+{% block footer %}
+<footer class="signin-footer"><a href="{% url 'home' %}">← Back to shopping</a><span>Shali Collections</span></footer>
 {% endblock %}
