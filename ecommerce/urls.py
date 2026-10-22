@@ -17,8 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import views
-from django.conf.urls.static import static
-from django.conf import settings
+from .media_views import catalogue_image
 from django.views.generic import TemplateView
 
 urlpatterns = [
@@ -30,4 +29,5 @@ urlpatterns = [
     path('returns-refunds/', TemplateView.as_view(template_name='policies/returns_refunds.html'), name='returns_refunds'),
     path('carts/', include('carts.urls')),
     path('checkout/', include('orders.urls')),
-] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
+    path('media/<path:image_path>', catalogue_image, name='catalogue_image'),
+]

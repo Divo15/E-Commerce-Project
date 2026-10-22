@@ -25,7 +25,10 @@ populated live database or reset customer/admin passwords during the transfer.
 
 ## Remaining launch work
 
-- Configure permanent media storage and serving before importing photos.
+- Web service volume: mount /data and set DJANGO_DATA_DIR=/data. Catalogue-referenced
+  images are served from /media/ with DEBUG=false; other files are not public.
+  Keep one app replica while photos use this volume. Move photos to object storage
+  before horizontal scaling.
 - Set a stable private DJANGO_SECRET_KEY, DJANGO_DEBUG=false, allowed hosts,
   CSRF origins, trusted proxy configuration and public origin for the final domain.
 - Production currently requires DJANGO_DATA_DIR to point to persistent storage.
