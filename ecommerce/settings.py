@@ -16,6 +16,7 @@ import secrets
 
 from django.core.exceptions import ImproperlyConfigured
 from .storage_config import storage_paths
+from .database_config import database_config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -104,13 +105,7 @@ AUTH_USER_MODEL = 'accounts.Account'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': DATA_ROOT / 'db.sqlite3',
-        'OPTIONS': {'timeout': 20},
-    }
-}
+DATABASES = {'default': database_config(os.environ.get('DATABASE_URL', ''), DATA_ROOT)}
 
 
 # Password validation
