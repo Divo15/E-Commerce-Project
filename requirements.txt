@@ -6,3 +6,4 @@ tzdata==2026.3
 stripe==15.6.1
 google-auth==2.62.0
 requests==2.34.2
+gunicorn==26.2.0
