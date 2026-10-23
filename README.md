@@ -1,167 +1,66 @@
-# Shaali E-commerce
+# Shali Collections
 
-Shaali is a Django storefront for Indian ethnic fashion and jewellery. Customers can browse and search collections, view product images, select stocked sizes, manage a session cart, register or sign in, and save shipping details on an unpaid order draft.
+Django storefront for ethnic clothing/jewellery, with Google sign-in, persistent account carts, admin-managed catalogue and WhatsApp purchase requests.
 
-Payment completion and production deployment remain unfinished. Last verified: **2026-10-15**. See [RECOVERY_REVIEW.md](RECOVERY_REVIEW.md) for the interrupted-work review and recovery results.
+**Updated 23 October 2026.** The original store is deployed on Railway PostgreSQL with a persistent photo volume. Final GoDaddy domain connection and launch checks are in progress.
 
-## Current status
+## Continue the project
 
-Implemented:
+- **[HANDOFF.md](HANDOFF.md)**: full current state, resource IDs, conversation decisions, migration proof, DNS records and unfinished work. Read first in a new chat.
+- **[CONTINUATION_GUIDE.md](CONTINUATION_GUIDE.md)**: switch devices, preserve private local files and set up safe development.
+- **[RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOYMENT.md)**: live deployment/domain operations.
+- **[CLIENT_DOMAIN_SETUP.md](CLIENT_DOMAIN_SETUP.md)**: short GoDaddy instructions for the client.
 
-- Custom email-based accounts with live registration/sign-in forms and POST-only logout.
-- Admin-managed departments, categories, subcategories, hero posters, products, and size-specific inventory.
-- Department-aware catalog routes and keyword search across product names and descriptions.
-- Catalog/search pagination with 12 products per page and stable ordering.
-- Shared storefront layout across the homepage, category directory, catalog/search, product detail, cart, accounts, and shipping.
-- POST-only cart additions, quantity updates, increases, decreases, and removals with CSRF protection and session isolation.
-- Separate cart rows for each product/size, stock validation, and a live navigation bag count.
-- Guest cart and saved shipping-draft access preserved when sign-in rotates the session key.
-- Shipping validation, pending order/item snapshots, and read-only order details in Django Admin.
-- Development SQLite, static/media configuration, and console email backend.
+Repository: https://github.com/Divo15/E-Commerce-Project — use **testing**; main is older.
 
-Catalog cards show live images, prices, stock, and stocked size choices in a responsive grid with two columns on phones. The cart shows image-based item rows, quantity controls, stock warnings, and a bag summary. See [CATALOG_IMPLEMENTATION.md](CATALOG_IMPLEMENTATION.md).
+Live site: https://e-commerce-project-production-6748.up.railway.app/
 
-Not implemented:
+Cloud admin: https://e-commerce-project-production-6748.up.railway.app/admin/
 
-- Stripe Checkout creation, payment webhooks, confirmed order completion, and inventory deduction.
-- Delivery serviceability checks, shipping rates, and taxes.
-- Transactional order notifications.
-- Fabric/material, occasion, and sale-price fields.
-- Production settings, storage, and deployment.
+Intended final URL: https://www.shalicollections.com/ — DNS verification pending at last check.
 
-## Stack and architecture
+## Implemented
 
-Python 3.12, Django 6.1, SQLite, Pillow, and the Stripe SDK are pinned in `requirements.txt`. Django views render Django templates and use the ORM for database access.
+- Departments/categories/subcategories, products with up to three photos and size-specific inventory.
+- Responsive catalogue/search/product pages, shared storefront and Django Admin.
+- Newest-three-poster slideshow, two-second interval, dots and reduced-motion support.
+- Google OAuth/contact completion, internally generated usernames, legacy email/password lifecycle.
+- Account-owned saved carts, guest merging, server-side pricing/stock checks and POST/CSRF protection.
+- WhatsApp drafts to +65 8395 2511 with all selected products, product/photo links and saved contact details. Customer reviews and presses Send.
+- Published 14-day returns/refunds policy at /returns-refunds/.
+- Gunicorn/WhiteNoise, PostgreSQL support, secure production settings and guarded persistent photo serving.
+- Verified original-store import and restart durability; latest full regression suite: 169 passed.
 
-`ecommerce/templates/app.js` and the remaining standalone React/CDN templates are visual references with hardcoded data. Live account pages use Django forms; product detail uses the app-namespaced template at `store/templates/store/product_detail.html`.
+WhatsApp does not take payment, confirm orders, reserve/deduct stock or clear the bag. Delivery/payment are agreed in chat. Legacy shipping/order-draft code remains; automated delivery and Stripe completion are not the current main purchase flow.
 
-## Repository structure
+## Storage and development
 
-```text
-Backend/
-|-- accounts/                  Email-based accounts and forms
-|-- carts/                     Cart models, forms, services, views, and counter
-|-- category/                  Catalog hierarchy, hero posters, and navigation
-|-- orders/                    Shipping forms, draft orders, snapshots, and admin
-|-- store/                     Products, inventory, catalog/search/detail views
-|-- ecommerce/
-|   |-- static/shali/          Storefront, product/account, and checkout assets
-|   `-- templates/            Shared layout, live pages, and old prototypes
-|-- media/                     Local uploads; ignored by Git
-|-- manage.py
-|-- requirements.txt
-|-- README.md
-|-- HANDOFF.md
-|-- RECOVERY_REVIEW.md
-|-- CART_IMPLEMENTATION.md
-|-- SHIPPING_IMPLEMENTATION.md
-|-- HOMEPAGE.md
-`-- PRODUCT.md
-```
+| Item | Production location |
+|---|---|
+| Accounts, products, prices, inventory, carts, poster records | Railway Postgres |
+| Uploaded photos | App persistent volume /data/media |
+| Static assets | Git, collected/served by WhiteNoise |
+| Secrets | Railway variables, never Git |
 
-## Domain rules
-
-`accounts.Account` is the configured user model. Registration stores a hashed password, normalizes email to lowercase, checks duplicate emails, and activates the account immediately.
-
-`Department → Category → SubCategory` defines the catalog. Categories may remain unassigned in Admin, but public navigation, listings, and search exclude incomplete department paths. Products may belong to multiple subcategories only within their own category.
-
-Products store a name, description, non-negative integer rupee price, color, up to three images, size type, and availability. `ProductInventory` tracks non-negative stock for clothing sizes `s`, `xl`, and `xxl`, saree `free_size`, or unsized `no_size`.
-
-A `Cart` is identified by the browser session key. A database constraint prevents duplicate product/size rows in one cart. Adding the same size increases quantity; different sizes stay separate. Cart changes validate stock but do not reserve or deduct inventory. Navigation counts active units rather than distinct rows, and browsing does not create a cart/session just to calculate the count.
-
-Saving shipping details creates or refreshes a pending `Order` and its `OrderItem` snapshots. Snapshots preserve names, sizes, quantities, and prices. Paid orders and drafts with payment references cannot be overwritten by the shipping form. Saving leaves the cart and inventory intact and does not place an order. If bag items, quantities, or prices change afterward, review redirects to the prefilled shipping form so the draft can be refreshed.
-
-## Routes
-
-| URL | Name | Purpose |
-| --- | --- | --- |
-| `/` | `home` | Homepage |
-| `/admin/` | Django Admin | Content, accounts, and order drafts |
-| `/accounts/register/` | `accounts:register` | Registration |
-| `/accounts/login/` | `accounts:login` | Sign in; safe local return URLs supported |
-| `/accounts/logout/` | `accounts:logout` | POST-only logout |
-| `/categories/` | `categories` | Expandable catalog directory |
-| `/store/` | `store:store` | Catalog |
-| `/store/search/?keyword=silk` | `store:search` | Name/description search; blank keywords return no results |
-| `/store/category/<department_slug>/` | `store:products_by_department` | Department catalog |
-| `/store/category/<department_slug>/<category_slug>/` | `store:products_by_category` | Category catalog |
-| `/store/category/<department_slug>/<category_slug>/<subcategory_slug>/` | `store:products_by_subcategory` | Subcategory catalog |
-| `/store/product/<department_slug>/<category_slug>/<product_slug>/` | `store:product_detail` | Product gallery and stock-aware add-to-bag form |
-| `/carts/` | `cart` | Cart |
-| `/carts/add_cart/<product_id>` | `add_cart` | POST product, size, and optional quantity |
-| `/carts/items/<item_id>/update/` | `update_cart` | POST replacement quantity |
-| `/carts/items/<item_id>/increase/` | `increase_cart` | POST one-unit increase |
-| `/carts/items/<item_id>/decrease/` | `decrease_cart` | POST one-unit decrease; remove last unit |
-| `/carts/items/<item_id>/remove/` | `remove_cart` | POST removal |
-| `/checkout/shipping/` | `orders:shipping_details` | Collect and save delivery details |
-| `/checkout/shipping/review/` | `orders:shipping_review` | Review this session's saved draft |
-
-## Local setup
+Local development uses SQLite without DATABASE_URL. Local admin edits do not sync to production. Git does not contain uploads/customer DB/secrets; follow the continuation guide for private development-data recovery.
 
 ```powershell
-git clone https://github.com/Divo15/E-Commerce-Project.git
+git clone --branch testing https://github.com/Divo15/E-Commerce-Project.git
 cd E-Commerce-Project
 py -3.12 -m venv env
-.\env\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
+.\env\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-For the existing workspace, use `D:\Backend\env\Scripts\python.exe`. On macOS/Linux, create the environment with `python3 -m venv env` and activate it with `source env/bin/activate`.
+Set local-only variables as documented in CONTINUATION_GUIDE.md before migrations/tests/runserver. Never use production DATABASE_URL for ordinary development.
 
-Open `http://127.0.0.1:8000/` and `http://127.0.0.1:8000/admin/`. Add catalog records and upload images through Admin; no automatic catalog seed migration is provided.
+## Still to finish
 
-## Media and migrations
+Client DNS/HTTPS and bare-domain forwarding; Google final callbacks/canonical origin; cloud/offsite backups and safe restore test; SMTP if email/password verification/reset remain offered; business-address/privacy/delivery disclosures; final-domain account/cart/admin/WhatsApp checks.
 
-Persistent data and verified backup/recovery commands are documented in
-[PERSISTENT_STORAGE.md](PERSISTENT_STORAGE.md). Production requires an explicit
-`DJANGO_DATA_DIR` on mounted persistent storage. Local activation can place the
-database and uploaded photos outside this source checkout.
+Legacy railway.json must be migrated before Railway's documented **1 December 2026** cutoff. See the deployment guide.
 
-`MEDIA_ROOT` is `BASE_DIR / 'media'`, served under `/media/` during development. Uploaded media, SQLite databases, virtual environments, and collected static files are ignored by Git.
+## Other documentation
 
-During recovery, 28 files were copied from the old `store/media/` directory to `media/`, preserving the originals. All 24 database image references now resolve. Both media locations are ignored. Fresh environments need their own uploads or an explicit copy of existing media.
+[Homepage](HOMEPAGE.md), [catalogue](CATALOG_IMPLEMENTATION.md), [accounts](ACCOUNT_LIFECYCLE.md), [Google sign-in](GOOGLE_SIGNIN_SETUP.md), [saved carts](SAVED_CARTS.md), [WhatsApp](WHATSAPP_ORDERS.md), [local backup tooling](PERSISTENT_STORAGE.md), [legacy shipping drafts](SHIPPING_IMPLEMENTATION.md).
 
-The existing migrations `carts.0002_cartitem_size` and `orders.0002_shipping_details` are applied in the local database. Run `migrate` in other environments. Legacy clothing cart rows have no recorded size and must be removed and re-added; free-size and unsized rows receive their known size.
-
-## Validation
-
-Current automated checks (2026-10-20):
-
-```powershell
-.\env\Scripts\python.exe manage.py check
-.\env\Scripts\python.exe manage.py makemigrations --check --dry-run
-.\env\Scripts\python.exe manage.py migrate --check
-.\env\Scripts\python.exe manage.py test --verbosity 1
-git diff --check
-```
-
-All **93 tests pass**, Django reports no system-check issues, and there is no migration drift or pending migration. Tests cover catalog/search/detail rendering, stock rules, cart mutations and isolation, bag counts, registration/login/logout, CSRF, safe redirects, shipping snapshots, and Admin access.
-
-A browser check at 1440px and 390px verified product and account pages, add-to-bag, shipping save/review, registration, sign-in, and guest-cart preservation using a temporary database copy. No local asset failures, page script errors, or horizontal overflow occurred on the checked pages. Screenshots were visually inspected.
-
-Catalog/cart checks at 1440, 1024, 768, 390, and 320px also verified two-column phone grids, collection navigation, pagination, search, missing images, unavailable stock, quantity updates/removal, and shipping access after stock correction. No overflow, duplicate IDs, local asset failures, or script errors were found. Preview fixtures were created only in a temporary database copy.
-
-## Remaining work
-
-1. Build payment completion around the existing draft-order models, rechecking price and stock before payment and fulfilment.
-2. Calculate delivery charges/serviceability and send confirmed order notifications.
-3. Add the deferred catalog fields and corresponding Admin/UI support.
-4. Prepare production database, storage, HTTPS/security settings, and deployment.
-
-Set `DJANGO_DEBUG=false`, a private `DJANGO_SECRET_KEY`, and comma-separated `DJANGO_ALLOWED_HOSTS` for deployment. Startup requires the key and hosts when debug is disabled. Local development defaults to debug mode and generates a temporary secret if none is supplied; set `DJANGO_SECRET_KEY` locally to keep sessions valid across restarts. The console email backend is configured, but order-email workflows are not implemented.
-
-## Documentation
-
-- [HANDOFF.md](HANDOFF.md): current development state and next tasks.
-- [RECOVERY_REVIEW.md](RECOVERY_REVIEW.md): defects found, recovery actions, backup, and verification.
-- [CATALOG_IMPLEMENTATION.md](CATALOG_IMPLEMENTATION.md): catalog/cart layout, stock presentation, and responsive verification.
-- [CART_IMPLEMENTATION.md](CART_IMPLEMENTATION.md): cart routes and migration behavior.
-- [SHIPPING_IMPLEMENTATION.md](SHIPPING_IMPLEMENTATION.md): shipping validation and draft-order behavior.
-- [HOMEPAGE.md](HOMEPAGE.md): storefront assets and homepage behavior.
-- [PRODUCT.md](PRODUCT.md) and [detailed product requirements](ecommerce/templates/PRODUCT.md): brand direction and catalog requirements.
-
-Keep migrations with model changes, test backend behavior, preserve the custom user model, and keep local data and secrets out of Git.
+RECOVERY_REVIEW.md and UI_REVIEW_HANDOFF.md are historical records, not current deployment instructions. Keep database files, uploads, .local, .env, environments, private keys and exports out of Git.

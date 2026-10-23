@@ -1,9 +1,6 @@
 # Connect Google sign-in
 
-The integration is implemented but cannot authenticate real Google users until
-the store owner supplies a Google OAuth Web application client. No Google
-credentials were created or assumed. Until configured, the button is disabled
-and its helper text explains that setup is pending.
+**Current status — 23 October 2026:** Existing Google Web client credentials are installed privately in Railway and local/ngrok login previously worked. Final www-domain callback registration, canonical public origin, audience/publishing and live sign-in checks remain. See [HANDOFF.md](HANDOFF.md) for verified deployment state. The setup below is a reference for maintaining the existing client, not an instruction to recreate it.
 
 ## Owner setup
 
@@ -19,6 +16,8 @@ and its helper text explains that setup is pending.
    http://127.0.0.1:8001/accounts/google/callback/
    http://localhost:8001/accounts/google/callback/
    https://diagnosis-catalyst-skydiver.ngrok-free.dev/accounts/google/callback/
+   https://e-commerce-project-production-6748.up.railway.app/accounts/google/callback/
+   https://www.shalicollections.com/accounts/google/callback/
    ```
 
 4. Download that client's JSON configuration. Save the downloaded file as:
@@ -82,7 +81,7 @@ users, profile completion, bag preservation, invalid state/nonce, expired/reused
 attempts, cancellation, disabled/conflicting accounts, safe linking, missing
 configuration, provider timeouts, and the ngrok HTTPS callback URI.
 
-Live Google consent and sign-in still require the owner's real client setup.
+The existing client's credentials are configured. Real Google sign-in on the final domain still needs callback/audience configuration and an end-to-end check; page-load tests alone do not establish that.
 
 In local debug mode, callback failures write only the failing stage, a fixed
 reason category and exception type to `.local/google-signin.log`. No OAuth

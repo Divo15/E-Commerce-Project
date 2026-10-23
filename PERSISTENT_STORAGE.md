@@ -1,5 +1,7 @@
 # Store data and backups
 
+**Cloud update — 23 October 2026:** The original store is migrated to Railway PostgreSQL and the web service's persistent `/data/media` volume. See [HANDOFF.md](HANDOFF.md) and [RAILWAY_DEPLOYMENT.md](RAILWAY_DEPLOYMENT.md). The SQLite ZIP commands and Windows task described below are LOCAL recovery/development tools; they do not back up Railway PostgreSQL. Automated cloud/offsite backups and a cloud restore drill are still unfinished. Never restore an old local snapshot over the live cloud store.
+
 The database contains customer accounts, saved carts, sessions, products,
 inventory, catalogue settings and any order drafts. Uploaded product, category
 and campaign photos are stored separately under `media/`. Both must be preserved.

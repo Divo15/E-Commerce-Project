@@ -19,9 +19,9 @@ Web fonts load from Google Fonts with local serif/sans-serif fallbacks.
 - `/categories/` provides an expandable, mobile-friendly catalog directory.
 - Homepage categories must have a department assigned. No catalog data is seeded.
 - Upload a hero image and descriptive alt text in Django Admin under
-  **Category > Hero posters**. The newest poster with an image is displayed;
-  editing that record updates the current campaign. Wide images around 2:1 work
-  best with the existing layout. Keep the left side clear for the headline.
+  **Category > Hero posters**. The three newest nonempty posters appear in a
+  two-second slideshow, newest first. Editing a record updates that image without
+  changing its position. Use matching dimensions. See Admin-managed slideshow below.
 - When no poster is uploaded, the hero uses
   `ecommerce/static/shali/hero-campaign.webp`, an original generated
   campaign photograph with a model on the right and headline overlaid on the left.
@@ -34,8 +34,9 @@ Web fonts load from Google Fonts with local serif/sans-serif fallbacks.
   department, up to three. Catalog order follows record creation order.
 - New arrivals display the four newest available products with complete
   department/category paths. An empty catalog shows an honest empty state.
-- Upload category images through Django Admin. Existing media remain local;
-  the repository ignores `media/`, so another environment needs its own uploads.
+- Upload category images through Django Admin. Live uploads are on the Railway
+  persistent volume at `/data/media`; local uploads are separate. Media are ignored
+  by Git. The original catalogue/photos have already been transferred to Railway.
 - Search is functional: the dialog and catalog submit keywords to `/store/search/`.
 - Category links retain native horizontal scrolling and keyboard access. Previous
   and next controls appear only when JavaScript is available and the rail overflows;
@@ -56,8 +57,9 @@ subscriptions, reviews, and delivery-rate/serviceability rules remain unfinished
 ## Checks
 
 Run `python manage.py check` and `python manage.py test`.
-The recovery review on 2026-10-15 verified all 89 tests and restored all referenced
-media. See `RECOVERY_REVIEW.md`.
+The historical recovery review on 2026-10-15 verified 89 tests. The latest full
+regression suite on 2026-10-23 passed 169 tests; cloud photos and restart persistence
+were also verified. See HANDOFF.md for current state and RECOVERY_REVIEW.md for history.
 Review `/` and `/categories/` at desktop, tablet, and phone widths. Verify dropdown
 keyboard access, Escape dismissal, keyword search, category expansion, image
 fallbacks, and the mobile bottom navigation.
